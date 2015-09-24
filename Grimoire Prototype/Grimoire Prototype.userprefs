@@ -1,0 +1,20 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Grimoire\BasePlayer\BasePlayer.cs">
+    <Files>
+      <File FileName="Assets\Scripts\Grimoire\Book\Spell\Cards\Slash.cs" Line="11" Column="33" />
+      <File FileName="Assets\Scripts\Grimoire\Book\Spell\Cards\Shield.cs" Line="11" Column="34" />
+      <File FileName="Assets\Scripts\Grimoire\Book\SpellBook.cs" Line="20" Column="3" />
+      <File FileName="Assets\Scripts\Grimoire\Book\Spell\Card.cs" Line="26" Column="24" />
+      <File FileName="Assets\Scripts\Grimoire\Book\Spell\BaseAbility.cs" Line="8" Column="1" />
+      <File FileName="Assets\Scripts\Grimoire\Book\Spell\BasicAttack.cs" Line="10" Column="28" />
+      <File FileName="Assets\Scripts\Grimoire\BattleManager\BattleStateMachine.cs" Line="24" Column="45" />
+      <File FileName="Assets\Scripts\Grimoire\BattleManager\BattleStateStart.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Grimoire\BasePlayer\BasePlayer.cs" Line="16" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
