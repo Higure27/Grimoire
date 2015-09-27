@@ -189,6 +189,20 @@ public class BattleStateMachine : MonoBehaviour
 	 */
 	private void Display_Results()
 	{
+		// health bar decreases/increases for both players depending
+		// Text log updated with enemy attack and player attack
+
+		if(player_info.player.Players_Summon.Health <= 0)
+		{
+			current_state = BattleStates.LOSE;
+			return;
+		}
+		if(player_info.enemy.Players_Summon.Health <= 0)
+		{
+			current_state = BattleStates.WIN;
+			return;
+		}
+
 		current_state = BattleStates.PLAYERCHOICE;
 	}
 

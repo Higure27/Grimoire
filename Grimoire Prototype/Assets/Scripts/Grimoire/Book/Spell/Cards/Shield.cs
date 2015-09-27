@@ -8,6 +8,7 @@ public class Shield : Card
 		Card_Name = "Shield";
 		Card_Description = "Basic defense that charges the next defense";
 		Card_Cost = 0;
+		Card_Type = CardTypes.DEFENSE;
 		AddAbility(new BasicDefense());
 	}
 }
