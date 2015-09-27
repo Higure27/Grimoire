@@ -5,6 +5,6 @@ public class Poison : BaseAbility
 {
 	public void DoAbility(BasePlayerSummon p1, BasePlayerSummon p2)
 	{
-		p2.Poison = true;
+		p2.Poison = Random.Range(2, 6);
 	}
 }

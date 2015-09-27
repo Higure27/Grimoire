@@ -135,7 +135,6 @@ public class BattleStateMachine : MonoBehaviour
 	 */
 	public void Enemy_Cast()
 	{
-
 		if(attack_boost && Random.Range(0, 101) <= 80)
 		{
 			// Cast attack spell
@@ -167,11 +166,15 @@ public class BattleStateMachine : MonoBehaviour
 		else if (random_number > 60 && random_number <= 80)
 		{
 			// grab a random attack spell from enemies list and cast it.
+			attack_boost = false;
+			defense_boost = false;
 		}
 		// 20% chance to do a defense spell
 		else
 		{
 			// grab a random defense spell from enemies list and cast it.
+			attack_boost = false;
+			defense_boost = false;
 		}
 
 		current_state = BattleStates.RESULTS;
