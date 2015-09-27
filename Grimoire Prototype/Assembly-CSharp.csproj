@@ -46,16 +46,20 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\Grimoire\BasePlayer\Actors\Enemy.cs" />
+     <Compile Include="Assets\Scripts\Grimoire\BasePlayer\Actors\Player.cs" />
      <Compile Include="Assets\Scripts\Grimoire\BasePlayer\BasePlayer.cs" />
      <Compile Include="Assets\Scripts\Grimoire\BasePlayer\BasePlayerSummon.cs" />
      <Compile Include="Assets\Scripts\Grimoire\BasePlayer\CreateSummon\CreateNewSummon.cs" />
      <Compile Include="Assets\Scripts\Grimoire\BattleManager\BattleGUI.cs" />
      <Compile Include="Assets\Scripts\Grimoire\BattleManager\BattleStateMachine.cs" />
      <Compile Include="Assets\Scripts\Grimoire\BattleManager\BattleStateStart.cs" />
-     <Compile Include="Assets\Scripts\Grimoire\Book\Spell\BaseAbility.cs" />
-     <Compile Include="Assets\Scripts\Grimoire\Book\Spell\BasicAttack.cs" />
-     <Compile Include="Assets\Scripts\Grimoire\Book\Spell\BasicDefense.cs" />
+     <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Abilities\BaseAbility.cs" />
+     <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Abilities\BasicAttack.cs" />
+     <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Abilities\BasicDefense.cs" />
+     <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Abilities\Poison.cs" />
      <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Card.cs" />
+     <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Cards\PoisonAttack.cs" />
      <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Cards\Shield.cs" />
      <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Cards\Slash.cs" />
      <Compile Include="Assets\Scripts\Grimoire\Book\SpellBook.cs" />

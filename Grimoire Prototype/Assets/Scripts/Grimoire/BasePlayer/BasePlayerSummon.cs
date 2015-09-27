@@ -13,6 +13,14 @@ public class BasePlayerSummon
 	private int current_exp;
 	private int required_exp;
 
+	private bool burn;
+	private bool poison;
+	private bool paralyze;
+	
+	public bool Burn {get; set;}
+	public bool Poison {get; set;}
+	public bool Paralyze {get; set;}
+
 	public int Current_EXP {get; set;}
 	public int Required_EXP {get; set;}
 
