@@ -14,6 +14,10 @@ public class BattleStateMachine : MonoBehaviour
 	private bool attack_boost = false;
 	private bool defense_boost = false;
 
+	// Variable that prevents player or enemy from defending twice in a row
+	private bool player_defend = false;
+	private bool enemy_defend = false;
+
 	// Two Spells that will be displayed to user
 	private Card spell_1;
 	private Card spell_2;
@@ -98,6 +102,18 @@ public class BattleStateMachine : MonoBehaviour
 	 */
 	private void Display_Spells()
 	{
+		if(player_defend)
+		{
+			if(spell_1.Card_Type == Card.CardTypes.DEFENSE)
+			{
+				//disable button 1
+			}
+			if(spell_2.Card_Type == Card.CardTypes.DEFENSE)
+			{
+				//disable button 2
+			}
+			player_defend = false;
+		}
 		// TODO: Set the text and information on spell buttons 
 	}
 
@@ -110,16 +126,30 @@ public class BattleStateMachine : MonoBehaviour
 		switch (spell)
 		{
 		case("spell_1") :
+			if(spell_1.Card_Type == Card.CardTypes.DEFENSE)
+				player_defend = true;
 			spell_1.CastSpell(player_info.player.Players_Summon, player_info.enemy.Players_Summon);
+			player_info.player.Players_Summon.Attack_Boost = false;
+			player_info.player.Players_Summon.Defense_Boost = false;
 			break;
 		case("spell_2") :
+			if(spell_1.Card_Type == Card.CardTypes.DEFENSE)
+				player_defend = true;
 			spell_2.CastSpell(player_info.player.Players_Summon, player_info.enemy.Players_Summon);
+			player_info.player.Players_Summon.Attack_Boost = false;
+			player_info.player.Players_Summon.Defense_Boost = false;
 			break;
 		case("basic_attack") :
+			player_info.player.Players_Summon.Attack_Boost = false;
+			player_info.player.Players_Summon.Defense_Boost = false;
 			slash.CastSpell(player_info.player.Players_Summon, player_info.enemy.Players_Summon);
+			player_info.player.Players_Summon.Attack_Boost = true;
 			break;
 		case("basic_defense") :
+			player_info.player.Players_Summon.Attack_Boost = false;
+			player_info.player.Players_Summon.Defense_Boost = false;;
 			shield.CastSpell(player_info.player.Players_Summon, player_info.enemy.Players_Summon);
+			player_info.player.Players_Summon.Defense_Boost = true;
 			break;
 		}
 		// After player makes their choice enemy will make their choice
@@ -139,6 +169,8 @@ public class BattleStateMachine : MonoBehaviour
 		{
 			// Cast attack spell
 			attack_boost = false;
+			player_info.enemy.Players_Summon.Attack_Boost = false;
+			player_info.enemy.Players_Summon.Defense_Boost = false;
 			return;
 		}
 
@@ -146,6 +178,8 @@ public class BattleStateMachine : MonoBehaviour
 		{
 			// Cast defense spell
 			defense_boost = false;
+			player_info.enemy.Players_Summon.Attack_Boost = false;
+			player_info.enemy.Players_Summon.Defense_Boost = false;
 			return; 
 		}
 
@@ -153,13 +187,19 @@ public class BattleStateMachine : MonoBehaviour
 		// 30% chance to do a basic attack
 		if (random_number <= 30)
 		{
+			player_info.enemy.Players_Summon.Attack_Boost = false;
+			player_info.enemy.Players_Summon.Defense_Boost = false;
 			slash.CastSpell(player_info.enemy.Players_Summon, player_info.player.Players_Summon);
+			player_info.enemy.Players_Summon.Attack_Boost = true;
 			attack_boost = true;
 		}
 		// 30% chance to do a basic defense
 		else if (random_number > 30 && random_number <= 60)
 		{
+			player_info.enemy.Players_Summon.Attack_Boost = false;
+			player_info.enemy.Players_Summon.Defense_Boost = false;
 			shield.CastSpell(player_info.enemy.Players_Summon, player_info.player.Players_Summon);
+			player_info.enemy.Players_Summon.Defense_Boost = true;
 			defense_boost = true;
 		}
 		// 20% chance to do a attack spell
@@ -168,6 +208,8 @@ public class BattleStateMachine : MonoBehaviour
 			// grab a random attack spell from enemies list and cast it.
 			attack_boost = false;
 			defense_boost = false;
+			player_info.enemy.Players_Summon.Attack_Boost = false;
+			player_info.enemy.Players_Summon.Defense_Boost = false;
 		}
 		// 20% chance to do a defense spell
 		else
@@ -175,6 +217,8 @@ public class BattleStateMachine : MonoBehaviour
 			// grab a random defense spell from enemies list and cast it.
 			attack_boost = false;
 			defense_boost = false;
+			player_info.enemy.Players_Summon.Attack_Boost = false;
+			player_info.enemy.Players_Summon.Defense_Boost = false;
 		}
 
 		current_state = BattleStates.RESULTS;

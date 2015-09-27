@@ -19,6 +19,8 @@ public class Enemy : BasePlayer
 		Players_Summon.Burn = 0;
 		Players_Summon.Poison = 0;
 		Players_Summon.Paralyze = 0;
+		Players_Summon.Attack_Boost = false;
+		Players_Summon.Defense_Boost = false;
 		GameInformation.enemy_summon = Players_Summon;
 
 		// Add 10 - 20 spells to spell book

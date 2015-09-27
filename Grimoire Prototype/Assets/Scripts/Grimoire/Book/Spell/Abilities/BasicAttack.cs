@@ -7,6 +7,10 @@ public class BasicAttack : BaseAbility
 	{
 		int base_damage = Random.Range(0, 7);
 		base_damage += p1.Strength;
+		if(p1.Attack_Boost)
+		{
+			base_damage += p1.Strength/2;
+		}
 		p2.Health -= base_damage;
 	}
 }

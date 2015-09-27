@@ -19,6 +19,8 @@ public class Player : BasePlayer
 		Players_Summon.Burn = 0;
 		Players_Summon.Poison = 0;
 		Players_Summon.Paralyze = 0;
+		Players_Summon.Attack_Boost = false;
+		Players_Summon.Defense_Boost = false;
 		GameInformation.player_summon = Players_Summon;
 
 		// Add a 10 - 20 spells to the spell book

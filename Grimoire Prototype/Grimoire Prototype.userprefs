@@ -1,10 +1,11 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Grimoire\Book\Spell\Card.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Grimoire\BattleManager\BattleStateMachine.cs">
     <Files>
-      <File FileName="Assets\Scripts\Grimoire\BattleManager\BattleStateMachine.cs" Line="73" Column="45" />
+      <File FileName="Assets\Scripts\Grimoire\BattleManager\BattleStateMachine.cs" Line="178" Column="4" />
       <File FileName="Assets\Scripts\Grimoire\Book\SpellBook.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Grimoire\Book\Spell\Card.cs" Line="21" Column="39" />
+      <File FileName="Assets\Scripts\Grimoire\BasePlayer\Actors\Enemy.cs" Line="22" Column="1" />
+      <File FileName="Assets\Scripts\Grimoire\BasePlayer\Actors\Player.cs" Line="21" Column="31" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
