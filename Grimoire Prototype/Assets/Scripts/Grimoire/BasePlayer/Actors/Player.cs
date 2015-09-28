@@ -24,5 +24,15 @@ public class Player : BasePlayer
 		GameInformation.player_summon = Players_Summon;
 
 		// Add a 10 - 20 spells to the spell book
+		Player_Spell_Book.AddSpell(new BurnAttack());
+		Player_Spell_Book.AddSpell(new BurnAttack());
+		Player_Spell_Book.AddSpell(new VampireSlash());
+		Player_Spell_Book.AddSpell(new VampireSlash());
+		Player_Spell_Book.AddSpell(new ParalyzingGrasp());
+		Player_Spell_Book.AddSpell(new ParalyzingGrasp());
+		Player_Spell_Book.AddSpell(new VampiricShield());
+		Player_Spell_Book.AddSpell(new CureSelf());
+		Player_Spell_Book.AddSpell(new HealSelf());
+		Player_Spell_Book.AddSpell(new PoisonNeedle());
 	}
 }

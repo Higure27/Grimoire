@@ -72,6 +72,7 @@ public class BattleStateMachine : MonoBehaviour
 		case (BattleStates.RESULTS) :
 			// display result of player and enemy choice to user
 			Display_Results();
+			drew_for_turn = false;
 			break;
 		case (BattleStates.LOSE) :
 			// display lose message, maybe play again
@@ -126,6 +127,7 @@ public class BattleStateMachine : MonoBehaviour
 		switch (spell)
 		{
 		case("spell_1") :
+			Debug.Log(spell_1.Card_Name);
 			if(spell_1.Card_Type == Card.CardTypes.DEFENSE)
 				player_defend = true;
 			spell_1.CastSpell(player_info.player.Players_Summon, player_info.enemy.Players_Summon);
@@ -133,6 +135,7 @@ public class BattleStateMachine : MonoBehaviour
 			player_info.player.Players_Summon.Defense_Boost = false;
 			break;
 		case("spell_2") :
+			Debug.Log(spell_2.Card_Name);
 			if(spell_1.Card_Type == Card.CardTypes.DEFENSE)
 				player_defend = true;
 			spell_2.CastSpell(player_info.player.Players_Summon, player_info.enemy.Players_Summon);
@@ -140,12 +143,14 @@ public class BattleStateMachine : MonoBehaviour
 			player_info.player.Players_Summon.Defense_Boost = false;
 			break;
 		case("basic_attack") :
+			Debug.Log("Basic Attack!");
 			player_info.player.Players_Summon.Attack_Boost = false;
 			player_info.player.Players_Summon.Defense_Boost = false;
 			slash.CastSpell(player_info.player.Players_Summon, player_info.enemy.Players_Summon);
 			player_info.player.Players_Summon.Attack_Boost = true;
 			break;
 		case("basic_defense") :
+			Debug.Log("basic defense");
 			player_info.player.Players_Summon.Attack_Boost = false;
 			player_info.player.Players_Summon.Defense_Boost = false;;
 			shield.CastSpell(player_info.player.Players_Summon, player_info.enemy.Players_Summon);
@@ -165,9 +170,11 @@ public class BattleStateMachine : MonoBehaviour
 	 */
 	public void Enemy_Cast()
 	{
+		Enemy e = (Enemy)player_info.enemy;
 		if(attack_boost && Random.Range(0, 101) <= 80)
 		{
 			// Cast attack spell
+			e.Attack_Spells[Random.Range(0, e.Attack_Spells.Count)].CastSpell(player_info.enemy.Players_Summon, player_info.player.Players_Summon);
 			attack_boost = false;
 			player_info.enemy.Players_Summon.Attack_Boost = false;
 			player_info.enemy.Players_Summon.Defense_Boost = false;
@@ -177,6 +184,7 @@ public class BattleStateMachine : MonoBehaviour
 		if(defense_boost && Random.Range(0, 101) <= 80)
 		{
 			// Cast defense spell
+			e.Defense_Spells[Random.Range(0, e.Defense_Spells.Count)].CastSpell(player_info.enemy.Players_Summon, player_info.player.Players_Summon);
 			defense_boost = false;
 			player_info.enemy.Players_Summon.Attack_Boost = false;
 			player_info.enemy.Players_Summon.Defense_Boost = false;
@@ -206,6 +214,7 @@ public class BattleStateMachine : MonoBehaviour
 		else if (random_number > 60 && random_number <= 80)
 		{
 			// grab a random attack spell from enemies list and cast it.
+			e.Attack_Spells[Random.Range(0, e.Attack_Spells.Count)].CastSpell(player_info.enemy.Players_Summon, player_info.player.Players_Summon);
 			attack_boost = false;
 			defense_boost = false;
 			player_info.enemy.Players_Summon.Attack_Boost = false;
@@ -215,6 +224,7 @@ public class BattleStateMachine : MonoBehaviour
 		else
 		{
 			// grab a random defense spell from enemies list and cast it.
+			e.Defense_Spells[Random.Range(0, e.Defense_Spells.Count)].CastSpell(player_info.enemy.Players_Summon, player_info.player.Players_Summon);
 			attack_boost = false;
 			defense_boost = false;
 			player_info.enemy.Players_Summon.Attack_Boost = false;

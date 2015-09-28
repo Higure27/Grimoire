@@ -9,10 +9,10 @@ public class SpellBook
 
 	public void DrawHand()
 	{
-		List<Card> hand = new List<Card>();
-		hand.Add(spell_list[Random.Range (0, spell_list.Count)]);
-		hand.Add(spell_list[Random.Range (0, spell_list.Count)]);
-		this.hand = hand;
+		List<Card> draw_new = new List<Card>();
+		draw_new.Add(spell_list[Random.Range (0, spell_list.Count)]);
+		draw_new.Add(spell_list[Random.Range (0, spell_list.Count)]);
+		hand = draw_new;
 	}
 
 	public void AddSpell(Card c)
@@ -20,5 +20,9 @@ public class SpellBook
 		spell_list.Add(c);
 	}
 
-	public List<Card> Hand {get; set;}
+	public List<Card> Hand 
+	{
+		get { return hand; } 
+		set { hand = value;}
+	}
 }
