@@ -27,7 +27,9 @@ public class Card
 
 	public void CastSpell(BasePlayerSummon p1, BasePlayerSummon p2)
 	{
-		p1.Health -= card_cost;
+		Debug.Log ("Before: " + p1.Health);
+		p1.Health -= Card_Cost;
+		Debug.Log ("After: " + p1.Health);
 		foreach(BaseAbility a in abilities)
 		{
 			a.DoAbility(p1, p2);
