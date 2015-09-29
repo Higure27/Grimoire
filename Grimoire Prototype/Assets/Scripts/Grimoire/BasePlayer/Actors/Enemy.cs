@@ -45,6 +45,31 @@ public class Enemy : BasePlayer
 		defense_spells.Add (new CureSelf());
 	}
 
-	public List<Card> Attack_Spells {get;set;}
-	public List<Card> Defense_Spells {get;set;}
+	public List<Card> Attack_Spells 
+	{
+		get { return attack_spells; }
+	}
+	public List<Card> Defense_Spells 
+	{
+		get { return defense_spells; }
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
