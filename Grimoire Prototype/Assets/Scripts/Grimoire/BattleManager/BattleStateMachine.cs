@@ -342,10 +342,10 @@ public class BattleStateMachine : MonoBehaviour
 		player_hp.GetComponent<Text>().text = player_info.player.Players_Summon.Health.ToString();
 		enemy_hp.GetComponent<Text>().text = player_info.enemy.Players_Summon.Health.ToString();
 
-		double php = (182.0/100.0)*player_info.player.Players_Summon.Health;
-		double ehp = (182.0/100.0)*player_info.enemy.Players_Summon.Health;
-		player_hp_bar.GetComponent<Image>().rectTransform.sizeDelta = new Vector2(38, (float)php); 
-		enemy_hp_bar.GetComponent<Image>().rectTransform.sizeDelta = new Vector2(38, (float)ehp); 
+		double php = (155.0/100.0)*player_info.player.Players_Summon.Health;
+		double ehp = (155.0/100.0)*player_info.enemy.Players_Summon.Health;
+		player_hp_bar.GetComponent<Image>().rectTransform.sizeDelta = new Vector2(28, (float)php); 
+		enemy_hp_bar.GetComponent<Image>().rectTransform.sizeDelta = new Vector2(28, (float)ehp); 
 
 		if(player_info.player.Players_Summon.Health <= 0)
 		{
