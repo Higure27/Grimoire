@@ -89,13 +89,17 @@ public class BattleStateMachine : MonoBehaviour
 				drew_for_turn = true;
 				if(player_info.player.Players_Summon.Poison > 0)
 				{
+					Debug.Log ("HP before poison: " + player_info.player.Players_Summon.Health);
 					player_info.player.Players_Summon.Poison--;
 					player_info.player.Players_Summon.Health -= 5;
+					Debug.Log ("HP After poison: " + player_info.player.Players_Summon.Health);
 				}
 				if(player_info.player.Players_Summon.Burn > 0)
 				{
+					Debug.Log ("HP before Burn: " + player_info.player.Players_Summon.Health);
 					player_info.player.Players_Summon.Burn--;
 					player_info.player.Players_Summon.Health -= 8;
+					Debug.Log ("HP After Burn: " + player_info.player.Players_Summon.Health);
 				}
 				if(player_info.player.Players_Summon.Paralyze > 0)
 				{
@@ -103,7 +107,7 @@ public class BattleStateMachine : MonoBehaviour
 					if(Random.Range(1, 101) < 60)
 					{
 						player_log = "You are paralyzed";
-						break;
+						return;
 					}
 				}
 				Draw_Spells();
