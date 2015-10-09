@@ -9,6 +9,8 @@ public class Slash : Card
 		Card_Description = "A basic attack that charges the next attack";
 		Card_Cost = 0;
 		Card_Type = CardTypes.ATTACK;
+		Card_Tier = Tier.TIER1;
+		ResetBattleAttributes();
 		AddAbility(new BasicAttack());
 	}
 }

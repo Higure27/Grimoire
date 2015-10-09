@@ -3,14 +3,13 @@ using System.Collections;
 
 public class Absorb : BaseAbility 
 {
-	public void DoAbility(BasePlayerSummon p1, BasePlayerSummon p2)
-	{ 
-		int hp = p1.Health + p1.Strength;
-		if(hp > p1.Summon_Class.Health)
-		{
-			p1.Health = p1.Summon_Class.Health;
-		}
-		p1.Health += p1.Strength;
-		p2.Health -= p1.Strength;
+	public void DoAbility(BasePlayerSummon p1, out int damage, out int block, out int heal, out int poison, out int burn, out int paralyze)
+    {
+        damage = p1.Strength;
+        heal = p1.Strength;
+        block = 0;
+        poison = 0;
+        burn = 0;
+        paralyze = 0;
 	}
 }

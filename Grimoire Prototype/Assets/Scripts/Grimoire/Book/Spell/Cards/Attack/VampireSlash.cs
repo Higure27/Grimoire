@@ -9,6 +9,8 @@ public class VampireSlash : Card
 		Card_Description = "Damages and steals life from enemy";
 		Card_Cost = 4;
 		Card_Type = CardTypes.ATTACK;
+		Card_Tier = Tier.TIER1;
+		ResetBattleAttributes();
 		AddAbility(new Absorb());
 		AddAbility(new BasicAttack());
 	}

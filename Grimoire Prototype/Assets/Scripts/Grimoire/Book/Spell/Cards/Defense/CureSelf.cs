@@ -9,6 +9,8 @@ public class CureSelf : Card
 		Card_Description = "Cure status ailments";
 		Card_Cost = 0;
 		Card_Type = CardTypes.DEFENSE;
+		Card_Tier = Tier.TIER1;
+		ResetBattleAttributes();
 		AddAbility(new Cure());
 	}
 }

@@ -9,6 +9,8 @@ public class Shriek : Card
 		Card_Description = "A paralyzing scream";
 		Card_Cost = 2;
 		Card_Type = CardTypes.ATTACK;
+		Card_Tier = Tier.TIER1;
+		ResetBattleAttributes();
 		AddAbility(new Paralyze());
 	}
 }

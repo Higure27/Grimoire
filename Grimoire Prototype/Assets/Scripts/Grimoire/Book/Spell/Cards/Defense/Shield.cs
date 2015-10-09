@@ -9,6 +9,8 @@ public class Shield : Card
 		Card_Description = "Basic defense that charges the next defense";
 		Card_Cost = 0;
 		Card_Type = CardTypes.DEFENSE;
+		Card_Tier = Tier.TIER1;
+		ResetBattleAttributes();
 		AddAbility(new BasicDefense());
 	}
 }

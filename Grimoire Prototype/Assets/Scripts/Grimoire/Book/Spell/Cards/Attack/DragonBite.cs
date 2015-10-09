@@ -9,6 +9,8 @@ public class DragonBite : Card
 		Card_Description = "A burning vampiric bite";
 		Card_Cost = 6;
 		Card_Type = CardTypes.ATTACK;
+		Card_Tier = Tier.TIER1;
+		ResetBattleAttributes();
 		AddAbility(new Absorb());
 		AddAbility(new Burn());
 		AddAbility(new BasicAttack());

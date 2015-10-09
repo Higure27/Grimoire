@@ -9,6 +9,8 @@ public class GlaringShield : Card
 		Card_Description = "Blind your enemy with your shield";
 		Card_Cost = 2;
 		Card_Type = CardTypes.DEFENSE;
+		Card_Tier = Tier.TIER1;
+		ResetBattleAttributes();
 		AddAbility(new BasicDefense());
 		AddAbility(new Paralyze());
 	}
