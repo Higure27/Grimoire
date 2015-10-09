@@ -83,6 +83,7 @@
      <Compile Include="Assets\Scripts\Grimoire\Book\SpellBook.cs" />
      <Compile Include="Assets\Scripts\Grimoire\CreatePlayerGUI\CreatePlayerGUI.cs" />
      <Compile Include="Assets\Scripts\Grimoire\CreatePlayerGUI\DisplayCreatePlayerFunctions.cs" />
+     <Compile Include="Assets\Scripts\Grimoire\Database\GrimoireDatabase.cs" />
      <Compile Include="Assets\Scripts\Grimoire\GameInformation\GameInformation.cs" />
      <Compile Include="Assets\Scripts\Grimoire\IncreaseExperience.cs" />
      <Compile Include="Assets\Scripts\Grimoire\PlayerInput\PlayerInput.cs" />
