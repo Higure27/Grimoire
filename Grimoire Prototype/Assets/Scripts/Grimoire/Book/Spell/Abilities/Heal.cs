@@ -3,13 +3,17 @@ using System.Collections;
 
 public class Heal : BaseAbility 
 {
-	public void DoAbility(BasePlayerSummon p1, BasePlayerSummon p2)
-	{
-		int hp = p1.Health + Random.Range(10, 21);
-		if(hp > p1.Summon_Class.Health)
+	public void DoAbility(BasePlayerSummon p1, out int damage, out int block, out int heal, out int poison, out int burn, out int paralyze)
+    {
+		heal = p1.Summon_Class.Health/10 + Random.Range(5, 11);
+		if(p1.Defense_Boost)
 		{
-			p1.Health = p1.Summon_Class.Health;
+            heal += Random.Range(10, 21);
 		}
-		p1.Health = hp;
+        damage = 0;
+        block = 0;
+        poison = 0;
+        burn = 0;
+        paralyze = 0;
 	}
 }

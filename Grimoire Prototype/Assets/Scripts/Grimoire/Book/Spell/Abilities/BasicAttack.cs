@@ -3,14 +3,18 @@ using System.Collections;
 
 public class BasicAttack : BaseAbility 
 {
-	public void DoAbility(BasePlayerSummon p1, BasePlayerSummon p2)
-	{
-		int base_damage = Random.Range(0, 7);
-		base_damage += p1.Strength;
+	public void DoAbility(BasePlayerSummon p1, out int damage, out int block, out int heal, out int poison, out int burn, out int paralyze)
+    {
+		damage = Random.Range(0, 7);
+		damage += p1.Strength;
 		if(p1.Attack_Boost)
 		{
-			base_damage += p1.Strength/2;
+			damage += p1.Strength/2;
 		}
-		p2.Health -= base_damage;
+        block = 0;
+        heal = 0;
+        poison = 0;
+        burn = 0;
+        paralyze = 0;
 	}
 }

@@ -3,14 +3,18 @@ using System.Collections;
 
 public class BasicDefense : BaseAbility 
 {
-	public void DoAbility (BasePlayerSummon p1, BasePlayerSummon p2)
-	{
-		int base_block = Random.Range(0, 7);
-		base_block += p1.Defense;
+	public void DoAbility(BasePlayerSummon p1, out int damage, out int block, out int heal, out int poison, out int burn, out int paralyze)
+    {
+		block = Random.Range(0, 7);
+		block += p1.Defense;
 		if(p1.Defense_Boost)
 		{
-			base_block += p1.Defense/2;
+			block += p1.Defense/2;
 		}
-		p1.Health += base_block;
+        damage = 0;
+        heal = 0;
+        poison = 0;
+        burn = 0;
+        paralyze = 0;
 	}
 }
