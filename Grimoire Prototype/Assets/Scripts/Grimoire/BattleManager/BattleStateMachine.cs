@@ -14,6 +14,10 @@ public class BattleStateMachine : MonoBehaviour
 	private bool attack_boost = false;
 	private bool defense_boost = false;
 
+    // Status Effect Variables
+    private int poison_damage = 5;
+    private int burn_damage = 8;
+
 	// Variable that prevents player or enemy from defending twice in a row
 	private bool player_defend = false;
 	private bool enemy_defend = false;
@@ -87,58 +91,16 @@ public class BattleStateMachine : MonoBehaviour
 			if(!drew_for_turn)
 			{
 				drew_for_turn = true;
-//				if(player_info.player.Players_Summon.Poison > 0)
-//				{
-//					Debug.Log ("HP before poison: " + player_info.player.Players_Summon.Health);
-//					player_info.player.Players_Summon.Poison--;
-//					player_info.player.Players_Summon.Health -= 5;
-//					Debug.Log ("HP After poison: " + player_info.player.Players_Summon.Health);
-//				}
-//				if(player_info.player.Players_Summon.Burn > 0)
-//				{
-//					Debug.Log ("HP before Burn: " + player_info.player.Players_Summon.Health);
-//					player_info.player.Players_Summon.Burn--;
-//					player_info.player.Players_Summon.Health -= 8;
-//					Debug.Log ("HP After Burn: " + player_info.player.Players_Summon.Health);
-//				}
-//				if(player_info.player.Players_Summon.Paralyze > 0)
-//				{
-//					player_info.player.Players_Summon.Paralyze--;
-//					if(Random.Range(1, 101) < 60)
-//					{
-//						player_log = "You are paralyzed";
-//						return;
-//					}
-//				}
 				Draw_Spells();
 				Display_Spells();
 			}
 			break;
 		case (BattleStates.ENEMYCHOICE) :
-//			if(player_info.enemy.Players_Summon.Poison > 0)
-//			{
-//				player_info.enemy.Players_Summon.Poison--;
-//				player_info.enemy.Players_Summon.Health -= 5;
-//			}
-//			if(player_info.enemy.Players_Summon.Burn > 0)
-//			{
-//				player_info.enemy.Players_Summon.Burn--;
-//				player_info.enemy.Players_Summon.Health -= 8;
-//			}
-//			if(player_info.enemy.Players_Summon.Paralyze > 0)
-//			{
-//				player_info.enemy.Players_Summon.Paralyze--;
-//				if(Random.Range(1, 101) < 60)
-//				{
-//					enemy_log = "Enemy is paralyzed";
-//					break;
-//				}
-//			}
 			Enemy_Cast();
 			break;
 		case (BattleStates.RESULTS) :
-			Calculate_Results();
-			// display result of player and enemy choice to user
+            Status_Effects();
+            Calculate_Results();      
 			Display_Results();
 			drew_for_turn = false;
 			break;
@@ -174,20 +136,20 @@ public class BattleStateMachine : MonoBehaviour
 	private void Display_Spells()
 	{
 		// TODO: fix defend
-//		if(player_defend)
-//		{
-//			if(spell_1.Card_Type == Card.CardTypes.DEFENSE)
-//			{
-//				//disable button 1
-//				spell_button_1.GetComponent<Button>().interactable = false;
-//			}
-//			if(spell_2.Card_Type == Card.CardTypes.DEFENSE)
-//			{
-//				//disable button 2
-//				spell_button_2.GetComponent<Button>().interactable = false;
-//			}
-//			player_defend = false;
-//		}
+		if(player_defend)
+		{
+			if(spell_1.Card_Type == Card.CardTypes.DEFENSE)
+			{
+				//disable button 1
+				spell_button_1.GetComponent<Button>().interactable = false;
+			}
+			if(spell_2.Card_Type == Card.CardTypes.DEFENSE)
+			{
+				//disable button 2
+				spell_button_2.GetComponent<Button>().interactable = false;
+			}
+			player_defend = false;
+		}
 		// TODO: Set the text and information on spell buttons
 		spell_button_1.GetComponentsInChildren<Text>()[0].text = spell_1.Card_Name;
 		spell_button_1.GetComponentsInChildren<Text>()[1].text = spell_1.Card_Cost.ToString();
@@ -206,8 +168,7 @@ public class BattleStateMachine : MonoBehaviour
 		case("spell_1") :
 			player_spell = spell_1;
 			player_log = "Player used " + spell_1.Card_Name;
-			if(spell_1.Card_Type == Card.CardTypes.DEFENSE)
-				player_defend = true;
+            player_defend = (spell_1.Card_Type == Card.CardTypes.DEFENSE) ? true : false;
 			spell_1.CastSpell(player_info.player.Players_Summon);
 			player_info.player.Players_Summon.Attack_Boost = false;
 			player_info.player.Players_Summon.Defense_Boost = false;
@@ -215,8 +176,7 @@ public class BattleStateMachine : MonoBehaviour
 		case("spell_2") :
 			player_spell = spell_2;
 			player_log = "Player used " + spell_2.Card_Name;
-			if(spell_1.Card_Type == Card.CardTypes.DEFENSE)
-				player_defend = true;
+            player_defend = (spell_1.Card_Type == Card.CardTypes.DEFENSE) ? true : false;
 			spell_2.CastSpell(player_info.player.Players_Summon);
 			player_info.player.Players_Summon.Attack_Boost = false;
 			player_info.player.Players_Summon.Defense_Boost = false;
@@ -224,6 +184,7 @@ public class BattleStateMachine : MonoBehaviour
 		case("basic_attack") :
 			player_spell = slash;
 			player_log = "Player used basic attack";
+            player_defend = false;
 			player_info.player.Players_Summon.Attack_Boost = false;
 			player_info.player.Players_Summon.Defense_Boost = false;
 			slash.CastSpell(player_info.player.Players_Summon);
@@ -232,15 +193,16 @@ public class BattleStateMachine : MonoBehaviour
 		case("basic_defense") :
 			player_spell = shield;
 			player_log = "Player used basic defense";
+            player_defend = false;
 			player_info.player.Players_Summon.Attack_Boost = false;
 			player_info.player.Players_Summon.Defense_Boost = false;;
 			shield.CastSpell(player_info.player.Players_Summon);
 			player_info.player.Players_Summon.Defense_Boost = true;
 			break;
 		}
-		// After player makes their choice enemy will make their choice
-//		spell_button_1.GetComponent<Button>().interactable = true;
-//		spell_button_2.GetComponent<Button>().interactable = true;
+
+		spell_button_1.GetComponent<Button>().interactable = true;
+		spell_button_2.GetComponent<Button>().interactable = true;
 		current_state = BattleStates.ENEMYCHOICE;
 	}
 
@@ -256,11 +218,13 @@ public class BattleStateMachine : MonoBehaviour
 		Enemy e = (Enemy)player_info.enemy;
 		if(attack_boost && Random.Range(1, 101) <= 80)
 		{
-			// Cast attack spell
+            // Cast attack spell
 			enemy_spell = e.Attack_Spells[Random.Range(0, 6)];
 			enemy_spell.CastSpell(player_info.enemy.Players_Summon);
 			attack_boost = false;
-			player_info.enemy.Players_Summon.Attack_Boost = false;
+            defense_boost = false;
+            enemy_defend = false;
+            player_info.enemy.Players_Summon.Attack_Boost = false;
 			player_info.enemy.Players_Summon.Defense_Boost = false;
 			current_state = BattleStates.RESULTS;
 			enemy_log = "Enemy used " + enemy_spell.Card_Name;
@@ -269,11 +233,13 @@ public class BattleStateMachine : MonoBehaviour
 
 		if(defense_boost && Random.Range(1, 101) <= 80)
 		{
-			// Cast defense spell
+            // Cast defense spell  
 			enemy_spell = e.Defense_Spells[Random.Range(0, 4)];
 			enemy_spell.CastSpell(player_info.enemy.Players_Summon);
 			defense_boost = false;
-			player_info.enemy.Players_Summon.Attack_Boost = false;
+            attack_boost = false;
+            enemy_defend = true;
+            player_info.enemy.Players_Summon.Attack_Boost = false;
 			player_info.enemy.Players_Summon.Defense_Boost = false;
 			current_state = BattleStates.RESULTS;
 			enemy_log = "Enemy used " + enemy_spell.Card_Name;
@@ -283,25 +249,29 @@ public class BattleStateMachine : MonoBehaviour
 		int random_number = Random.Range(1, 101);
 		// 30% chance to do a basic attack
 		if (random_number <= 30)
-		{
+		{ 
 			enemy_spell = slash;
 			player_info.enemy.Players_Summon.Attack_Boost = false;
 			player_info.enemy.Players_Summon.Defense_Boost = false;
 			slash.CastSpell(player_info.enemy.Players_Summon);
 			player_info.enemy.Players_Summon.Attack_Boost = true;
 			attack_boost = true;
-			enemy_log = "Enemy used basic attack";
+            defense_boost = false;
+            enemy_defend = false;
+            enemy_log = "Enemy used basic attack";
 		}
 		// 30% chance to do a basic defense
 		else if (random_number > 30 && random_number <= 60)
-		{
+		{        
 			enemy_spell = shield;
 			player_info.enemy.Players_Summon.Attack_Boost = false;
 			player_info.enemy.Players_Summon.Defense_Boost = false;
 			shield.CastSpell(player_info.enemy.Players_Summon);
 			player_info.enemy.Players_Summon.Defense_Boost = true;
 			defense_boost = true;
-			enemy_log = "Enemy used basic defense";
+            attack_boost = false;
+            enemy_defend = false;
+            enemy_log = "Enemy used basic defense";
 		}
 		// 20% chance to do a attack spell
 		else if (random_number > 60 && random_number <= 80)
@@ -311,6 +281,7 @@ public class BattleStateMachine : MonoBehaviour
 			enemy_spell.CastSpell(player_info.enemy.Players_Summon);
 			attack_boost = false;
 			defense_boost = false;
+            enemy_defend = false;
 			player_info.enemy.Players_Summon.Attack_Boost = false;
 			player_info.enemy.Players_Summon.Defense_Boost = false;
 			enemy_log = "Enemy used " + enemy_spell.Card_Name;
@@ -323,6 +294,7 @@ public class BattleStateMachine : MonoBehaviour
 			enemy_spell.CastSpell(player_info.enemy.Players_Summon);
 			attack_boost = false;
 			defense_boost = false;
+            enemy_defend = true;
 			player_info.enemy.Players_Summon.Attack_Boost = false;
 			player_info.enemy.Players_Summon.Defense_Boost = false;
 			enemy_log = "Enemy used " + enemy_spell.Card_Name;
@@ -368,40 +340,68 @@ public class BattleStateMachine : MonoBehaviour
 		current_state = BattleStates.PLAYERCHOICE;
 	}
 
-	/* Results Functions End */
+    /*
+     * Calculates results of turn
+     */
+    private void Calculate_Results()
+    {
+        Debug.Log("Player Attack: " + player_spell.Damage.ToString());
+        Debug.Log("Player Defend: " + player_spell.Block.ToString());
+        Debug.Log("Enemy Attack: " + enemy_spell.Damage.ToString());
+        Debug.Log("Enemy Defend: " + enemy_spell.Block.ToString());
+        int player_damaged = (player_spell.Block > enemy_spell.Damage) ? 0 : (enemy_spell.Damage - player_spell.Block);
+        int enemy_damaged = (enemy_spell.Block > player_spell.Damage) ? 0 : (player_spell.Damage - enemy_spell.Block);
 
-	/* Helper Functions */
+        player_spell.Damage = enemy_damaged;
+        enemy_spell.Damage = player_damaged;
+        player_spell.SpellResult(player_info.player.Players_Summon, player_info.enemy.Players_Summon);
+        enemy_spell.SpellResult(player_info.enemy.Players_Summon, player_info.player.Players_Summon);
+        player_spell.ResetBattleAttributes();
+        enemy_spell.ResetBattleAttributes();
+    }
 
-	/*
-	 * Calculates results of turn
-	 */
-	private void Calculate_Results()
-	{
-		Debug.Log ("Player Attack: " + player_spell.Damage.ToString());
-		Debug.Log ("Player Defend: " + player_spell.Burn.ToString());
-		Debug.Log ("Enemy Attack: " + enemy_spell.Damage.ToString());
-		Debug.Log ("Enemy Defend: " + enemy_spell.Block.ToString());
-		int player_damaged = (player_spell.Block > enemy_spell.Damage) ? 0 : (enemy_spell.Damage - player_spell.Block);
-		int enemy_damaged = (enemy_spell.Block > player_spell.Damage) ? 0 : (player_spell.Damage - enemy_spell.Block);
+    /* Results Functions End */
 
-		player_spell.Damage = enemy_damaged;
-		enemy_spell.Damage = player_damaged;
-		player_spell.SpellResult(player_info.player.Players_Summon, player_info.enemy.Players_Summon);
-		enemy_spell.SpellResult(player_info.enemy.Players_Summon, player_info.player.Players_Summon);
-		player_spell.ResetBattleAttributes();
-		enemy_spell.ResetBattleAttributes();
-	}
+    /* Helper Functions */
 
-	/*
+    /*
 	 * Deactivates all buttons
 	 */
-	private void Deactivate_Spells()
+    private void Deactivate_Spells()
 	{
 		spell_button_1.GetComponent<Button>().interactable = false;
 		spell_button_2.GetComponent<Button>().interactable = false;
 		basic_attack.GetComponent<Button>().interactable = false;
 		basic_defense.GetComponent<Button>().interactable = false;
 	}
+
+    private void Status_Effects()
+    {
+        if(player_info.player.Players_Summon.Poison > 0)
+        {
+            player_info.player.Players_Summon.Health =  ((player_info.player.Players_Summon.Health - poison_damage) < 0) ? 0 : (player_info.player.Players_Summon.Health - poison_damage);
+            player_info.player.Players_Summon.Poison--;
+            Debug.Log("Player Poison Damage");
+        }
+        if(player_info.enemy.Players_Summon.Poison > 0)
+        {
+            player_info.enemy.Players_Summon.Health = ((player_info.enemy.Players_Summon.Health - poison_damage) < 0) ? 0 : (player_info.enemy.Players_Summon.Health - poison_damage);
+            player_info.enemy.Players_Summon.Poison--;
+            Debug.Log("Enemy Poison Damage");
+        }
+        if (player_info.player.Players_Summon.Burn > 0)
+        {
+            player_info.player.Players_Summon.Health = ((player_info.player.Players_Summon.Health - burn_damage) < 0) ? 0 : (player_info.player.Players_Summon.Health - burn_damage);
+            player_info.player.Players_Summon.Burn--;
+            Debug.Log("Player Burn Damage");
+        }
+        if (player_info.enemy.Players_Summon.Burn > 0)
+        {
+            player_info.enemy.Players_Summon.Health = ((player_info.enemy.Players_Summon.Health - burn_damage) < 0) ? 0 : (player_info.enemy.Players_Summon.Health - burn_damage);
+            player_info.enemy.Players_Summon.Burn--;
+            Debug.Log("Enemy Burn Damage");
+        }
+    }
 }
 
 
