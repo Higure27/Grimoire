@@ -1,15 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class GrimoireDatabase : MonoBehaviour {
+public class GrimoireDatabase
+{
+    // Load Player Function
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+    // Save Player Function
+
 }
