@@ -10,8 +10,13 @@ public class BasePlayerSummon
 	private int strength;
 	private int defense;
 	private int health;
+
+    // Experience stats
 	private int current_exp;
-	private int required_exp;
+    private int required_exp;
+
+    private int base_exp = 50;
+    private int factor = 2;
 
 	// Battle Stats
 	private int burn;
@@ -29,42 +34,54 @@ public class BasePlayerSummon
 	public int Current_EXP {get; set;}
 	public int Required_EXP {get; set;}
 
+    public string Summon_Name { get; set; }
+    public int Summon_Level { get; set; }
+    public BaseSummon Summon_Class { get; set; }
+    public int Strength { get; set; }
+    public int Defense { get; set; }
+    public int Health { get; set; }
 
-	public string Summon_Name 
-	{
-		get { return summon_name; }
-		set { summon_name = value; }
-	}
+    // Level up Functions
+    public void Level_Up()
+    {
 
-	public int Summon_Level 
-	{
-		get { return summon_level; }
-		set { summon_level = value; }
-	}
+    }
 
-	public BaseSummon Summon_Class
-	{
-		get { return summon_class; }
-		set { summon_class = value; }
-	}
+	//public string Summon_Name 
+	//{
+	//	get { return summon_name; }
+	//	set { summon_name = value; }
+	//}
 
-	public int Strength
-	{
-		get { return strength; }
-		set { strength = value; }
-	}
+	//public int Summon_Level 
+	//{
+	//	get { return summon_level; }
+	//	set { summon_level = value; }
+	//}
 
-	public int Defense
-	{
-		get { return defense; }
-		set { defense = value; }
-	}
+	//public BaseSummon Summon_Class
+	//{
+	//	get { return summon_class; }
+	//	set { summon_class = value; }
+	//}
 
-	public int Health
-	{
-		get { return health; }
-		set { health = value; }
-	}
+	//public int Strength
+	//{
+	//	get { return strength; }
+	//	set { strength = value; }
+	//}
+
+	//public int Defense
+	//{
+	//	get { return defense; }
+	//	set { defense = value; }
+	//}
+
+	//public int Health
+	//{
+	//	get { return health; }
+	//	set { health = value; }
+	//}
 
 
 }
