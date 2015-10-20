@@ -3,8 +3,17 @@ using System.Collections;
 
 public class BaseSummon 
 {
+    public enum Type
+    {
+        LIGHT,
+        DARK,
+        FIRE,
+        EARTH
+    }
+
 	private string summon_class;
 	private string summon_description;
+    private Type summon_type;
 
 	private int strength;
 	private int defense;
@@ -21,6 +30,12 @@ public class BaseSummon
 		get{ return summon_description; }
 		set{ summon_description = value; }
 	}
+
+    public Type Summon_Type
+    {
+        get { return summon_type; }
+        set { summon_type = value; }
+    }
 
 	public int Strength 
 	{

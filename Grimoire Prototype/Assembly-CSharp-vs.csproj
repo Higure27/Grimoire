@@ -51,7 +51,6 @@
      <Compile Include="Assets\Scripts\Grimoire\BasePlayer\BasePlayer.cs" />
      <Compile Include="Assets\Scripts\Grimoire\BasePlayer\BasePlayerSummon.cs" />
      <Compile Include="Assets\Scripts\Grimoire\BasePlayer\CreateSummon\CreateNewSummon.cs" />
-     <Compile Include="Assets\Scripts\Grimoire\BattleManager\BattleGUI.cs" />
      <Compile Include="Assets\Scripts\Grimoire\BattleManager\BattleStateMachine.cs" />
      <Compile Include="Assets\Scripts\Grimoire\BattleManager\BattleStateStart.cs" />
      <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Abilities\Absorb.cs" />
@@ -86,7 +85,6 @@
      <Compile Include="Assets\Scripts\Grimoire\Database\GrimoireDatabase.cs" />
      <Compile Include="Assets\Scripts\Grimoire\GameInformation\GameInformation.cs" />
      <Compile Include="Assets\Scripts\Grimoire\IncreaseExperience.cs" />
-     <Compile Include="Assets\Scripts\Grimoire\PlayerInput\PlayerInput.cs" />
      <Compile Include="Assets\Scripts\Grimoire\SaveAndLoad\LoadInformation.cs" />
      <Compile Include="Assets\Scripts\Grimoire\SaveAndLoad\PlayerPrefSerialization.cs" />
      <Compile Include="Assets\Scripts\Grimoire\SaveAndLoad\SaveInformation.cs" />
