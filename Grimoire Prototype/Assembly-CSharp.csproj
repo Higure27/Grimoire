@@ -84,6 +84,8 @@
      <Compile Include="Assets\Scripts\Grimoire\CreatePlayerGUI\DisplayCreatePlayerFunctions.cs" />
      <Compile Include="Assets\Scripts\Grimoire\Database\GrimoireDatabase.cs" />
      <Compile Include="Assets\Scripts\Grimoire\GameInformation\GameInformation.cs" />
+     <Compile Include="Assets\Scripts\Grimoire\GameManager\GameManager.cs" />
+     <Compile Include="Assets\Scripts\Grimoire\GameManager\GameStates\StartScreen.cs" />
      <Compile Include="Assets\Scripts\Grimoire\IncreaseExperience.cs" />
      <Compile Include="Assets\Scripts\Grimoire\SaveAndLoad\LoadInformation.cs" />
      <Compile Include="Assets\Scripts\Grimoire\SaveAndLoad\PlayerPrefSerialization.cs" />
@@ -93,6 +95,8 @@
      <Compile Include="Assets\Scripts\Grimoire\SummonTypes\BaseDarkSummon.cs" />
      <Compile Include="Assets\Scripts\Grimoire\SummonTypes\BaseLightSummon.cs" />
      <Compile Include="Assets\Scripts\Grimoire\SummonTypes\BaseSummon.cs" />
+     <None Include="Assets\Scripts\Grimoire\Database\SpellBookDatabase.xml" />
+     <None Include="Assets\Scripts\Grimoire\GameManager\GameStates\test.xml" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

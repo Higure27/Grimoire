@@ -6,7 +6,8 @@ using System.Collections;
  */
 public class BattleStateStart 
 {
-	public BasePlayer player = new Player();
+    //public BasePlayer player = new Player();
+    public BasePlayer player = GameManager.instance.player;
 	public BasePlayer enemy = new Enemy();
 //	public BasePlayerSummon new_enemy = new BasePlayerSummon();
 //	public BasePlayerSummon player_summon = new BasePlayerSummon();

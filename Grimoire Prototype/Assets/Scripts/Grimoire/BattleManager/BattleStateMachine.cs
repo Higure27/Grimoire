@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using System.Threading;
 
 public class BattleStateMachine : MonoBehaviour 
 {
@@ -110,6 +111,9 @@ public class BattleStateMachine : MonoBehaviour
 			break;
 		case (BattleStates.WIN) :
 			win.SetActive(true);
+            Thread.Sleep(1000);
+            GameManager.instance.current_state = GameManager.GameStates.START;
+            GameManager.instance.scene_loaded = false;
 			// display win message, maybe play again
 			break;
 		}
