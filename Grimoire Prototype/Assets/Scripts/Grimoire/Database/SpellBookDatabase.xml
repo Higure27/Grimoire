@@ -1,0 +1,22 @@
+﻿<Book id="McLovin">
+  <spell_1>BurnAttack</spell_1>
+  <spell_2>BurnAttack</spell_2>
+  <spell_3>VampireSlash</spell_3>
+  <spell_4>VampireSlash</spell_4>
+  <spell_5>ParalyzingGrasp</spell_5>
+  <spell_6>ParalyzingGrasp</spell_6>
+  <spell_7>PoisonAttack</spell_7>
+  <spell_8>PoisonAttack</spell_8>
+  <spell_9>DragonBite</spell_9>
+  <spell_10>DragonBite</spell_10>
+  <spell_11>BurningShield</spell_11>
+  <spell_12>BurningShield</spell_12>
+  <spell_13>GlaringShield</spell_13>
+  <spell_14>GlaringShield</spell_14>
+  <spell_15>Heal</spell_15>
+  <spell_16>Heal</spell_16>
+  <spell_17>VampiricShield</spell_17>
+  <spell_18>VampiricShield</spell_18>
+  <spell_19>Cure</spell_19>
+  <spell_20>Cure</spell_20>
+</Book>
