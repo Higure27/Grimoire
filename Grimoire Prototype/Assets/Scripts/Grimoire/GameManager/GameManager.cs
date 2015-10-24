@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     public static GameManager instance = null;
     public GameStates current_state = GameStates.START;
     public BasePlayer player;
+    public GrimoireDatabase database = new GrimoireDatabase();
 
     // Makes sure each scene only loads once
     public bool scene_loaded = false;

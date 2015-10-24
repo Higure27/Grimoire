@@ -1,0 +1,9 @@
+﻿<Summon id="McLovin">
+  <name>Paladin</name>
+  <level>1</level>
+  <class>LightSummon</class>
+  <strength>10</strength>
+  <defense>15</defense>
+  <health>100</health>
+  <current_exp>0</current_exp>
+</Summon>
