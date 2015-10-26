@@ -1,0 +1,20 @@
+<Spell_Inventory_Database>
+  <Inventory id="lemon">
+    <spell>Cure</spell>
+    <spell>Cure</spell>
+    <spell>GlaringShield</spell>
+    <spell>GlaringShield</spell>
+  </Inventory>
+  <Inventory id="test1">
+    <spell>Cure</spell>
+    <spell>Cure</spell>
+    <spell>GlaringShield</spell>
+    <spell>GlaringShield</spell>
+  </Inventory>
+  <Inventory id="test2">
+    <spell>VampireSlash</spell>
+    <spell>VampireSlash</spell>
+    <spell>VampireShield</spell>
+    <spell>VampireShield</spell>
+  </Inventory>
+</Spell_Inventory_Database>

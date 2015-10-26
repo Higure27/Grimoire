@@ -1,9 +1,29 @@
-﻿<Summon id="McLovin">
-  <name>Paladin</name>
-  <level>1</level>
-  <class>LightSummon</class>
-  <strength>10</strength>
-  <defense>15</defense>
-  <health>100</health>
-  <current_exp>0</current_exp>
-</Summon>
+<Summon_Database>
+  <Summon id="lemon">
+    <name>Vampire</name>
+    <level>1</level>
+    <class>LIGHT</class>
+    <strength>15</strength>
+    <defense>10</defense>
+    <health>100</health>
+    <current_exp>0</current_exp>
+  </Summon>
+  <Summon id="test1">
+    <name>Phoenix</name>
+    <level>1</level>
+    <class>LIGHT</class>
+    <strength>20</strength>
+    <defense>10</defense>
+    <health>100</health>
+    <current_exp>0</current_exp>
+  </Summon>
+  <Summon id="test2">
+    <name>Golem</name>
+    <level>1</level>
+    <class>LIGHT</class>
+    <strength>5</strength>
+    <defense>20</defense>
+    <health>120</health>
+    <current_exp>0</current_exp>
+  </Summon>
+</Summon_Database>

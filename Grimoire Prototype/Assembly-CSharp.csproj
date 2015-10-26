@@ -80,12 +80,15 @@
      <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Cards\Defense\SuperSpecialShield.cs" />
      <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Cards\Defense\VampiricShield.cs" />
      <Compile Include="Assets\Scripts\Grimoire\Book\SpellBook.cs" />
+     <Compile Include="Assets\Scripts\Grimoire\Book\SpellInventory.cs" />
      <Compile Include="Assets\Scripts\Grimoire\CreatePlayerGUI\CreatePlayerGUI.cs" />
      <Compile Include="Assets\Scripts\Grimoire\CreatePlayerGUI\DisplayCreatePlayerFunctions.cs" />
      <Compile Include="Assets\Scripts\Grimoire\Database\GrimoireDatabase.cs" />
      <Compile Include="Assets\Scripts\Grimoire\GameInformation\GameInformation.cs" />
      <Compile Include="Assets\Scripts\Grimoire\GameManager\GameManager.cs" />
      <Compile Include="Assets\Scripts\Grimoire\GameManager\GameStates\CreateNewUser.cs" />
+     <Compile Include="Assets\Scripts\Grimoire\GameManager\GameStates\EditBook.cs" />
+     <Compile Include="Assets\Scripts\Grimoire\GameManager\GameStates\MainMenu.cs" />
      <Compile Include="Assets\Scripts\Grimoire\GameManager\GameStates\StartScreen.cs" />
      <Compile Include="Assets\Scripts\Grimoire\IncreaseExperience.cs" />
      <Compile Include="Assets\Scripts\Grimoire\SaveAndLoad\LoadInformation.cs" />
@@ -94,9 +97,12 @@
      <Compile Include="Assets\Scripts\Grimoire\Spells\BaseSpell.cs" />
      <Compile Include="Assets\Scripts\Grimoire\Spells\Spell.cs" />
      <Compile Include="Assets\Scripts\Grimoire\SummonTypes\BaseDarkSummon.cs" />
+     <Compile Include="Assets\Scripts\Grimoire\SummonTypes\BaseEarthSummon.cs" />
+     <Compile Include="Assets\Scripts\Grimoire\SummonTypes\BaseFireSummon.cs" />
      <Compile Include="Assets\Scripts\Grimoire\SummonTypes\BaseLightSummon.cs" />
      <Compile Include="Assets\Scripts\Grimoire\SummonTypes\BaseSummon.cs" />
      <None Include="Assets\Scripts\Grimoire\Database\SpellBookDatabase.xml" />
+     <None Include="Assets\Scripts\Grimoire\Database\SpellInventoryDatabase.xml" />
      <None Include="Assets\Scripts\Grimoire\Database\SummonDatabase.xml" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>

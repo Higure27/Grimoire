@@ -25,4 +25,9 @@ public class SpellBook
 		get { return hand; } 
 		set { hand = value;}
 	}
+
+    public List<Card> Spell_List
+    {
+        get { return spell_list; }
+    }
 }

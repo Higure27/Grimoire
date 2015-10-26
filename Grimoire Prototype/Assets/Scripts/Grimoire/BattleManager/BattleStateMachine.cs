@@ -85,6 +85,8 @@ public class BattleStateMachine : MonoBehaviour
 		switch (current_state) 
 		{
 		case (BattleStates.START) :
+            player_hp.GetComponent<Text>().text = player_info.player.Players_Summon.Health.ToString();
+            enemy_hp.GetComponent<Text>().text = player_info.enemy.Players_Summon.Health.ToString();
 			current_state = BattleStates.PLAYERCHOICE;
 			break;
 		case (BattleStates.PLAYERCHOICE) :
@@ -107,12 +109,17 @@ public class BattleStateMachine : MonoBehaviour
 			break;
 		case (BattleStates.LOSE) :
 			lose.SetActive(true);
+            Thread.Sleep(1000);
+            GameManager.instance.player.Players_Summon.Health = GameManager.instance.player.Players_Summon.Summon_Class.Health;
+            GameManager.instance.current_state = GameManager.GameStates.MAIN;
+            GameManager.instance.scene_loaded = false;
 			// display lose message, maybe play again
 			break;
 		case (BattleStates.WIN) :
 			win.SetActive(true);
             Thread.Sleep(1000);
-            GameManager.instance.current_state = GameManager.GameStates.START;
+            GameManager.instance.player.Players_Summon.Health = GameManager.instance.player.Players_Summon.Summon_Class.Health;
+            GameManager.instance.current_state = GameManager.GameStates.MAIN;
             GameManager.instance.scene_loaded = false;
 			// display win message, maybe play again
 			break;
@@ -323,8 +330,10 @@ public class BattleStateMachine : MonoBehaviour
 		player_hp.GetComponent<Text>().text = player_info.player.Players_Summon.Health.ToString();
 		enemy_hp.GetComponent<Text>().text = player_info.enemy.Players_Summon.Health.ToString();
 
-		double php = (155.0/100.0)*player_info.player.Players_Summon.Health;
-		double ehp = (155.0/100.0)*player_info.enemy.Players_Summon.Health;
+		double php = (155.0)*((double)player_info.player.Players_Summon.Health/(double)player_info.player.Players_Summon.Summon_Class.Health);
+		double ehp = (155.0)*((double)player_info.enemy.Players_Summon.Health/(double)player_info.enemy.Players_Summon.Summon_Class.Health);
+        Debug.Log("Player HP: " + php);
+        Debug.Log("Enemy HP: " + ehp);
 		player_hp_bar.GetComponent<Image>().rectTransform.sizeDelta = new Vector2(28, (float)php); 
 		enemy_hp_bar.GetComponent<Image>().rectTransform.sizeDelta = new Vector2(28, (float)ehp); 
 

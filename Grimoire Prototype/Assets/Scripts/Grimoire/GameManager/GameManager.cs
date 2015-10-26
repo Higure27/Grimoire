@@ -6,6 +6,7 @@ public class GameManager : MonoBehaviour
     public enum GameStates
     {
         START,
+        CREATE,
         MAIN,
         BATTLE,
         BOOK
@@ -43,9 +44,26 @@ public class GameManager : MonoBehaviour
                     scene_loaded = true;
                 }
                 break;
+            case GameStates.CREATE:
+                if(!scene_loaded)
+                {
+                    Application.LoadLevel("create_user_scene");
+                    scene_loaded = true;
+                }
+                break;
             case GameStates.MAIN:
+                if(!scene_loaded)
+                {
+                    Application.LoadLevel("menu_scene");
+                    scene_loaded = true;
+                }
                 break;
             case GameStates.BOOK:
+                if(!scene_loaded)
+                {
+                    Application.LoadLevel("edit_book_scene");
+                    scene_loaded = true;
+                }
                 break;
             case GameStates.BATTLE:
                 if(!scene_loaded)
