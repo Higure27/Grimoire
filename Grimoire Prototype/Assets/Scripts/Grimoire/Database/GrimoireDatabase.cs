@@ -16,6 +16,7 @@ public class GrimoireDatabase
 
     public void Load_Player(string user)
     {
+        user = user.ToLower().Replace(" ", string.Empty);
         GameManager.instance.player = new BasePlayer();
         GameManager.instance.player.Player_Spell_Book = new SpellBook();
         GameManager.instance.player.Player_Spell_Inventory = new SpellInventory();
@@ -206,6 +207,7 @@ public class GrimoireDatabase
 
     public void Save_Player(string user, BasePlayer player)
     {
+        user = user.ToLower().Replace(" ", string.Empty);
         if (user == "" || player == null)
             return;
         if(User_Exists(user))

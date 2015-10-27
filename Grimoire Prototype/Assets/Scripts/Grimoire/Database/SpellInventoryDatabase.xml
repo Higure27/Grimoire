@@ -17,4 +17,28 @@
     <spell>VampireShield</spell>
     <spell>VampireShield</spell>
   </Inventory>
+  <Inventory id="phoenixtest">
+    <spell>Cure</spell>
+    <spell>Cure</spell>
+    <spell>ParalyzingGrasp</spell>
+    <spell>ParalyzingGrasp</spell>
+  </Inventory>
+  <Inventory id="snail">
+    <spell>VampireSlash</spell>
+    <spell>VampireSlash</spell>
+    <spell>VampireShield</spell>
+    <spell>VampireShield</spell>
+  </Inventory>
+  <Inventory id="goingtopwnu">
+    <spell>VampireSlash</spell>
+    <spell>VampireSlash</spell>
+    <spell>VampireShield</spell>
+    <spell>VampireShield</spell>
+  </Inventory>
+  <Inventory id="bad">
+    <spell>Cure</spell>
+    <spell>Cure</spell>
+    <spell>VampireShield</spell>
+    <spell>VampireShield</spell>
+  </Inventory>
 </Spell_Inventory_Database>

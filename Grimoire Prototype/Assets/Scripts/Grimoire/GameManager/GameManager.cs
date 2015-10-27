@@ -12,13 +12,13 @@ public class GameManager : MonoBehaviour
         BOOK
     }
 
-    public static GameManager instance = null;
-    public GameStates current_state = GameStates.START;
+    public static GameManager instance;
+    public GameStates current_state;
     public BasePlayer player;
-    public GrimoireDatabase database = new GrimoireDatabase();
+    public GrimoireDatabase database;
 
     // Makes sure each scene only loads once
-    public bool scene_loaded = false;
+    public bool scene_loaded;
 
 
 	// Use this for initialization
@@ -28,8 +28,10 @@ public class GameManager : MonoBehaviour
             instance = this;
         else if (instance != this)
             Destroy(gameObject);
-
+        current_state = GameStates.START;
+        database = new GrimoireDatabase();
         DontDestroyOnLoad(gameObject);
+        scene_loaded = false;
 	}
 	
 	// Update is called once per frame
