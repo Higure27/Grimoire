@@ -75,6 +75,14 @@ public class BattleStateMachine : MonoBehaviour
     public GameObject cure_1;
     public GameObject cure_2;
 
+    // status icons for players
+    public GameObject player_poison;
+    public GameObject enemy_poison;
+    public GameObject player_burn;
+    public GameObject enemy_burn;
+    public GameObject player_paralyze;
+    public GameObject enemy_paralyze;
+
     public enum BattleStates 
 	{
 		START,
@@ -430,15 +438,6 @@ public class BattleStateMachine : MonoBehaviour
     
     private void Deactivate_Spell_Icons()
     {
-        //foreach(Transform icon in left_effect_panel.GetComponentsInChildren<Transform>())
-        //{
-        //    icon.gameObject.SetActive(false);
-        //}
-        //foreach(Transform icon in right_effect_panel.GetComponentsInChildren<Transform>())
-        //{
-        //    icon.gameObject.SetActive(false);
-        //}
-
         poison_1.SetActive(false);
         poison_2.SetActive(false);
         burn_1.SetActive(false);
@@ -451,7 +450,14 @@ public class BattleStateMachine : MonoBehaviour
         heal_2.SetActive(false);
         cure_1.SetActive(false);
         cure_2.SetActive(false);
-    }
+
+        player_poison.SetActive(false);
+        enemy_poison.SetActive(false);
+        player_burn.SetActive(false); ;
+        enemy_burn.SetActive(false);
+        player_paralyze.SetActive(false);
+        enemy_paralyze.SetActive(false);
+}
 
     /*
 	 * Deactivates all buttons
@@ -468,27 +474,47 @@ public class BattleStateMachine : MonoBehaviour
     {
         if(player_info.player.Players_Summon.Poison > 0)
         {
+            player_poison.SetActive(true);
             player_info.player.Players_Summon.Health =  ((player_info.player.Players_Summon.Health - poison_damage) < 0) ? 0 : (player_info.player.Players_Summon.Health - poison_damage);
             player_info.player.Players_Summon.Poison--;
             Debug.Log("Player Poison Damage");
         }
+        else
+        {
+            player_poison.SetActive(false);
+        }
         if(player_info.enemy.Players_Summon.Poison > 0)
         {
+            enemy_poison.SetActive(true);
             player_info.enemy.Players_Summon.Health = ((player_info.enemy.Players_Summon.Health - poison_damage) < 0) ? 0 : (player_info.enemy.Players_Summon.Health - poison_damage);
             player_info.enemy.Players_Summon.Poison--;
             Debug.Log("Enemy Poison Damage");
         }
+        else
+        {
+            enemy_poison.SetActive(false);
+        }
         if (player_info.player.Players_Summon.Burn > 0)
         {
+            player_burn.SetActive(true);
             player_info.player.Players_Summon.Health = ((player_info.player.Players_Summon.Health - burn_damage) < 0) ? 0 : (player_info.player.Players_Summon.Health - burn_damage);
             player_info.player.Players_Summon.Burn--;
             Debug.Log("Player Burn Damage");
         }
+        else
+        {
+            player_burn.SetActive(false);
+        }
         if (player_info.enemy.Players_Summon.Burn > 0)
         {
+            enemy_burn.SetActive(true);
             player_info.enemy.Players_Summon.Health = ((player_info.enemy.Players_Summon.Health - burn_damage) < 0) ? 0 : (player_info.enemy.Players_Summon.Health - burn_damage);
             player_info.enemy.Players_Summon.Burn--;
             Debug.Log("Enemy Burn Damage");
+        }
+        else
+        {
+            enemy_burn.SetActive(false);
         }
     }
 }

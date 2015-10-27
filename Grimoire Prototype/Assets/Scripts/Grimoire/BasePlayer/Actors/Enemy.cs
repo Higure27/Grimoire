@@ -14,9 +14,9 @@ public class Enemy : BasePlayer
 		Player_Spell_Book = new SpellBook();
 
 		// Set up enemy summon
-		Players_Summon.Summon_Name = "Dark Kight";
+		Players_Summon.Summon_Name = "Golem";
 		Players_Summon.Summon_Level = 1;
-		Players_Summon.Summon_Class = new BaseDarkSummon();
+		Players_Summon.Summon_Class = new BaseEarthSummon();
 		Players_Summon.Strength = Players_Summon.Summon_Class.Strength;
 		Players_Summon.Defense = Players_Summon.Summon_Class.Defense;
 		Players_Summon.Health = Players_Summon.Summon_Class.Health;
