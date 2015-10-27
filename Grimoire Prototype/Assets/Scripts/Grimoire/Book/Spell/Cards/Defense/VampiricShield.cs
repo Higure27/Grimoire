@@ -13,5 +13,6 @@ public class VampiricShield : Card
 		ResetBattleAttributes();
 		AddAbility(new BasicDefense());
 		AddAbility(new Absorb());
+        Icon_Vampire = true;
 	}
 }

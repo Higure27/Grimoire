@@ -12,5 +12,6 @@ public class HealSelf : Card
 		Card_Tier = Tier.TIER1;
 		ResetBattleAttributes();
 		AddAbility(new Heal());
+        Icon_Heal = true;
 	}
 }

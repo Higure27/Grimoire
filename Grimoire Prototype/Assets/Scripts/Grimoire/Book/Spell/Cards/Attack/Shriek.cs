@@ -12,5 +12,6 @@ public class Shriek : Card
 		Card_Tier = Tier.TIER1;
 		ResetBattleAttributes();
 		AddAbility(new Paralyze());
+        Icon_Paralyze = true;
 	}
 }

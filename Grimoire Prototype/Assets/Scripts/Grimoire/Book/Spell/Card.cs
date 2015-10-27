@@ -23,6 +23,12 @@ public class Card
 	private int card_cost;
 	private CardTypes card_type;
     private Tier card_tier;
+    private bool icon_poison = false;
+    private bool icon_paralyze = false;
+    private bool icon_burn = false;
+    private bool icon_vampire = false;
+    private bool icon_heal = false;
+    private bool icon_cure = false;
 
     // Battle Attributes
     private int damage;
@@ -32,7 +38,14 @@ public class Card
     private int burn;
     private int paralyze;
 	
-	public string Card_Name { get; set; }
+    public bool Icon_Poison { get; set; }
+    public bool Icon_Paralyze { get; set; }
+    public bool Icon_Burn { get; set; }
+    public bool Icon_Vampire { get; set; }
+    public bool Icon_Heal { get; set; }
+    public bool Icon_Cure { get; set; }
+
+    public string Card_Name { get; set; }
 	public string Card_Description { get; set; }
 	public int Card_Cost { get; set; }
 	public CardTypes Card_Type { get; set; }

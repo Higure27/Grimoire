@@ -13,5 +13,6 @@ public class PoisonNeedle : Card
 		ResetBattleAttributes();
 		AddAbility(new BasicDefense());
 		AddAbility(new Poison());
+        Icon_Poison = true;
 	}
 }

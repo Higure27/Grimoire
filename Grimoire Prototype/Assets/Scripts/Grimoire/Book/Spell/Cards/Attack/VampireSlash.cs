@@ -13,5 +13,6 @@ public class VampireSlash : Card
 		ResetBattleAttributes();
 		AddAbility(new Absorb());
 		AddAbility(new BasicAttack());
+        Icon_Vampire = true;
 	}
 }

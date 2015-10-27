@@ -13,5 +13,6 @@ public class PoisonAttack : Card
 		ResetBattleAttributes();
 		AddAbility(new Poison());
 		AddAbility(new BasicAttack());
+        Icon_Poison = true;
 	}
 }

@@ -13,5 +13,6 @@ public class BurnAttack : Card
 		ResetBattleAttributes();
 		AddAbility(new Burn());
 		AddAbility(new BasicAttack());
+        Icon_Burn = true;
 	}
 }

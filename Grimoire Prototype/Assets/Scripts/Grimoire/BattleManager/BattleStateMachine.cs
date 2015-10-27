@@ -59,7 +59,23 @@ public class BattleStateMachine : MonoBehaviour
 	public GameObject player_hp_bar;
 	public GameObject enemy_hp_bar;
 
-	public enum BattleStates 
+    // Status Icons for Spells
+    //private GameObject left_effect_panel;
+    //private GameObject right_effect_panel;
+    public GameObject poison_1;
+    public GameObject poison_2;
+    public GameObject burn_1;
+    public GameObject burn_2;
+    public GameObject paralyze_1;
+    public GameObject paralyze_2;
+    public GameObject vampire_1;
+    public GameObject vampire_2;
+    public GameObject heal_1;
+    public GameObject heal_2;
+    public GameObject cure_1;
+    public GameObject cure_2;
+
+    public enum BattleStates 
 	{
 		START,
 		PLAYERCHOICE,
@@ -76,6 +92,9 @@ public class BattleStateMachine : MonoBehaviour
 	{
 		win.SetActive(false);
 		lose.SetActive(false);
+        //left_effect_panel = GameObject.Find("left_effect_panel");
+        //right_effect_panel = GameObject.Find("right_effect_panel");
+        Deactivate_Spell_Icons();
 		current_state = BattleStates.START;
 	}
 	
@@ -146,6 +165,7 @@ public class BattleStateMachine : MonoBehaviour
 	 */
 	private void Display_Spells()
 	{
+        Deactivate_Spell_Icons();
 		// TODO: fix defend
 		if(player_defend)
 		{
@@ -166,7 +186,37 @@ public class BattleStateMachine : MonoBehaviour
 		spell_button_1.GetComponentsInChildren<Text>()[1].text = spell_1.Card_Cost.ToString();
 		spell_button_2.GetComponentsInChildren<Text>()[0].text = spell_2.Card_Name;
 		spell_button_2.GetComponentsInChildren<Text>()[1].text = spell_2.Card_Cost.ToString();
+        Display_Spell_Icons();
 	}
+
+    private void Display_Spell_Icons()
+    {
+        if(spell_1.Icon_Poison)
+            poison_1.SetActive(true);
+        if (spell_1.Icon_Burn)
+            burn_1.SetActive(true);
+        if (spell_1.Icon_Paralyze)
+            paralyze_1.SetActive(true);
+        if (spell_1.Icon_Vampire)
+            vampire_1.SetActive(true);
+        if (spell_1.Icon_Heal)
+            heal_1.SetActive(true);
+        if (spell_1.Icon_Cure)
+            cure_1.SetActive(true);
+
+        if (spell_2.Icon_Poison)
+            poison_2.SetActive(true);
+        if (spell_2.Icon_Burn)
+            burn_2.SetActive(true);
+        if (spell_2.Icon_Paralyze)
+            paralyze_2.SetActive(true);
+        if (spell_2.Icon_Vampire)
+            vampire_2.SetActive(true);
+        if (spell_2.Icon_Heal)
+            heal_2.SetActive(true);
+        if (spell_2.Icon_Cure)
+            cure_2.SetActive(true);
+    }
 
 	/*
 	 * Casts the spell that the user chooses
@@ -376,6 +426,32 @@ public class BattleStateMachine : MonoBehaviour
     /* Results Functions End */
 
     /* Helper Functions */
+
+    
+    private void Deactivate_Spell_Icons()
+    {
+        //foreach(Transform icon in left_effect_panel.GetComponentsInChildren<Transform>())
+        //{
+        //    icon.gameObject.SetActive(false);
+        //}
+        //foreach(Transform icon in right_effect_panel.GetComponentsInChildren<Transform>())
+        //{
+        //    icon.gameObject.SetActive(false);
+        //}
+
+        poison_1.SetActive(false);
+        poison_2.SetActive(false);
+        burn_1.SetActive(false);
+        burn_2.SetActive(false);
+        paralyze_1.SetActive(false);
+        paralyze_2.SetActive(false);
+        vampire_1.SetActive(false);
+        vampire_2.SetActive(false);
+        heal_1.SetActive(false);
+        heal_2.SetActive(false);
+        cure_1.SetActive(false);
+        cure_2.SetActive(false);
+    }
 
     /*
 	 * Deactivates all buttons

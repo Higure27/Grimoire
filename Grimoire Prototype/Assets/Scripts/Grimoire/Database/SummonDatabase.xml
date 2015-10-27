@@ -62,4 +62,13 @@
     <health>100</health>
     <current_exp>0</current_exp>
   </Summon>
+  <Summon id="lula">
+    <name>Phoenix</name>
+    <level>1</level>
+    <class>LIGHT</class>
+    <strength>20</strength>
+    <defense>10</defense>
+    <health>80</health>
+    <current_exp>0</current_exp>
+  </Summon>
 </Summon_Database>

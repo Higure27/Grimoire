@@ -41,4 +41,10 @@
     <spell>VampireShield</spell>
     <spell>VampireShield</spell>
   </Inventory>
+  <Inventory id="lula">
+    <spell>VampireSlash</spell>
+    <spell>ParalyzingGrasp</spell>
+    <spell>PoisonAttack</spell>
+    <spell>Cure</spell>
+  </Inventory>
 </Spell_Inventory_Database>

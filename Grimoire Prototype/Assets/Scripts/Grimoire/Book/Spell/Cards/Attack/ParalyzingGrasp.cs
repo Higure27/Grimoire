@@ -13,5 +13,6 @@ public class ParalyzingGrasp : Card
 		ResetBattleAttributes();
 		AddAbility(new Paralyze());
 		AddAbility(new BasicAttack());
+        Icon_Paralyze = true;
 	}
 }

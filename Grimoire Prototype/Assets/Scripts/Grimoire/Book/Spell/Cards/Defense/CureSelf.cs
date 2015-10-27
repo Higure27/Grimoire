@@ -12,5 +12,6 @@ public class CureSelf : Card
 		Card_Tier = Tier.TIER1;
 		ResetBattleAttributes();
 		AddAbility(new Cure());
+        Icon_Cure = true;
 	}
 }

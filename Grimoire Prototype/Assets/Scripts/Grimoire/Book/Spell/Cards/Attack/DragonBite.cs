@@ -14,5 +14,7 @@ public class DragonBite : Card
 		AddAbility(new Absorb());
 		AddAbility(new Burn());
 		AddAbility(new BasicAttack());
+        Icon_Burn = true;
+        Icon_Vampire = true;
 	}
 }

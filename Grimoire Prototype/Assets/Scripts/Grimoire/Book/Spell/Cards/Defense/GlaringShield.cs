@@ -13,5 +13,6 @@ public class GlaringShield : Card
 		ResetBattleAttributes();
 		AddAbility(new BasicDefense());
 		AddAbility(new Paralyze());
+        Icon_Paralyze = true;
 	}
 }

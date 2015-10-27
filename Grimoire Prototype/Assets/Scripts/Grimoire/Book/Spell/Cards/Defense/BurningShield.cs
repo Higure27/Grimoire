@@ -13,5 +13,6 @@ public class BurningShield : Card
 		ResetBattleAttributes();
 		AddAbility(new Burn());
 		AddAbility(new BasicDefense());
+        Icon_Burn = true;
 	}
 }
