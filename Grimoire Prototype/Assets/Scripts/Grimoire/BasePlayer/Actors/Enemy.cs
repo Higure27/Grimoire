@@ -10,22 +10,8 @@ public class Enemy : BasePlayer
 	public Enemy()
 	{
 		Player_Name = "Warlock";
-		Players_Summon = new BasePlayerSummon();
+        Players_Summon = new Summon("Golem", 1, 0, 120, 10, 20, Summon.Type.EARTH);
 		Player_Spell_Book = new SpellBook();
-
-		// Set up enemy summon
-		Players_Summon.Summon_Name = "Golem";
-		Players_Summon.Summon_Level = 1;
-		Players_Summon.Summon_Class = new BaseEarthSummon();
-		Players_Summon.Strength = Players_Summon.Summon_Class.Strength;
-		Players_Summon.Defense = Players_Summon.Summon_Class.Defense;
-		Players_Summon.Health = Players_Summon.Summon_Class.Health;
-		Players_Summon.Burn = 0;
-		Players_Summon.Poison = 0;
-		Players_Summon.Paralyze = 0;
-		Players_Summon.Attack_Boost = false;
-		Players_Summon.Defense_Boost = false;
-		GameInformation.enemy_summon = Players_Summon;
 
 		// instead of having a spell book I want the enemy
 		// to have 2 different lists of spells 
@@ -35,8 +21,8 @@ public class Enemy : BasePlayer
 		attack_spells.Add (new BurnAttack());
 		attack_spells.Add (new DragonBite());
 		attack_spells.Add (new DragonBite());
-		attack_spells.Add (new Shriek());
-		attack_spells.Add (new Shriek());
+		attack_spells.Add (new VampireSlash());
+		attack_spells.Add (new ParalyzingGrasp());
 
 		defense_spells = new List<Card>();
 		defense_spells.Add (new BurningShield());

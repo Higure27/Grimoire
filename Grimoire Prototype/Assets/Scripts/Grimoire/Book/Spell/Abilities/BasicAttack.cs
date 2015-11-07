@@ -3,7 +3,7 @@ using System.Collections;
 
 public class BasicAttack : BaseAbility 
 {
-	public void DoAbility(BasePlayerSummon p1, out int damage, out int block, out int heal, out int poison, out int burn, out int paralyze)
+	public void DoAbility(Summon p1, out int damage, out int block, out int heal, out int poison, out int burn, out int paralyze)
     {
 		damage = Random.Range(0, 7);
 		damage += p1.Strength;

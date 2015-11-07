@@ -22,7 +22,7 @@ public class CreateNewUser : MonoBehaviour
     //private SpellBook EarthStarter;
     private SpellBook starter_book;
     private SpellInventory starter_inventory;
-    private BasePlayerSummon starter_summon;
+    private Summon starter_summon;
 
 	// Use this for initialization
 	void Start ()
@@ -31,7 +31,6 @@ public class CreateNewUser : MonoBehaviour
         Setup_Starter_Books();
         starter_inventory = new SpellInventory();
         Setup_Starter_Inventory();
-        starter_summon = new BasePlayerSummon();
         //DarkStarter = new SpellBook();
         //LightStarter = new SpellBook();
         //FireStarter = new SpellBook();
@@ -87,59 +86,19 @@ public class CreateNewUser : MonoBehaviour
     {
         if(vampire_toggle.GetComponent<Toggle>().isOn)
         {
-            starter_summon.Summon_Name = "Vampire";
-            starter_summon.Summon_Level = 1;
-            starter_summon.Summon_Class = new BaseDarkSummon();
-            starter_summon.Strength = starter_summon.Summon_Class.Strength;
-            starter_summon.Defense = starter_summon.Summon_Class.Defense;
-            starter_summon.Health = starter_summon.Summon_Class.Health;
-            starter_summon.Burn = 0;
-            starter_summon.Poison = 0;
-            starter_summon.Paralyze = 0;
-            starter_summon.Attack_Boost = false;
-            starter_summon.Defense_Boost = false;
+            starter_summon = new Summon("Vampire", 1, 0, 100, 15, 10, Summon.Type.DARK);
         }
         else if (paladin_toggle.GetComponent<Toggle>().isOn)
         {
-            starter_summon.Summon_Name = "Paladin";
-            starter_summon.Summon_Level = 1;
-            starter_summon.Summon_Class = new BaseLightSummon();
-            starter_summon.Strength = starter_summon.Summon_Class.Strength;
-            starter_summon.Defense = starter_summon.Summon_Class.Defense;
-            starter_summon.Health = starter_summon.Summon_Class.Health;
-            starter_summon.Burn = 0;
-            starter_summon.Poison = 0;
-            starter_summon.Paralyze = 0;
-            starter_summon.Attack_Boost = false;
-            starter_summon.Defense_Boost = false;
+            starter_summon = new Summon("Paladin", 1, 0, 100, 10, 15, Summon.Type.LIGHT);
         }
         else if (phoenix_toggle.GetComponent<Toggle>().isOn)
         {
-            starter_summon.Summon_Name = "Phoenix";
-            starter_summon.Summon_Level = 1;
-            starter_summon.Summon_Class = new BaseFireSummon();
-            starter_summon.Strength = starter_summon.Summon_Class.Strength;
-            starter_summon.Defense = starter_summon.Summon_Class.Defense;
-            starter_summon.Health = starter_summon.Summon_Class.Health;
-            starter_summon.Burn = 0;
-            starter_summon.Poison = 0;
-            starter_summon.Paralyze = 0;
-            starter_summon.Attack_Boost = false;
-            starter_summon.Defense_Boost = false;
+            starter_summon = new Summon("Phoenix", 1, 0, 80, 20, 10, Summon.Type.FIRE);
         }
         else if (golem_toggle.GetComponent<Toggle>().isOn)
         {
-            starter_summon.Summon_Name = "Golem";
-            starter_summon.Summon_Level = 1;
-            starter_summon.Summon_Class = new BaseEarthSummon();
-            starter_summon.Strength = starter_summon.Summon_Class.Strength;
-            starter_summon.Defense = starter_summon.Summon_Class.Defense;
-            starter_summon.Health = starter_summon.Summon_Class.Health;
-            starter_summon.Burn = 0;
-            starter_summon.Poison = 0;
-            starter_summon.Paralyze = 0;
-            starter_summon.Attack_Boost = false;
-            starter_summon.Defense_Boost = false;
+            starter_summon = new Summon("Golem", 1, 0, 120, 10, 20, Summon.Type.EARTH);
         }
     }
 

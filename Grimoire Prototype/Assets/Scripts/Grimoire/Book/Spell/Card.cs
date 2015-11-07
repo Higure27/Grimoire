@@ -63,7 +63,7 @@ public class Card
 		abilities.Add(a);
 	}
 
-	public void CastSpell(BasePlayerSummon p1)
+	public void CastSpell(Summon p1)
 	{
 		foreach(BaseAbility a in abilities)
 		{
@@ -88,12 +88,12 @@ public class Card
         Paralyze = 0;
     }
 
-    public void SpellResult(BasePlayerSummon p1, BasePlayerSummon p2)
+    public void SpellResult(Summon p1, Summon p2)
     {
         p1.Health -= card_cost;
-        if(p1.Summon_Class.Health < (p1.Health + Heal))
+        if(p1.Base_Health < (p1.Health + Heal))
         {
-            p1.Health = p1.Summon_Class.Health;
+            p1.Health = p1.Base_Health;
         }
         else
         {

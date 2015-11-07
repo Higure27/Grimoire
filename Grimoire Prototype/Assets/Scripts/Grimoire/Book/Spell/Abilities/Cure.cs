@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Cure : BaseAbility 
 {
-	public void DoAbility(BasePlayerSummon p1, out int damage, out int block, out int heal, out int poison, out int burn, out int paralyze)
+	public void DoAbility(Summon p1, out int damage, out int block, out int heal, out int poison, out int burn, out int paralyze)
     {
 		p1.Burn = 0;
 		p1.Poison = 0;

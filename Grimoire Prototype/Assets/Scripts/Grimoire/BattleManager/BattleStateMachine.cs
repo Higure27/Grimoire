@@ -137,7 +137,7 @@ public class BattleStateMachine : MonoBehaviour
 		case (BattleStates.LOSE) :
 			lose.SetActive(true);
             Thread.Sleep(1000);
-            GameManager.instance.player.Players_Summon.Health = GameManager.instance.player.Players_Summon.Summon_Class.Health;
+            GameManager.instance.player.Players_Summon.Health = GameManager.instance.player.Players_Summon.Base_Health;
             GameManager.instance.current_state = GameManager.GameStates.MAIN;
             GameManager.instance.scene_loaded = false;
 			// display lose message, maybe play again
@@ -145,7 +145,7 @@ public class BattleStateMachine : MonoBehaviour
 		case (BattleStates.WIN) :
 			win.SetActive(true);
             Thread.Sleep(1000);
-            GameManager.instance.player.Players_Summon.Health = GameManager.instance.player.Players_Summon.Summon_Class.Health;
+            GameManager.instance.player.Players_Summon.Health = GameManager.instance.player.Players_Summon.Base_Health;
             GameManager.instance.current_state = GameManager.GameStates.MAIN;
             GameManager.instance.scene_loaded = false;
 			// display win message, maybe play again
@@ -388,8 +388,8 @@ public class BattleStateMachine : MonoBehaviour
 		player_hp.GetComponent<Text>().text = player_info.player.Players_Summon.Health.ToString();
 		enemy_hp.GetComponent<Text>().text = player_info.enemy.Players_Summon.Health.ToString();
 
-		double php = (155.0)*((double)player_info.player.Players_Summon.Health/(double)player_info.player.Players_Summon.Summon_Class.Health);
-		double ehp = (155.0)*((double)player_info.enemy.Players_Summon.Health/(double)player_info.enemy.Players_Summon.Summon_Class.Health);
+		double php = (155.0)*((double)player_info.player.Players_Summon.Health/(double)player_info.player.Players_Summon.Base_Health);
+		double ehp = (155.0)*((double)player_info.enemy.Players_Summon.Health/(double)player_info.enemy.Players_Summon.Base_Health);
         Debug.Log("Player HP: " + php);
         Debug.Log("Enemy HP: " + ehp);
 		player_hp_bar.GetComponent<Image>().rectTransform.sizeDelta = new Vector2(28, (float)php); 

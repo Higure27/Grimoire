@@ -47,10 +47,8 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\Grimoire\BasePlayer\Actors\Enemy.cs" />
-     <Compile Include="Assets\Scripts\Grimoire\BasePlayer\Actors\Player.cs" />
      <Compile Include="Assets\Scripts\Grimoire\BasePlayer\BasePlayer.cs" />
      <Compile Include="Assets\Scripts\Grimoire\BasePlayer\BasePlayerSummon.cs" />
-     <Compile Include="Assets\Scripts\Grimoire\BasePlayer\CreateSummon\CreateNewSummon.cs" />
      <Compile Include="Assets\Scripts\Grimoire\BattleManager\BattleStateMachine.cs" />
      <Compile Include="Assets\Scripts\Grimoire\BattleManager\BattleStateStart.cs" />
      <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Abilities\Absorb.cs" />
@@ -81,26 +79,19 @@
      <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Cards\Defense\VampiricShield.cs" />
      <Compile Include="Assets\Scripts\Grimoire\Book\SpellBook.cs" />
      <Compile Include="Assets\Scripts\Grimoire\Book\SpellInventory.cs" />
-     <Compile Include="Assets\Scripts\Grimoire\CreatePlayerGUI\CreatePlayerGUI.cs" />
-     <Compile Include="Assets\Scripts\Grimoire\CreatePlayerGUI\DisplayCreatePlayerFunctions.cs" />
      <Compile Include="Assets\Scripts\Grimoire\Database\GrimoireDatabase.cs" />
-     <Compile Include="Assets\Scripts\Grimoire\GameInformation\GameInformation.cs" />
      <Compile Include="Assets\Scripts\Grimoire\GameManager\GameManager.cs" />
      <Compile Include="Assets\Scripts\Grimoire\GameManager\GameStates\CreateNewUser.cs" />
      <Compile Include="Assets\Scripts\Grimoire\GameManager\GameStates\EditBook.cs" />
      <Compile Include="Assets\Scripts\Grimoire\GameManager\GameStates\MainMenu.cs" />
      <Compile Include="Assets\Scripts\Grimoire\GameManager\GameStates\StartScreen.cs" />
      <Compile Include="Assets\Scripts\Grimoire\IncreaseExperience.cs" />
-     <Compile Include="Assets\Scripts\Grimoire\SaveAndLoad\LoadInformation.cs" />
-     <Compile Include="Assets\Scripts\Grimoire\SaveAndLoad\PlayerPrefSerialization.cs" />
-     <Compile Include="Assets\Scripts\Grimoire\SaveAndLoad\SaveInformation.cs" />
-     <Compile Include="Assets\Scripts\Grimoire\Spells\BaseSpell.cs" />
-     <Compile Include="Assets\Scripts\Grimoire\Spells\Spell.cs" />
      <Compile Include="Assets\Scripts\Grimoire\SummonTypes\BaseDarkSummon.cs" />
      <Compile Include="Assets\Scripts\Grimoire\SummonTypes\BaseEarthSummon.cs" />
      <Compile Include="Assets\Scripts\Grimoire\SummonTypes\BaseFireSummon.cs" />
      <Compile Include="Assets\Scripts\Grimoire\SummonTypes\BaseLightSummon.cs" />
      <Compile Include="Assets\Scripts\Grimoire\SummonTypes\BaseSummon.cs" />
+     <Compile Include="Assets\Scripts\Grimoire\SummonTypes\Summon Refactor\Summon.cs" />
      <None Include="Assets\Scripts\Grimoire\Database\SpellBookDatabase.xml" />
      <None Include="Assets\Scripts\Grimoire\Database\SpellInventoryDatabase.xml" />
      <None Include="Assets\Scripts\Grimoire\Database\SummonDatabase.xml" />

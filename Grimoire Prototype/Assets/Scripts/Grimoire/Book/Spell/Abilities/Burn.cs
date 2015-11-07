@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Burn : BaseAbility 
 {
-	public void DoAbility(BasePlayerSummon p1, out int damage, out int block, out int heal, out int poison, out int burn, out int paralyze)
+	public void DoAbility(Summon p1, out int damage, out int block, out int heal, out int poison, out int burn, out int paralyze)
     {
 		burn = Random.Range(1, 4);
         damage = 0;

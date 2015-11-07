@@ -20,8 +20,6 @@ public class GrimoireDatabase
         GameManager.instance.player = new BasePlayer();
         GameManager.instance.player.Player_Spell_Book = new SpellBook();
         GameManager.instance.player.Player_Spell_Inventory = new SpellInventory();
-        GameManager.instance.player.Players_Summon = new BasePlayerSummon();
-
         GameManager.instance.player.Player_Name = user;
 
         Load_Player_Summon(user);
@@ -69,30 +67,30 @@ public class GrimoireDatabase
         {
             return;
         }
-        GameManager.instance.player.Players_Summon.Summon_Name = summon["name"].InnerText;
-        GameManager.instance.player.Players_Summon.Summon_Level = int.Parse(summon["level"].InnerText);
+        string name = summon["name"].InnerText;
+        int level = int.Parse(summon["level"].InnerText);
+        Summon.Type type = Summon.Type.LIGHT;
         switch (summon["class"].InnerText)
         {
             case "LIGHT":
-                GameManager.instance.player.Players_Summon.Summon_Class = new BaseLightSummon();
+                type = Summon.Type.LIGHT;
                 break;
             case "DARK":
-                GameManager.instance.player.Players_Summon.Summon_Class = new BaseDarkSummon();
+                type = Summon.Type.DARK;
                 break;
             case "FIRE":
+                type = Summon.Type.FIRE;
                 break;
             case "EARTH":
+                type = Summon.Type.EARTH;
                 break;
         }
-        GameManager.instance.player.Players_Summon.Strength = int.Parse(summon["strength"].InnerText);
-        GameManager.instance.player.Players_Summon.Defense = int.Parse(summon["defense"].InnerText);
-        GameManager.instance.player.Players_Summon.Health = int.Parse(summon["health"].InnerText);
-        GameManager.instance.player.Players_Summon.Current_EXP = int.Parse(summon["current_exp"].InnerText);
-        GameManager.instance.player.Players_Summon.Burn = 0;
-        GameManager.instance.player.Players_Summon.Poison = 0;
-        GameManager.instance.player.Players_Summon.Paralyze = 0;
-        GameManager.instance.player.Players_Summon.Attack_Boost = false;
-        GameManager.instance.player.Players_Summon.Defense_Boost = false;
+        int strength = int.Parse(summon["strength"].InnerText);
+        int defense = int.Parse(summon["defense"].InnerText);
+        int health = int.Parse(summon["health"].InnerText);
+        int exp = int.Parse(summon["current_exp"].InnerText);
+
+        GameManager.instance.player.Players_Summon = new Summon(name, level, exp, health, strength, defense, type);
     }
 
     /*
@@ -253,15 +251,15 @@ public class GrimoireDatabase
         summon_db.Load("Assets/Scripts/Grimoire/Database/SummonDatabase.xml");
         summon_root = summon_db.DocumentElement;
         XmlNode level = summon_root.SelectSingleNode("descendant::Summon[@id='" + user + "']/level");
-        level.InnerText = player.Players_Summon.Summon_Level.ToString();
+        level.InnerText = player.Players_Summon.Level.ToString();
         XmlNode strength = summon_root.SelectSingleNode("descendant::Summon[@id = '" + user + "']/strength");
         strength.InnerText = player.Players_Summon.Strength.ToString();
         XmlNode defense = summon_root.SelectSingleNode("descendant::Summon[@id = '" + user + "']/defense");
         defense.InnerText = player.Players_Summon.Defense.ToString();
         XmlNode health = summon_root.SelectSingleNode("descendant::Summon[@id = '" + user + "']/health");
-        health.InnerText = player.Players_Summon.Summon_Class.Health.ToString();
+        health.InnerText = player.Players_Summon.Base_Health.ToString();
         XmlNode current_exp = summon_root.SelectSingleNode("descendant::Summon[@id = '" + user + "']/current_exp");
-        current_exp.InnerText = player.Players_Summon.Current_EXP.ToString();
+        current_exp.InnerText = player.Players_Summon.Curr_Exp.ToString();
         summon_db.Save("Assets/Scripts/Grimoire/Database/SummonDatabase.xml");
     }
 
@@ -297,13 +295,13 @@ public class GrimoireDatabase
         XmlElement summon = summon_db.CreateElement("Summon");
         summon.SetAttribute("id", user);
         XmlElement name = summon_db.CreateElement("name");
-        name.InnerText = player.Players_Summon.Summon_Name;
+        name.InnerText = player.Players_Summon.Name;
         summon.AppendChild(name);
         XmlElement level = summon_db.CreateElement("level");
-        level.InnerText = player.Players_Summon.Summon_Level.ToString();
+        level.InnerText = player.Players_Summon.Level.ToString();
         summon.AppendChild(level);
         XmlElement summon_class = summon_db.CreateElement("class");
-        summon_class.InnerText = player.Players_Summon.Summon_Class.Summon_Type.ToString();
+        summon_class.InnerText = player.Players_Summon.Summon_Type.ToString();
         summon.AppendChild(summon_class);
         XmlElement strength = summon_db.CreateElement("strength");
         strength.InnerText = player.Players_Summon.Strength.ToString();
@@ -315,7 +313,7 @@ public class GrimoireDatabase
         health.InnerText = player.Players_Summon.Health.ToString();
         summon.AppendChild(health);
         XmlElement exp = summon_db.CreateElement("current_exp");
-        exp.InnerText = player.Players_Summon.Current_EXP.ToString();
+        exp.InnerText = player.Players_Summon.Curr_Exp.ToString();
         summon.AppendChild(exp);
         summon_db.DocumentElement.AppendChild(summon);
         summon_db.Save("Assets/Scripts/Grimoire/Database/SummonDatabase.xml");
