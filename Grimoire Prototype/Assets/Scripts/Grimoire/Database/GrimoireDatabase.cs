@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Xml;
+using System;
+using System.Runtime.Remoting;
 
 public class GrimoireDatabase
 {
@@ -113,91 +115,97 @@ public class GrimoireDatabase
     {
         if (location == "spell_book")
         {
-            switch (spell)
-            {
-                // Attack Spells
-                case "BurnAttack":
-                    GameManager.instance.player.Player_Spell_Book.AddSpell(new BurnAttack());
-                    break;
-                case "DragonBite":
-                    GameManager.instance.player.Player_Spell_Book.AddSpell(new DragonBite());
-                    break;
-                case "ParalyzingGrasp":
-                    GameManager.instance.player.Player_Spell_Book.AddSpell(new ParalyzingGrasp());
-                    break;
-                case "PoisonAttack":
-                    GameManager.instance.player.Player_Spell_Book.AddSpell(new PoisonAttack());
-                    break;
-                case "Shriek":
-                    GameManager.instance.player.Player_Spell_Book.AddSpell(new Shriek());
-                    break;
-                case "VampireSlash":
-                    GameManager.instance.player.Player_Spell_Book.AddSpell(new VampireSlash());
-                    break;
-                // Defense Spells
-                case "BurningShield":
-                    GameManager.instance.player.Player_Spell_Book.AddSpell(new BurningShield());
-                    break;
-                case "Cure":
-                    GameManager.instance.player.Player_Spell_Book.AddSpell(new CureSelf());
-                    break;
-                case "GlaringShield":
-                    GameManager.instance.player.Player_Spell_Book.AddSpell(new GlaringShield());
-                    break;
-                case "Heal":
-                    GameManager.instance.player.Player_Spell_Book.AddSpell(new HealSelf());
-                    break;
-                case "PoisonNeedle":
-                    GameManager.instance.player.Player_Spell_Book.AddSpell(new PoisonNeedle());
-                    break;
-                case "VampireShield":
-                    GameManager.instance.player.Player_Spell_Book.AddSpell(new VampiricShield());
-                    break;
-            }
+            ObjectHandle handle = Activator.CreateInstance(null, spell);
+            BaseSpell s = (BaseSpell)handle.Unwrap();
+            GameManager.instance.player.Player_Spell_Book.Add_Spell(s);
+            //switch (spell)
+            //{
+            //    // Attack Spells
+            //    case "BurnAttack":
+            //        GameManager.instance.player.Player_Spell_Book.AddSpell(new BurnAttack());
+            //        break;
+            //    case "DragonBite":
+            //        GameManager.instance.player.Player_Spell_Book.AddSpell(new DragonBite());
+            //        break;
+            //    case "ParalyzingGrasp":
+            //        GameManager.instance.player.Player_Spell_Book.AddSpell(new ParalyzingGrasp());
+            //        break;
+            //    case "PoisonAttack":
+            //        GameManager.instance.player.Player_Spell_Book.AddSpell(new PoisonAttack());
+            //        break;
+            //    case "Shriek":
+            //        GameManager.instance.player.Player_Spell_Book.AddSpell(new Shriek());
+            //        break;
+            //    case "VampireSlash":
+            //        GameManager.instance.player.Player_Spell_Book.AddSpell(new VampireSlash());
+            //        break;
+            //    // Defense Spells
+            //    case "BurningShield":
+            //        GameManager.instance.player.Player_Spell_Book.AddSpell(new BurningShield());
+            //        break;
+            //    case "Cure":
+            //        GameManager.instance.player.Player_Spell_Book.AddSpell(new CureSelf());
+            //        break;
+            //    case "GlaringShield":
+            //        GameManager.instance.player.Player_Spell_Book.AddSpell(new GlaringShield());
+            //        break;
+            //    case "Heal":
+            //        GameManager.instance.player.Player_Spell_Book.AddSpell(new HealSelf());
+            //        break;
+            //    case "PoisonNeedle":
+            //        GameManager.instance.player.Player_Spell_Book.AddSpell(new PoisonNeedle());
+            //        break;
+            //    case "VampireShield":
+            //        GameManager.instance.player.Player_Spell_Book.AddSpell(new VampiricShield());
+            //        break;
+            //}
         }
         else if(location == "inventory")
         {
-            switch (spell)
-            {
-                // Attack Spells
-                case "BurnAttack":
-                    GameManager.instance.player.Player_Spell_Inventory.AddSpell(new BurnAttack());
-                    break;
-                case "DragonBite":
-                    GameManager.instance.player.Player_Spell_Inventory.AddSpell(new DragonBite());
-                    break;
-                case "ParalyzingGrasp":
-                    GameManager.instance.player.Player_Spell_Inventory.AddSpell(new ParalyzingGrasp());
-                    break;
-                case "PoisonAttack":
-                    GameManager.instance.player.Player_Spell_Inventory.AddSpell(new PoisonAttack());
-                    break;
-                case "Shriek":
-                    GameManager.instance.player.Player_Spell_Inventory.AddSpell(new Shriek());
-                    break;
-                case "VampireSlash":
-                    GameManager.instance.player.Player_Spell_Inventory.AddSpell(new VampireSlash());
-                    break;
-                // Defense Spells
-                case "BurningShield":
-                    GameManager.instance.player.Player_Spell_Inventory.AddSpell(new BurningShield());
-                    break;
-                case "Cure":
-                    GameManager.instance.player.Player_Spell_Inventory.AddSpell(new CureSelf());
-                    break;
-                case "GlaringShield":
-                    GameManager.instance.player.Player_Spell_Inventory.AddSpell(new GlaringShield());
-                    break;
-                case "Heal":
-                    GameManager.instance.player.Player_Spell_Inventory.AddSpell(new HealSelf());
-                    break;
-                case "PoisonNeedle":
-                    GameManager.instance.player.Player_Spell_Inventory.AddSpell(new PoisonNeedle());
-                    break;
-                case "VampireShield":
-                    GameManager.instance.player.Player_Spell_Inventory.AddSpell(new VampiricShield());
-                    break;
-            }
+            ObjectHandle handle = Activator.CreateInstance(null, spell);
+            BaseSpell s = (BaseSpell)handle.Unwrap();
+            GameManager.instance.player.Player_Spell_Inventory.Add_Spell(s);
+            //switch (spell)
+            //{
+            //    // Attack Spells
+            //    case "BurnAttack":
+            //        GameManager.instance.player.Player_Spell_Inventory.AddSpell(new BurnAttack());
+            //        break;
+            //    case "DragonBite":
+            //        GameManager.instance.player.Player_Spell_Inventory.AddSpell(new DragonBite());
+            //        break;
+            //    case "ParalyzingGrasp":
+            //        GameManager.instance.player.Player_Spell_Inventory.AddSpell(new ParalyzingGrasp());
+            //        break;
+            //    case "PoisonAttack":
+            //        GameManager.instance.player.Player_Spell_Inventory.AddSpell(new PoisonAttack());
+            //        break;
+            //    case "Shriek":
+            //        GameManager.instance.player.Player_Spell_Inventory.AddSpell(new Shriek());
+            //        break;
+            //    case "VampireSlash":
+            //        GameManager.instance.player.Player_Spell_Inventory.AddSpell(new VampireSlash());
+            //        break;
+            //    // Defense Spells
+            //    case "BurningShield":
+            //        GameManager.instance.player.Player_Spell_Inventory.AddSpell(new BurningShield());
+            //        break;
+            //    case "Cure":
+            //        GameManager.instance.player.Player_Spell_Inventory.AddSpell(new CureSelf());
+            //        break;
+            //    case "GlaringShield":
+            //        GameManager.instance.player.Player_Spell_Inventory.AddSpell(new GlaringShield());
+            //        break;
+            //    case "Heal":
+            //        GameManager.instance.player.Player_Spell_Inventory.AddSpell(new HealSelf());
+            //        break;
+            //    case "PoisonNeedle":
+            //        GameManager.instance.player.Player_Spell_Inventory.AddSpell(new PoisonNeedle());
+            //        break;
+            //    case "VampireShield":
+            //        GameManager.instance.player.Player_Spell_Inventory.AddSpell(new VampiricShield());
+            //        break;
+            //}
         }
     }
 
@@ -229,7 +237,7 @@ public class GrimoireDatabase
             Debug.Log(xpath);
             XmlNode node = spell_book_root.SelectSingleNode(xpath);
             Debug.Log(node.InnerText);
-            node.InnerText = player.Player_Spell_Book.Spell_List[i].Card_Name.Replace(" ", string.Empty);
+            node.InnerText = player.Player_Spell_Book.Spell_List[i].Name.Replace(" ", string.Empty);
         }
         spell_book_db.Save("Assets/Scripts/Grimoire/Database/SpellBookDatabase.xml");
 
@@ -241,7 +249,7 @@ public class GrimoireDatabase
         int count = 0;
         foreach (XmlNode node in inventory.ChildNodes)
         {
-            string spell_name = player.Player_Spell_Inventory.Spell_Inventory[count].Card_Name.Replace(" ", string.Empty);
+            string spell_name = player.Player_Spell_Inventory.Spell_Inventory[count].Name.Replace(" ", string.Empty);
             node.InnerText = spell_name;
             count++;
         }
@@ -271,7 +279,7 @@ public class GrimoireDatabase
         for(int i = 0; i < player.Player_Spell_Book.Spell_List.Count; i++)
         {
             XmlElement spell = spell_book_db.CreateElement("spell_" + (i+1));
-            string spell_name = player.Player_Spell_Book.Spell_List[i].Card_Name.Replace(" ", string.Empty);
+            string spell_name = player.Player_Spell_Book.Spell_List[i].Name.Replace(" ", string.Empty);
             spell.InnerText = spell_name;
             book.AppendChild(spell);
         }
@@ -284,7 +292,7 @@ public class GrimoireDatabase
         for(int i = 0; i < player.Player_Spell_Inventory.Spell_Inventory.Count; i++)
         {
             XmlElement spell = spell_inventory_db.CreateElement("spell");
-            string spell_name = player.Player_Spell_Inventory.Spell_Inventory[i].Card_Name.Replace(" ", string.Empty);
+            string spell_name = player.Player_Spell_Inventory.Spell_Inventory[i].Name.Replace(" ", string.Empty);
             spell.InnerText = spell_name;
             inventory.AppendChild(spell);
         }

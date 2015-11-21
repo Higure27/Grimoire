@@ -1,15 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Poison : BaseAbility 
+public class Poison : Ability
 {
-	public void DoAbility(Summon p1, out int damage, out int block, out int heal, out int poison, out int burn, out int paralyze)
+    public SpellResults Do_Ability(Summon s)
     {
-		poison = Random.Range(2, 6);
-        damage = 0;
-        heal = 0;
-        block = 0;
-        burn = 0;
-        paralyze = 0;
-	}
+        int psn = Random.Range(1, 6);
+        return new SpellResults(0, 0, 0, psn, 0, 0);
+    }
 }

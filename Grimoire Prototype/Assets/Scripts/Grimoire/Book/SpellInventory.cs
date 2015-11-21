@@ -4,14 +4,14 @@ using System.Collections.Generic;
 
 public class SpellInventory
 {
-    private List<Card> spell_inventory = new List<Card>();
+    private List<BaseSpell> spell_inventory = new List<BaseSpell>();
 
-    public void AddSpell(Card c)
+    public void Add_Spell(BaseSpell c)
     {
         spell_inventory.Add(c);
     }
 
-    public List<Card> Spell_Inventory
+    public List<BaseSpell> Spell_Inventory
     {
         get { return spell_inventory; }
     }

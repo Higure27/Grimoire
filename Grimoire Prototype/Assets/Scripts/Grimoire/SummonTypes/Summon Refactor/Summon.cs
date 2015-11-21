@@ -5,30 +5,35 @@ public class Summon
 {
     public enum Type
     {
+        NONE,
         LIGHT,
         DARK,
         FIRE,
         EARTH
     }
 
-    string name;
-    string description;
-    int level;
-    int curr_exp;
-    int req_exp;
-    int health;
-    int strength;
-    int defense;
-    int base_health;
-    Type type;
-    int stage;
+    private string name;
+    private string description;
+    private int level;
+    private int curr_exp;
+    private int req_exp;
+    private int health;
+    private int strength;
+    private int defense;
+    private int base_health;
+    private Type type;
+    private int stage;
 
     //Battle Variables
-    int burn;
-    int poison;
-    int paralyze;
-    bool attack_boost;
-    bool defense_boost;
+    private int burn;
+    private int poison;
+    private int poison_count;
+    private int paralyze;
+    private bool attack_boost;
+    private bool defense_boost;
+    private int combo;
+    private int curse;
+    private int reflect;
 
     /* Getters and Setters */
     public string Name { get { return name; } }
@@ -43,10 +48,14 @@ public class Summon
     public int Stage { get { return stage; } }
     public Type Summon_Type { get { return type; } }
     public int Burn { get; set; }
-    public int Poison { get; set; }
+    public int Poison { get { return poison; } set { poison = value; } }
+    public int Poison_Count { get { return poison_count; } set { poison_count = value; } }
     public int Paralyze { get; set; }
     public bool Attack_Boost { get; set; }
     public bool Defense_Boost { get; set; }
+    public int Combo { get; set; }
+    public int Curse { get; set; }
+    public int Reflect { get; set; }
 
     /*
      * Constructor, Takes parameters to facilitate building summons on the fly
@@ -66,9 +75,11 @@ public class Summon
         Evolve();
         Burn = 0;
         Poison = 0;
+        Poison_Count = 0;
         Paralyze = 0;
         Attack_Boost = false;
         Defense_Boost = false;
+        combo = 0;
     }
 
     /*
@@ -114,7 +125,7 @@ public class Summon
         req_exp = Calculate_Required_Exp();
 
         // Check if evolves
-        if(level == 16 || level == 32)
+        if(level == 10 || level == 20)
         {
             Evolve();
         }

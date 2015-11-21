@@ -49,7 +49,7 @@ public class EditBook : MonoBehaviour
         for (int i = 0; i < spell_book_spells.Length; i++)
         {
             Debug.Log("GameManager Spell Book: " + GameManager.instance.player.Player_Spell_Book.Spell_List.Count);
-            spell_book_spells[i].gameObject.GetComponentInChildren<Text>().text = GameManager.instance.player.Player_Spell_Book.Spell_List[i].Card_Name;
+            spell_book_spells[i].gameObject.GetComponentInChildren<Text>().text = GameManager.instance.player.Player_Spell_Book.Spell_List[i].Name;
         }
         Toggle[] inventory_spells = inventory_container.GetComponentsInChildren<Toggle>();
         Debug.Log(inventory_spells.Length);
@@ -57,7 +57,7 @@ public class EditBook : MonoBehaviour
         {
             if (i < GameManager.instance.player.Player_Spell_Inventory.Spell_Inventory.Count)
             {
-                inventory_spells[i].gameObject.GetComponentInChildren<Text>().text = GameManager.instance.player.Player_Spell_Inventory.Spell_Inventory[i].Card_Name;
+                inventory_spells[i].gameObject.GetComponentInChildren<Text>().text = GameManager.instance.player.Player_Spell_Inventory.Spell_Inventory[i].Name;
             }
             else
             {
@@ -92,7 +92,7 @@ public class EditBook : MonoBehaviour
         inventory_spells[inventory_index].gameObject.GetComponentInChildren<Text>().text = spell_book_spells[spell_book_index].gameObject.GetComponentInChildren<Text>().text;
         spell_book_spells[spell_book_index].gameObject.GetComponentInChildren<Text>().text = temp;
 
-        Card card = GameManager.instance.player.Player_Spell_Book.Spell_List[spell_book_index];
+        BaseSpell card = GameManager.instance.player.Player_Spell_Book.Spell_List[spell_book_index];
         GameManager.instance.player.Player_Spell_Book.Spell_List[spell_book_index] = GameManager.instance.player.Player_Spell_Inventory.Spell_Inventory[inventory_index];
         GameManager.instance.player.Player_Spell_Inventory.Spell_Inventory[inventory_index] = card;
     }

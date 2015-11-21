@@ -4,29 +4,47 @@ using System.Collections.Generic;
 
 public class SpellBook 
 {
-	private List<Card> spell_list = new List<Card>();
-	private List<Card> hand;
+	private List<BaseSpell> spell_list = new List<BaseSpell>();
+	private List<BaseSpell> hand = new List<BaseSpell>();
 
-	public void DrawHand()
+    /*
+     * Used once at beginning of battle to set up players hand
+     */
+	public void Draw_Hand()
 	{
-		List<Card> draw_new = new List<Card>();
-		draw_new.Add(spell_list[Random.Range (0, spell_list.Count)]);
-		draw_new.Add(spell_list[Random.Range (0, spell_list.Count)]);
-		hand = draw_new;
+        hand.Add(spell_list[Random.Range(0, spell_list.Count)]);
+        hand.Add(spell_list[Random.Range(0, spell_list.Count)]);
+        hand.Add(spell_list[Random.Range(0, spell_list.Count)]);
+        hand.Add(spell_list[Random.Range(0, spell_list.Count)]);
 	}
 
-	public void AddSpell(Card c)
+    public void Draw_For_Turn()
+    {
+        hand.Add(spell_list[Random.Range(0, spell_list.Count)]);
+        hand.Add(spell_list[Random.Range(0, spell_list.Count)]);
+    }
+
+    public void Discard(BaseSpell s)
+    {
+        hand.Remove(s);
+    }
+
+    public void Discard(int index)
+    {
+        hand.RemoveAt(index);
+    }
+
+	public void Add_Spell(BaseSpell s)
 	{
-		spell_list.Add(c);
+		spell_list.Add(s);
 	}
 
-	public List<Card> Hand 
+	public List<BaseSpell> Hand 
 	{
 		get { return hand; } 
-		set { hand = value;}
 	}
 
-    public List<Card> Spell_List
+    public List<BaseSpell> Spell_List
     {
         get { return spell_list; }
     }

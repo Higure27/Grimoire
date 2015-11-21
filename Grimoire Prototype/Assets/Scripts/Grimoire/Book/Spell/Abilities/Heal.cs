@@ -1,19 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Heal : BaseAbility 
+public class Heal : Ability
 {
-	public void DoAbility(Summon p1, out int damage, out int block, out int heal, out int poison, out int burn, out int paralyze)
+    public SpellResults Do_Ability(Summon s)
     {
-		heal = p1.Base_Health/10 + Random.Range(5, 11);
-		if(p1.Defense_Boost)
-		{
-            heal += Random.Range(10, 21);
-		}
-        damage = 0;
-        block = 0;
-        poison = 0;
-        burn = 0;
-        paralyze = 0;
-	}
+        int heal = s.Base_Health / 10 + Random.Range(0, 11);
+        return new SpellResults(0, 0, heal, 0, 0, 0);
+    }
 }

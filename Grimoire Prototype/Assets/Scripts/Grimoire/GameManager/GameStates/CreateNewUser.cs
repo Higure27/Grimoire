@@ -16,10 +16,6 @@ public class CreateNewUser : MonoBehaviour
     public GameObject golem_toggle;
     public GameObject create_button;
 
-    //private SpellBook DarkStarter;
-    //private SpellBook LightStarter;
-    //private SpellBook FireStarter;
-    //private SpellBook EarthStarter;
     private SpellBook starter_book;
     private SpellInventory starter_inventory;
     private Summon starter_summon;
@@ -31,10 +27,6 @@ public class CreateNewUser : MonoBehaviour
         Setup_Starter_Books();
         starter_inventory = new SpellInventory();
         Setup_Starter_Inventory();
-        //DarkStarter = new SpellBook();
-        //LightStarter = new SpellBook();
-        //FireStarter = new SpellBook();
-        //EarthStarter = new SpellBook();
         warning_font_size = (int)(Screen.width * 0.014f);
         font_size = (int)(Screen.width * 0.02f);
         character_name_field.GetComponentsInChildren<Text>()[0].fontSize = font_size;
@@ -51,34 +43,34 @@ public class CreateNewUser : MonoBehaviour
 
     private void Setup_Starter_Inventory()
     {
-        starter_inventory.AddSpell(new VampireSlash());
-        starter_inventory.AddSpell(new VampireSlash());
-        starter_inventory.AddSpell(new VampiricShield());
-        starter_inventory.AddSpell(new VampiricShield());
+        starter_inventory.Add_Spell(new DarkStrike());
+        starter_inventory.Add_Spell(new DarkStrike());
+        starter_inventory.Add_Spell(new FireStrike());
+        starter_inventory.Add_Spell(new FireStrike());
     }
 
     private void Setup_Starter_Books()
     {
-        starter_book.AddSpell(new BurnAttack());
-        starter_book.AddSpell(new BurnAttack());
-        starter_book.AddSpell(new VampireSlash());
-        starter_book.AddSpell(new VampireSlash());
-        starter_book.AddSpell(new ParalyzingGrasp());
-        starter_book.AddSpell(new ParalyzingGrasp());
-        starter_book.AddSpell(new PoisonAttack());
-        starter_book.AddSpell(new PoisonAttack());
-        starter_book.AddSpell(new DragonBite());
-        starter_book.AddSpell(new DragonBite());
-        starter_book.AddSpell(new BurningShield());
-        starter_book.AddSpell(new BurningShield());
-        starter_book.AddSpell(new GlaringShield());
-        starter_book.AddSpell(new GlaringShield());
-        starter_book.AddSpell(new HealSelf());
-        starter_book.AddSpell(new HealSelf());
-        starter_book.AddSpell(new VampiricShield());
-        starter_book.AddSpell(new VampiricShield());
-        starter_book.AddSpell(new CureSelf());
-        starter_book.AddSpell(new CureSelf());
+        starter_book.Add_Spell(new FireStrike());
+        starter_book.Add_Spell(new FireStrike());
+        starter_book.Add_Spell(new LightStrike());
+        starter_book.Add_Spell(new LightStrike());
+        starter_book.Add_Spell(new PoisonStrike());
+        starter_book.Add_Spell(new PoisonStrike ());
+        starter_book.Add_Spell(new QuickStrike());
+        starter_book.Add_Spell(new QuickStrike());
+        starter_book.Add_Spell(new DarkShield());
+        starter_book.Add_Spell(new DarkShield());
+        starter_book.Add_Spell(new FireShield());
+        starter_book.Add_Spell(new FireShield());
+        starter_book.Add_Spell(new HardShield());
+        starter_book.Add_Spell(new HardShield());
+        starter_book.Add_Spell(new StunShield());
+        starter_book.Add_Spell(new StunShield());
+        starter_book.Add_Spell(new DarkAffliction());
+        starter_book.Add_Spell(new DarkAffliction());
+        starter_book.Add_Spell(new FireAffliction());
+        starter_book.Add_Spell(new FireAffliction());
     }
 
 

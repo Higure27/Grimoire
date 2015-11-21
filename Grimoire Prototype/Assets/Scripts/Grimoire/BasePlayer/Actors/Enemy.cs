@@ -4,8 +4,8 @@ using System.Collections.Generic;
 
 public class Enemy : BasePlayer 
 {
-	private List<Card> attack_spells;
-	private List<Card> defense_spells;
+	private List<BaseSpell> attack_spells;
+	private List<BaseSpell> defense_spells;
 
 	public Enemy()
 	{
@@ -16,26 +16,26 @@ public class Enemy : BasePlayer
 		// instead of having a spell book I want the enemy
 		// to have 2 different lists of spells 
 		// Attack spells and defense spells
-		attack_spells = new List<Card>();
-		attack_spells.Add (new BurnAttack());
-		attack_spells.Add (new BurnAttack());
-		attack_spells.Add (new DragonBite());
-		attack_spells.Add (new DragonBite());
-		attack_spells.Add (new VampireSlash());
-		attack_spells.Add (new ParalyzingGrasp());
+		attack_spells = new List<BaseSpell>();
+		attack_spells.Add (new FireStrike());
+		attack_spells.Add (new FireStrike());
+		attack_spells.Add (new PoisonStrike());
+		attack_spells.Add (new PoisonStrike());
+		attack_spells.Add (new DarkStrike());
+		attack_spells.Add (new DarkStrike());
 
-		defense_spells = new List<Card>();
-		defense_spells.Add (new BurningShield());
-		defense_spells.Add (new BurningShield());
-		defense_spells.Add (new HealSelf());
-		defense_spells.Add (new CureSelf());
+		defense_spells = new List<BaseSpell>();
+		defense_spells.Add (new PoisonShield());
+		defense_spells.Add (new PoisonShield());
+		defense_spells.Add (new FireShield());
+		defense_spells.Add (new FireShield());
 	}
 
-	public List<Card> Attack_Spells 
+	public List<BaseSpell> Attack_Spells 
 	{
 		get { return attack_spells; }
 	}
-	public List<Card> Defense_Spells 
+	public List<BaseSpell> Defense_Spells 
 	{
 		get { return defense_spells; }
 	}

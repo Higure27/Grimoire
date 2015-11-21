@@ -1,0 +1,509 @@
+﻿using UnityEngine;
+using System.Collections;
+using UnityEngine.UI;
+using System.Collections.Generic;
+using System.Threading;
+using System;
+
+public class BattleManager : MonoBehaviour
+{
+    public enum BattleStates
+    {
+        START,
+        BEGIN,
+        PLAYERCHOICE,
+        ENEMYCHOICE,
+        RESULTS,
+        RESET,
+        LOSE,
+        WIN,
+        TIE
+    }
+
+    public BasePlayer player, enemy;
+    public BattleStates current_state;
+
+    // Complete each stage one time
+    private bool drew_for_turn;
+    private bool set_up_turn;
+
+    private bool start_phase;
+    private bool begin_phase;
+    private bool player_phase;
+    private bool enemy_phase;
+    private bool results_phase;
+    private bool lose_phase;
+    private bool win_phase;
+    private bool tie_phase;
+
+    // Selected Spells
+    private BaseSpell player_choice;
+    private BaseSpell enemy_choice;
+    private bool player_made_choice;
+    private List<int> remove_indexs;
+
+    // Battle UI Elements
+    public GameObject spell_1;
+    public GameObject spell_2;
+    public GameObject spell_3;
+    public GameObject spell_4;
+
+    public GameObject player_hp_text;
+    public GameObject enemy_hp_text;
+    public GameObject player_hp_bar;
+    public GameObject enemy_hp_bar;
+
+    public GameObject left_log;
+    public GameObject poison_dmg;
+    public GameObject burn_dmg;
+    public GameObject paralyze_dmg;
+    private static UnityEngine.Color green;
+    private static UnityEngine.Color red;
+    private bool green_success = UnityEngine.Color.TryParseHexString("00D60063", out green);
+    private bool red_success = UnityEngine.Color.TryParseHexString("FF000063", out red);
+    // Effect Icons
+    public Sprite burn;
+    public Sprite vampire;
+    public Sprite heal;
+    public Sprite poison;
+    public Sprite cure;
+    public Sprite paralyze;
+
+	// Use this for initialization
+	void Start ()
+    {
+        //Temporary summon to test with
+        player = new BasePlayer();
+        player.Player_Name = "Fred";
+        player.Players_Summon = new Summon("Paladin", 1, 0, 50, 3, 3, Summon.Type.LIGHT);
+        player.Player_Spell_Book = new SpellBook();
+        player.Player_Spell_Book.Add_Spell(new DarkStrike());
+        player.Player_Spell_Book.Add_Spell(new FireStrike());
+        player.Player_Spell_Book.Add_Spell(new LightAffliction());
+        player.Player_Spell_Book.Add_Spell(new DarkAffliction());
+        player.Player_Spell_Book.Add_Spell(new FireShield());
+        player.Player_Spell_Book.Add_Spell(new FireAffliction());
+        player.Player_Spell_Book.Add_Spell(new LightStrike());
+
+        enemy = new BasePlayer();
+        enemy.Player_Name = "Hank";
+        enemy.Players_Summon = new Summon("Vampire", 1, 0, 60, 2, 2, Summon.Type.DARK);
+        enemy.Player_Spell_Book = new SpellBook();
+        enemy.Player_Spell_Book.Add_Spell(new FireStrike());
+        enemy.Player_Spell_Book.Add_Spell(new FireStrike());
+        enemy.Player_Spell_Book.Add_Spell(new FireStrike());
+        enemy.Player_Spell_Book.Add_Spell(new FireStrike());
+        enemy.Player_Spell_Book.Add_Spell(new FireStrike());
+        enemy.Player_Spell_Book.Add_Spell(new FireStrike());
+        enemy.Player_Spell_Book.Add_Spell(new FireStrike());
+
+        current_state = BattleStates.START;
+        drew_for_turn = true;
+        set_up_turn = false;
+        player_made_choice = false;
+
+        start_phase = false;
+        begin_phase = false;
+        player_phase = false;
+    }
+	
+	// Update is called once per frame
+	void Update ()
+    {
+	    switch (current_state)
+        {
+            case BattleStates.START:
+                if (!start_phase)
+                {
+                    start_phase = true;
+                    // Opening animation
+                    // Player draws opening hand
+                    player.Player_Spell_Book.Draw_Hand();
+                    enemy.Player_Spell_Book.Draw_Hand();
+                    // Display information to player
+                    Display_Spells();
+                    current_state = BattleStates.BEGIN;
+                }
+                break;
+            case BattleStates.BEGIN:
+                if (!begin_phase)
+                {
+                    begin_phase = true;
+                    player.Players_Summon.Poison = 10;
+                    set_up_turn = true;
+                    player_choice = null;
+                    enemy_choice = null;
+                    player_made_choice = false;
+                    remove_indexs = new List<int>();
+                    poison_dmg.GetComponentInChildren<Text>().text = "Poison: " + Poisoned(player);
+                    Poisoned(enemy);
+                    burn_dmg.GetComponentInChildren<Text>().text = "Burn: " + Burned(player);
+                    Burned(enemy);
+                    Display_Results();
+                    if (enemy.Players_Summon.Health == 0 && player.Players_Summon.Health == 0)
+                    {
+                        Disable_Spells();
+                        current_state = BattleStates.TIE;
+                        break;
+                    }
+                    else if (enemy.Players_Summon.Health == 0)
+                    {
+                        Disable_Spells();
+                        current_state = BattleStates.LOSE;
+                        break;
+                    }
+                    else if (player.Players_Summon.Health == 0)
+                    {
+                        Disable_Spells();
+                        current_state = BattleStates.LOSE;
+                        break;
+                    }
+                    Thread.Sleep(1000);
+                    spell_1.GetComponentsInChildren<Image>()[0].color = UnityEngine.Color.white;
+                    spell_2.GetComponentsInChildren<Image>()[0].color = UnityEngine.Color.white;
+                    spell_3.GetComponentsInChildren<Image>()[0].color = UnityEngine.Color.white;
+                    spell_4.GetComponentsInChildren<Image>()[0].color = UnityEngine.Color.white;
+                    spell_1.GetComponentsInChildren<Button>()[0].interactable = true;
+                    spell_2.GetComponentsInChildren<Button>()[0].interactable = true;
+                    spell_3.GetComponentsInChildren<Button>()[0].interactable = true;
+                    spell_4.GetComponentsInChildren<Button>()[0].interactable = true;
+                    current_state = BattleStates.PLAYERCHOICE;
+                }
+                break;
+            case BattleStates.PLAYERCHOICE:
+                if (!player_phase)
+                {
+                    player_phase = true;
+                    if (Paralyzed(player))
+                    {
+                        if (UnityEngine.Random.Range(0, 101) < 50)
+                        {
+                            //Player is paralyzed message
+                            Debug.Log("Player is paralyzed and can't move");
+                            paralyze_dmg.GetComponentInChildren<Text>().text = "Paralyze: true";
+                            current_state = BattleStates.ENEMYCHOICE;
+                            break;
+                        }
+                    }
+                    paralyze_dmg.GetComponentInChildren<Text>().text = "Paralyze: false";
+                    // Draw for turn         
+                    left_log.GetComponentsInChildren<Text>()[0].text = "Select a spell to cast";
+                    Draw();
+                    Display_Spells();
+                }
+                break;
+            case BattleStates.ENEMYCHOICE:
+                if (!enemy_phase)
+                {
+                    enemy_phase = true;
+                    if (Paralyzed(enemy))
+                    {
+                        if (UnityEngine.Random.Range(0, 101) < 50)
+                        {
+                            current_state = BattleStates.RESULTS;
+                            break;
+                        }
+                    }
+                    enemy_cast();
+                    current_state = BattleStates.RESULTS;
+                }
+                break;
+            case BattleStates.RESULTS:
+                if (!results_phase)
+                {
+                    results_phase = true;
+                    Calculate_Results();
+                    Display_Results();
+                    current_state = BattleStates.RESET;
+                }
+                break;
+            case BattleStates.RESET:
+                begin_phase = false;
+                player_phase = false;
+                enemy_phase = false;
+                results_phase = false;
+                current_state = BattleStates.BEGIN;
+                break;
+            case BattleStates.LOSE:
+                break;
+            case BattleStates.WIN:
+                break;
+            case BattleStates.TIE:
+                break;
+        }
+	}
+
+    /*
+     * Player Helper functions 
+     */
+
+    private void Display_Spells()
+    {
+        List<GameObject> UI_spells = new List<GameObject>();
+        UI_spells.Add(spell_1);
+        UI_spells.Add(spell_2);
+        UI_spells.Add(spell_3);
+        UI_spells.Add(spell_4);
+        int count = 0;
+        foreach(GameObject o in UI_spells)
+        {
+            o.GetComponentsInChildren<Text>()[0].text = player.Player_Spell_Book.Hand[count].Name;
+            o.GetComponentsInChildren<Text>()[1].text = player.Player_Spell_Book.Hand[count].Description;
+            o.GetComponentsInChildren<Text>()[2].text = player.Player_Spell_Book.Hand[count].Strategy.ToString().ToLower();
+            o.GetComponentsInChildren<Text>()[3].text = player.Player_Spell_Book.Hand[count].Cost.ToString();
+            //switch (player.Player_Spell_Book.Hand[count].Type)
+            //{
+            //    case BaseSpell.
+            //}
+            //o.GetComponentsInChildren<Image>()[1].sprite = burn;
+            count++;
+        }
+    }
+
+    public void Select_Spell(string spell)
+    {
+        switch(spell)
+        {
+            case "Spell_1":
+                if(player_made_choice)
+                {
+                    spell_1.GetComponentsInChildren<Image>()[0].color = red;
+                    spell_1.GetComponentsInChildren<Button>()[0].interactable = false;
+                    remove_indexs.Add(0);  
+                    break;
+                }
+                spell_1.GetComponentsInChildren<Image>()[0].color = green;
+                spell_1.GetComponentsInChildren<Button>()[0].interactable = false;
+                left_log.GetComponentsInChildren<Text>()[0].text = "Select a spell to discard";
+                player_choice = player.Player_Spell_Book.Hand[0];
+                remove_indexs.Add(0);
+                break;
+            case "Spell_2":
+                if (player_made_choice)
+                {
+                    spell_2.GetComponentsInChildren<Image>()[0].color = red;
+                    spell_2.GetComponentsInChildren<Button>()[0].interactable = false;
+                    remove_indexs.Add(1);              
+                    break;
+                }
+                spell_2.GetComponentsInChildren<Image>()[0].color = green;
+                spell_2.GetComponentsInChildren<Button>()[0].interactable = false;
+                left_log.GetComponentsInChildren<Text>()[0].text = "Select a spell to discard";
+                player_choice = player.Player_Spell_Book.Hand[1];
+                remove_indexs.Add(1);
+                break;
+            case "Spell_3":
+                if (player_made_choice)
+                {
+                    spell_3.GetComponentsInChildren<Image>()[0].color = red;
+                    spell_3.GetComponentsInChildren<Button>()[0].interactable = false;
+                    remove_indexs.Add(2);
+                    break;
+                }
+                spell_3.GetComponentsInChildren<Image>()[0].color = green;
+                spell_3.GetComponentsInChildren<Button>()[0].interactable = false;
+                left_log.GetComponentsInChildren<Text>()[0].text = "Select a spell to discard";
+                player_choice = player.Player_Spell_Book.Hand[2];
+                remove_indexs.Add(2);
+                break;
+            case "Spell_4":
+                if (player_made_choice)
+                {
+                    spell_4.GetComponentsInChildren<Image>()[0].color = red;
+                    spell_4.GetComponentsInChildren<Button>()[0].interactable = false;
+                    remove_indexs.Add(3);              
+                    break;
+                }
+                spell_4.GetComponentsInChildren<Image>()[0].color = green;
+                spell_4.GetComponentsInChildren<Button>()[0].interactable = false;
+                left_log.GetComponentsInChildren<Text>()[0].text = "Select a spell to discard";
+                player_choice = player.Player_Spell_Book.Hand[3];
+                remove_indexs.Add(3);
+                break;
+        }
+        if(player_made_choice)
+        {
+            remove_indexs.Sort();
+            player.Player_Spell_Book.Discard(remove_indexs[0]);
+            player.Player_Spell_Book.Discard(remove_indexs[1]-1);
+            current_state = BattleStates.ENEMYCHOICE;
+        }
+        player_made_choice = true;
+    }
+
+    /*
+     * Draw two new spells
+     */
+    private void Draw()
+    {
+        player.Player_Spell_Book.Draw_For_Turn();
+    }
+
+
+    /**
+     * Battle Functions
+     *
+     */
+
+    /*
+     * Checks if player is paralyzed
+     */
+    private bool Paralyzed(BasePlayer player)
+    {
+        if (player.Players_Summon.Paralyze > 0)
+        {
+            player.Players_Summon.Paralyze--;
+            return true;
+        }
+        return false;
+    }
+
+    private int Poisoned(BasePlayer player)
+    {
+        if (player.Players_Summon.Poison > 0 && player.Players_Summon.Poison_Count < player.Players_Summon.Poison)
+        {
+            player.Players_Summon.Poison_Count++;
+            //int damage = GetNthFibonacci_Rec(player.Players_Summon.Poison_Count + player.Players_Summon.Stage);
+            int damage = 2 + player.Players_Summon.Poison_Count;
+            player.Players_Summon.Health = ((player.Players_Summon.Health - damage) < 0) ? 0 : player.Players_Summon.Health - damage;
+            if(player.Players_Summon.Poison_Count > player.Players_Summon.Poison)
+            {
+                player.Players_Summon.Poison = 0;
+                player.Players_Summon.Poison_Count = 0;
+            }
+            Debug.Log(player.Players_Summon.Name + " Poison Damage: " + damage);
+            return damage;
+        }
+        return 0;
+    }
+
+    private int Burned(BasePlayer player)
+    {
+        if (player.Players_Summon.Burn > 0)
+        {
+            int damage = 5 * player.Players_Summon.Stage;
+            player.Players_Summon.Health = ((player.Players_Summon.Health - damage) < 0) ? 0 : player.Players_Summon.Health - damage;
+            player.Players_Summon.Burn--;
+            return damage;
+        }
+        return 0;
+    }
+
+    private static int GetNthFibonacci_Rec(int n)
+    {
+        if ((n == 0) || (n == 1))
+        {
+            return n;
+        }
+        else
+            return GetNthFibonacci_Rec(n - 1) + GetNthFibonacci_Rec(n - 2);
+    }
+
+    private void Calculate_Results()
+    {
+        SpellResults player_results;
+        SpellResults enemy_results;
+        if(player_choice == null)
+        {
+            player_results = new SpellResults(0, 0, 0, 0, 0, 0);
+        }
+        else
+        {
+            player_choice.Cast_Spell(player.Players_Summon);
+            player_results = player_choice.Results;
+        }
+        if(enemy_choice == null)
+        {
+            enemy_results = new SpellResults(0, 0, 0, 0, 0, 0);
+        }
+        else
+        {
+            enemy_choice.Cast_Spell(enemy.Players_Summon);
+            enemy_results = enemy_choice.Results;
+        }
+        int player_damaged = (player_results.Block > enemy_results.Damage) ? 0 : (enemy_results.Damage - player_results.Block);
+        int enemy_damaged = (enemy_results.Block > player_results.Damage) ? 0 : (player_results.Damage - enemy_results.Block);
+        int player_burned = (enemy_results.Burn > player.Players_Summon.Burn) ? enemy_results.Burn : player.Players_Summon.Burn;
+        int enemy_burned = (player_results.Burn > enemy.Players_Summon.Burn) ? player_results.Burn : player.Players_Summon.Burn;
+        int player_poisoned = (enemy_results.Poison > player.Players_Summon.Poison) ? enemy_results.Poison : player.Players_Summon.Poison;
+        int enemy_poisoned = (player_results.Poison > enemy.Players_Summon.Poison) ? player_results.Poison : player.Players_Summon.Poison;
+        int player_paralyzed = (enemy_results.Paralyze > player.Players_Summon.Paralyze) ? enemy_results.Paralyze : player.Players_Summon.Paralyze;
+        int enemy_paralyzed = (player_results.Paralyze > enemy.Players_Summon.Paralyze) ? player_results.Paralyze : player.Players_Summon.Paralyze;
+
+
+        player.Players_Summon.Health = ((player.Players_Summon.Health - player_damaged) < 0) ? 0 : (player.Players_Summon.Health - player_damaged);
+        enemy.Players_Summon.Health = ((enemy.Players_Summon.Health - enemy_damaged) < 0) ? 0 : (enemy.Players_Summon.Health - enemy_damaged);
+        player.Players_Summon.Burn = player_burned;
+        enemy.Players_Summon.Burn = enemy_burned;
+        player.Players_Summon.Poison = player_poisoned;
+        enemy.Players_Summon.Poison = enemy_poisoned;
+        player.Players_Summon.Paralyze = player_paralyzed;
+        enemy.Players_Summon.Paralyze = enemy_paralyzed;
+        player.Players_Summon.Health = (player.Players_Summon.Base_Health < (player_results.Heal + player.Players_Summon.Health)) ? player.Players_Summon.Base_Health : (player_results.Heal + player.Players_Summon.Health);
+        enemy.Players_Summon.Health = (enemy.Players_Summon.Base_Health < (enemy_results.Heal + enemy.Players_Summon.Health)) ? enemy.Players_Summon.Base_Health : (enemy_results.Heal + enemy.Players_Summon.Health);
+
+        if(enemy.Players_Summon.Health == 0 && player.Players_Summon.Health == 0)
+        {
+            Disable_Spells();
+            current_state = BattleStates.TIE;
+        }
+        else if(enemy.Players_Summon.Health == 0)
+        {
+            Disable_Spells();
+            current_state = BattleStates.LOSE;
+        }
+        else if(player.Players_Summon.Health == 0)
+        {
+            Disable_Spells();
+            current_state = BattleStates.LOSE;
+        }
+    }
+
+    private void Display_Results()
+    {
+        player_hp_text.GetComponent<Text>().text = player.Players_Summon.Health.ToString();
+        enemy_hp_text.GetComponent<Text>().text = enemy.Players_Summon.Health.ToString();
+
+        double php = 267 - (267.0) * ((double)player.Players_Summon.Health / (double)player.Players_Summon.Base_Health);
+        double ehp = 267 - (267.0) * ((double)enemy.Players_Summon.Health / (double)enemy.Players_Summon.Base_Health);
+        player_hp_bar.GetComponent<Image>().rectTransform.sizeDelta = new Vector2(0, -(float)php);
+        enemy_hp_bar.GetComponent<Image>().rectTransform.sizeDelta = new Vector2(0, -(float)ehp);
+    }
+
+    private void Disable_Spells()
+    {
+        spell_1.SetActive(false);
+        spell_2.SetActive(false);
+        spell_3.SetActive(false);
+        spell_4.SetActive(false);
+    }
+
+    /*
+     * Dumb AI
+     */
+    private void enemy_cast()
+    {
+        int r = UnityEngine.Random.Range(0, 101);
+        if(r <= 25)
+        {
+            enemy_choice = enemy.Player_Spell_Book.Hand[0];
+        }
+        else if (r <= 50)
+        {
+            enemy_choice = enemy.Player_Spell_Book.Hand[1];
+        }
+        else if (r <= 75)
+        {
+            enemy_choice = enemy.Player_Spell_Book.Hand[2];
+        }
+        else
+        {
+            enemy_choice = enemy.Player_Spell_Book.Hand[3];
+        }
+        enemy.Player_Spell_Book.Discard(0);
+        enemy.Player_Spell_Book.Discard(0);
+
+        enemy.Player_Spell_Book.Draw_For_Turn();
+    }
+    
+}
