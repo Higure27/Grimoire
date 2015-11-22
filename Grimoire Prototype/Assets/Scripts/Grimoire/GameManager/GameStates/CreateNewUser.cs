@@ -78,19 +78,19 @@ public class CreateNewUser : MonoBehaviour
     {
         if(vampire_toggle.GetComponent<Toggle>().isOn)
         {
-            starter_summon = new Summon("Vampire", 1, 0, 100, 15, 10, Summon.Type.DARK);
+            starter_summon = new Summon("Vampire", 1, 0, 60, 3, 3, Summon.Type.DARK);
         }
         else if (paladin_toggle.GetComponent<Toggle>().isOn)
         {
-            starter_summon = new Summon("Paladin", 1, 0, 100, 10, 15, Summon.Type.LIGHT);
+            starter_summon = new Summon("Paladin", 1, 0, 50, 4, 4, Summon.Type.LIGHT);
         }
         else if (phoenix_toggle.GetComponent<Toggle>().isOn)
         {
-            starter_summon = new Summon("Phoenix", 1, 0, 80, 20, 10, Summon.Type.FIRE);
+            starter_summon = new Summon("Phoenix", 1, 0, 40, 6, 3, Summon.Type.FIRE);
         }
         else if (golem_toggle.GetComponent<Toggle>().isOn)
         {
-            starter_summon = new Summon("Golem", 1, 0, 120, 10, 20, Summon.Type.EARTH);
+            starter_summon = new Summon("Golem", 1, 0, 40, 3, 6, Summon.Type.EARTH);
         }
     }
 

@@ -1,74 +1,11 @@
 <Summon_Database>
-  <Summon id="lemon">
+  <Summon id="tandy">
     <name>Vampire</name>
     <level>1</level>
-    <class>LIGHT</class>
+    <class>DARK</class>
     <strength>15</strength>
     <defense>10</defense>
     <health>100</health>
-    <current_exp>0</current_exp>
-  </Summon>
-  <Summon id="test1">
-    <name>Phoenix</name>
-    <level>1</level>
-    <class>LIGHT</class>
-    <strength>20</strength>
-    <defense>10</defense>
-    <health>100</health>
-    <current_exp>0</current_exp>
-  </Summon>
-  <Summon id="test2">
-    <name>Golem</name>
-    <level>1</level>
-    <class>LIGHT</class>
-    <strength>5</strength>
-    <defense>20</defense>
-    <health>120</health>
-    <current_exp>0</current_exp>
-  </Summon>
-  <Summon id="phoenixtest">
-    <name>Phoenix</name>
-    <level>1</level>
-    <class>LIGHT</class>
-    <strength>20</strength>
-    <defense>10</defense>
-    <health>100</health>
-    <current_exp>0</current_exp>
-  </Summon>
-  <Summon id="snail">
-    <name>Golem</name>
-    <level>1</level>
-    <class>LIGHT</class>
-    <strength>5</strength>
-    <defense>20</defense>
-    <health>120</health>
-    <current_exp>0</current_exp>
-  </Summon>
-  <Summon id="goingtopwnu">
-    <name>Phoenix</name>
-    <level>1</level>
-    <class>LIGHT</class>
-    <strength>20</strength>
-    <defense>10</defense>
-    <health>100</health>
-    <current_exp>0</current_exp>
-  </Summon>
-  <Summon id="bad">
-    <name>Golem</name>
-    <level>1</level>
-    <class>LIGHT</class>
-    <strength>5</strength>
-    <defense>20</defense>
-    <health>100</health>
-    <current_exp>0</current_exp>
-  </Summon>
-  <Summon id="lula">
-    <name>Phoenix</name>
-    <level>1</level>
-    <class>LIGHT</class>
-    <strength>20</strength>
-    <defense>10</defense>
-    <health>80</health>
     <current_exp>0</current_exp>
   </Summon>
 </Summon_Database>

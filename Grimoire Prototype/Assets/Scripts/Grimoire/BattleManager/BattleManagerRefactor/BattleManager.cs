@@ -23,10 +23,12 @@ public class BattleManager : MonoBehaviour
     public BasePlayer player, enemy;
     public BattleStates current_state;
 
-    // Complete each stage one time
-    private bool drew_for_turn;
-    private bool set_up_turn;
+    // Finisher Spells
+    private BaseSpell combo_finisher_spell;
+    private BaseSpell reflect_finisher_spell;
+    private BaseSpell affliction_finisher_spell;
 
+    // Complete each stage one time
     private bool start_phase;
     private bool begin_phase;
     private bool player_phase;
@@ -47,6 +49,14 @@ public class BattleManager : MonoBehaviour
     public GameObject spell_2;
     public GameObject spell_3;
     public GameObject spell_4;
+    private Vector2 position_1;
+    private Vector2 position_2;
+    private Vector2 position_3;
+    private Vector2 position_4;
+    private Vector2 off_screen;
+    public GameObject combo_finisher;
+    public GameObject reflect_finisher;
+    public GameObject affliction_finisher;
 
     public GameObject player_hp_text;
     public GameObject enemy_hp_text;
@@ -61,6 +71,10 @@ public class BattleManager : MonoBehaviour
     private static UnityEngine.Color red;
     private bool green_success = UnityEngine.Color.TryParseHexString("00D60063", out green);
     private bool red_success = UnityEngine.Color.TryParseHexString("FF000063", out red);
+
+    public GameObject finish_window;
+    private Vector2 finish_window_position;
+
     // Effect Icons
     public Sprite burn;
     public Sprite vampire;
@@ -72,39 +86,46 @@ public class BattleManager : MonoBehaviour
 	// Use this for initialization
 	void Start ()
     {
-        //Temporary summon to test with
-        player = new BasePlayer();
-        player.Player_Name = "Fred";
-        player.Players_Summon = new Summon("Paladin", 1, 0, 50, 3, 3, Summon.Type.LIGHT);
-        player.Player_Spell_Book = new SpellBook();
-        player.Player_Spell_Book.Add_Spell(new DarkStrike());
-        player.Player_Spell_Book.Add_Spell(new FireStrike());
-        player.Player_Spell_Book.Add_Spell(new LightAffliction());
-        player.Player_Spell_Book.Add_Spell(new DarkAffliction());
-        player.Player_Spell_Book.Add_Spell(new FireShield());
-        player.Player_Spell_Book.Add_Spell(new FireAffliction());
-        player.Player_Spell_Book.Add_Spell(new LightStrike());
+        player = GameManager.instance.player;
+        Load_Random_Enemy();
 
-        enemy = new BasePlayer();
-        enemy.Player_Name = "Hank";
-        enemy.Players_Summon = new Summon("Vampire", 1, 0, 60, 2, 2, Summon.Type.DARK);
-        enemy.Player_Spell_Book = new SpellBook();
-        enemy.Player_Spell_Book.Add_Spell(new FireStrike());
-        enemy.Player_Spell_Book.Add_Spell(new FireStrike());
-        enemy.Player_Spell_Book.Add_Spell(new FireStrike());
-        enemy.Player_Spell_Book.Add_Spell(new FireStrike());
-        enemy.Player_Spell_Book.Add_Spell(new FireStrike());
-        enemy.Player_Spell_Book.Add_Spell(new FireStrike());
-        enemy.Player_Spell_Book.Add_Spell(new FireStrike());
-
-        current_state = BattleStates.START;
-        drew_for_turn = true;
-        set_up_turn = false;
         player_made_choice = false;
-
         start_phase = false;
         begin_phase = false;
         player_phase = false;
+        lose_phase = false;
+        win_phase = false;
+        tie_phase = false;
+
+        position_1 = spell_1.transform.localPosition;
+        position_2 = spell_2.transform.localPosition;
+        position_3 = spell_3.transform.localPosition;
+        position_4 = spell_4.transform.localPosition;
+        finish_window_position = finish_window.transform.localPosition;
+        off_screen = new Vector2(1000, 1000);
+
+        Setup_Finishers();
+        Setup_Spell_Font();
+        player_hp_text.GetComponent<Text>().fontSize = (int)(Screen.width * 0.014f);
+        enemy_hp_text.GetComponent<Text>().fontSize = (int)(Screen.width * 0.014f);
+        left_log.GetComponent<Text>().fontSize = (int)(Screen.width * 0.012f);
+        poison_dmg.GetComponent<Text>().fontSize = (int)(Screen.width * 0.012f);
+        burn_dmg.GetComponent<Text>().fontSize = (int)(Screen.width * 0.012f); 
+        paralyze_dmg.GetComponent<Text>().fontSize = (int)(Screen.width * 0.012f);
+        finish_window.GetComponentsInChildren<Text>()[0].fontSize = (int)(Screen.width * 0.024f);
+        finish_window.GetComponentsInChildren<Text>()[1].fontSize = (int)(Screen.width * 0.016f);
+        finish_window.GetComponentsInChildren<Text>()[2].fontSize = (int)(Screen.width * 0.016f);
+        finish_window.GetComponentsInChildren<Text>()[3].fontSize = (int)(Screen.width * 0.016f);
+        finish_window.GetComponentsInChildren<Text>()[4].fontSize = (int)(Screen.width * 0.016f);
+        finish_window.GetComponentsInChildren<Text>()[5].fontSize = (int)(Screen.width * 0.016f);
+
+        finish_window.transform.localPosition = off_screen;
+        Disable_Finishers();
+        combo_finisher_spell = new FinalStrike();
+        reflect_finisher_spell = new DamageReflection();
+        affliction_finisher_spell = new GreatAffliction();
+
+        current_state = BattleStates.START;
     }
 	
 	// Update is called once per frame
@@ -122,6 +143,7 @@ public class BattleManager : MonoBehaviour
                     enemy.Player_Spell_Book.Draw_Hand();
                     // Display information to player
                     Display_Spells();
+
                     current_state = BattleStates.BEGIN;
                 }
                 break;
@@ -129,8 +151,7 @@ public class BattleManager : MonoBehaviour
                 if (!begin_phase)
                 {
                     begin_phase = true;
-                    player.Players_Summon.Poison = 10;
-                    set_up_turn = true;
+                    //player.Players_Summon.Paralyze = 10;
                     player_choice = null;
                     enemy_choice = null;
                     player_made_choice = false;
@@ -140,21 +161,24 @@ public class BattleManager : MonoBehaviour
                     burn_dmg.GetComponentInChildren<Text>().text = "Burn: " + Burned(player);
                     Burned(enemy);
                     Display_Results();
-                    if (enemy.Players_Summon.Health == 0 && player.Players_Summon.Health == 0)
+                    if (enemy.Players_Summon.Health <= 0 && player.Players_Summon.Health <= 0)
                     {
                         Disable_Spells();
+                        Disable_Finishers();
                         current_state = BattleStates.TIE;
                         break;
                     }
-                    else if (enemy.Players_Summon.Health == 0)
+                    else if (enemy.Players_Summon.Health <= 0)
                     {
                         Disable_Spells();
-                        current_state = BattleStates.LOSE;
+                        Disable_Finishers();
+                        current_state = BattleStates.WIN;
                         break;
                     }
-                    else if (player.Players_Summon.Health == 0)
+                    else if (player.Players_Summon.Health <= 0)
                     {
                         Disable_Spells();
+                        Disable_Finishers();
                         current_state = BattleStates.LOSE;
                         break;
                     }
@@ -181,6 +205,7 @@ public class BattleManager : MonoBehaviour
                             //Player is paralyzed message
                             Debug.Log("Player is paralyzed and can't move");
                             paralyze_dmg.GetComponentInChildren<Text>().text = "Paralyze: true";
+                            //Thread.Sleep(2000);
                             current_state = BattleStates.ENEMYCHOICE;
                             break;
                         }
@@ -225,10 +250,25 @@ public class BattleManager : MonoBehaviour
                 current_state = BattleStates.BEGIN;
                 break;
             case BattleStates.LOSE:
+                if (!lose_phase)
+                {
+                    lose_phase = true;
+                    Lose_Popup();         
+                }
                 break;
             case BattleStates.WIN:
+                if (!win_phase)
+                {
+                    win_phase = true;
+                    Win_Popup();
+                }
                 break;
             case BattleStates.TIE:
+                if (tie_phase)
+                {
+                    tie_phase = true;
+                    Tie_Popup();
+                }
                 break;
         }
 	}
@@ -258,6 +298,55 @@ public class BattleManager : MonoBehaviour
             //o.GetComponentsInChildren<Image>()[1].sprite = burn;
             count++;
         }
+    }
+
+    private void Setup_Spell_Font()
+    {
+        List<GameObject> UI_spells = new List<GameObject>();
+        UI_spells.Add(spell_1);
+        UI_spells.Add(spell_2);
+        UI_spells.Add(spell_3);
+        UI_spells.Add(spell_4);
+        int count = 0;
+        foreach (GameObject o in UI_spells)
+        {
+            o.GetComponentsInChildren<Text>()[0].fontSize = (int)(Screen.width * 0.014f);
+            o.GetComponentsInChildren<Text>()[1].fontSize = (int)(Screen.width * 0.01f);
+            o.GetComponentsInChildren<Text>()[2].fontSize = (int)(Screen.width * 0.012f);
+            o.GetComponentsInChildren<Text>()[3].fontSize = (int)(Screen.width * 0.012f);
+            count++;
+        }
+    }
+
+    public void Toggle_Page()
+    {
+        if(spell_1.activeSelf)
+        {
+            Disable_Spells();
+            Enable_Finishers();
+        }
+        else
+        {
+            Enable_Spells();
+            Disable_Finishers();
+        }
+    }
+
+    public void Select_Finisher(string spell)
+    {
+        switch(spell)
+        {
+            case "combo":
+                player_choice = combo_finisher_spell;
+                break;
+            case "reflect":
+                player_choice = reflect_finisher_spell;
+                break;
+            case "affliction":
+                player_choice = affliction_finisher_spell;
+                break;
+        }
+        current_state = BattleStates.ENEMYCHOICE;
     }
 
     public void Select_Spell(string spell)
@@ -330,6 +419,7 @@ public class BattleManager : MonoBehaviour
         }
         player_made_choice = true;
     }
+
 
     /*
      * Draw two new spells
@@ -421,6 +511,9 @@ public class BattleManager : MonoBehaviour
             enemy_choice.Cast_Spell(enemy.Players_Summon);
             enemy_results = enemy_choice.Results;
         }
+
+        Increment_Combo();
+
         int player_damaged = (player_results.Block > enemy_results.Damage) ? 0 : (enemy_results.Damage - player_results.Block);
         int enemy_damaged = (enemy_results.Block > player_results.Damage) ? 0 : (player_results.Damage - enemy_results.Block);
         int player_burned = (enemy_results.Burn > player.Players_Summon.Burn) ? enemy_results.Burn : player.Players_Summon.Burn;
@@ -429,7 +522,6 @@ public class BattleManager : MonoBehaviour
         int enemy_poisoned = (player_results.Poison > enemy.Players_Summon.Poison) ? player_results.Poison : player.Players_Summon.Poison;
         int player_paralyzed = (enemy_results.Paralyze > player.Players_Summon.Paralyze) ? enemy_results.Paralyze : player.Players_Summon.Paralyze;
         int enemy_paralyzed = (player_results.Paralyze > enemy.Players_Summon.Paralyze) ? player_results.Paralyze : player.Players_Summon.Paralyze;
-
 
         player.Players_Summon.Health = ((player.Players_Summon.Health - player_damaged) < 0) ? 0 : (player.Players_Summon.Health - player_damaged);
         enemy.Players_Summon.Health = ((enemy.Players_Summon.Health - enemy_damaged) < 0) ? 0 : (enemy.Players_Summon.Health - enemy_damaged);
@@ -442,20 +534,74 @@ public class BattleManager : MonoBehaviour
         player.Players_Summon.Health = (player.Players_Summon.Base_Health < (player_results.Heal + player.Players_Summon.Health)) ? player.Players_Summon.Base_Health : (player_results.Heal + player.Players_Summon.Health);
         enemy.Players_Summon.Health = (enemy.Players_Summon.Base_Health < (enemy_results.Heal + enemy.Players_Summon.Health)) ? enemy.Players_Summon.Base_Health : (enemy_results.Heal + enemy.Players_Summon.Health);
 
-        if(enemy.Players_Summon.Health == 0 && player.Players_Summon.Health == 0)
+        if(enemy.Players_Summon.Health <= 0 && player.Players_Summon.Health <= 0)
         {
             Disable_Spells();
+            Disable_Finishers();
             current_state = BattleStates.TIE;
         }
-        else if(enemy.Players_Summon.Health == 0)
+        else if(enemy.Players_Summon.Health <= 0)
         {
             Disable_Spells();
+            Disable_Finishers();
+            current_state = BattleStates.WIN;
+        }
+        else if(player.Players_Summon.Health <= 0)
+        {
+            Disable_Spells();
+            Disable_Finishers();
             current_state = BattleStates.LOSE;
         }
-        else if(player.Players_Summon.Health == 0)
+    }
+
+    private void Increment_Combo()
+    {
+        if(player_choice == null)
         {
-            Disable_Spells();
-            current_state = BattleStates.LOSE;
+            player.Players_Summon.Combo = 0;
+            player.Players_Summon.Reflect = 0;
+            player.Players_Summon.Curse = 0;
+            affliction_finisher.GetComponentsInChildren<Text>()[3].text = player.Players_Summon.Combo.ToString();
+            combo_finisher.GetComponentsInChildren<Text>()[3].text = player.Players_Summon.Combo.ToString();
+            reflect_finisher.GetComponentsInChildren<Text>()[3].text = player.Players_Summon.Reflect.ToString();
+            return;
+        }
+        switch (player_choice.Strategy)
+        {
+            case BaseSpell.Spell_Class.MAGE:
+                player.Players_Summon.Combo = 0;
+                player.Players_Summon.Curse++;
+                combo_finisher.GetComponentsInChildren<Text>()[3].text = player.Players_Summon.Combo.ToString();
+                affliction_finisher.GetComponentsInChildren<Text>()[3].text = player.Players_Summon.Combo.ToString();
+                break;
+            case BaseSpell.Spell_Class.ROGUE:
+                player.Players_Summon.Combo++;
+                combo_finisher.GetComponentsInChildren<Text>()[3].text = player.Players_Summon.Combo.ToString();
+                break;
+            case BaseSpell.Spell_Class.WARRIOR:
+                int blocked = 0;
+                if(enemy_choice.Results.Damage > 0)
+                {
+                    if(player_choice.Results.Block < enemy_choice.Results.Damage)
+                    {
+                        blocked = player_choice.Results.Block;
+                    }
+                    else
+                    {
+                        blocked = enemy_choice.Results.Damage;
+                    }
+                }
+                player.Players_Summon.Reflect += blocked;
+                reflect_finisher.GetComponentsInChildren<Text>()[3].text = player.Players_Summon.Reflect.ToString();
+                break;
+            case BaseSpell.Spell_Class.NONE:
+                player.Players_Summon.Combo = 0;
+                player.Players_Summon.Reflect = 0;
+                player.Players_Summon.Curse = 0;
+                affliction_finisher.GetComponentsInChildren<Text>()[3].text = player.Players_Summon.Combo.ToString();
+                combo_finisher.GetComponentsInChildren<Text>()[3].text = player.Players_Summon.Combo.ToString();
+                reflect_finisher.GetComponentsInChildren<Text>()[3].text = player.Players_Summon.Reflect.ToString();
+                break;
         }
     }
 
@@ -476,6 +622,28 @@ public class BattleManager : MonoBehaviour
         spell_2.SetActive(false);
         spell_3.SetActive(false);
         spell_4.SetActive(false);
+    }
+
+    private void Enable_Spells()
+    {
+        spell_1.SetActive(true);
+        spell_2.SetActive(true);
+        spell_3.SetActive(true);
+        spell_4.SetActive(true);
+    }
+
+    private void Disable_Finishers()
+    {
+        combo_finisher.transform.localPosition = off_screen;
+        reflect_finisher.transform.localPosition = off_screen;
+        affliction_finisher.transform.localPosition = off_screen;
+    }
+
+    private void Enable_Finishers()
+    {
+        combo_finisher.transform.localPosition = position_1;
+        reflect_finisher.transform.localPosition = position_2;
+        affliction_finisher.transform.localPosition = position_3;
     }
 
     /*
@@ -504,6 +672,105 @@ public class BattleManager : MonoBehaviour
         enemy.Player_Spell_Book.Discard(0);
 
         enemy.Player_Spell_Book.Draw_For_Turn();
+    }
+
+    private void Load_Random_Enemy()
+    {
+        enemy = new BasePlayer();
+        enemy.Player_Name = "Enemy";
+        enemy.Player_Spell_Book = new SpellBook();
+        enemy.Player_Spell_Book.Add_Spell(new FireStrike());
+        enemy.Player_Spell_Book.Add_Spell(new FireStrike());
+        enemy.Player_Spell_Book.Add_Spell(new DarkStrike());
+        enemy.Player_Spell_Book.Add_Spell(new DarkStrike());
+        enemy.Player_Spell_Book.Add_Spell(new LightStrike());
+        enemy.Player_Spell_Book.Add_Spell(new LightStrike());
+        enemy.Player_Spell_Book.Add_Spell(new FireShield());
+        enemy.Player_Spell_Book.Add_Spell(new FireShield());
+        enemy.Player_Spell_Book.Add_Spell(new FireShield());
+        enemy.Player_Spell_Book.Add_Spell(new FireShield());
+        int random = UnityEngine.Random.Range(0, 5);
+        if (random == 0)
+        {
+            enemy.Players_Summon = new Summon("Vampire", 1, 0, 60, 3, 3, Summon.Type.DARK);
+        }
+        else if (random == 1)
+        {
+            enemy.Players_Summon = new Summon("Paladin", 1, 0, 50, 4, 4, Summon.Type.LIGHT);
+        }
+        else if(random == 2)
+        {
+            enemy.Players_Summon = new Summon("Phoenix", 1, 0, 40, 6, 3, Summon.Type.FIRE);
+        }
+        else
+        {
+            enemy.Players_Summon = new Summon("Golem", 1, 0, 40, 3, 6, Summon.Type.EARTH);
+        }
+
+    }
+
+    private void Setup_Finishers()
+    {
+        combo_finisher.GetComponentsInChildren<Text>()[0].fontSize = (int)(Screen.width * 0.014f);
+        combo_finisher.GetComponentsInChildren<Text>()[1].fontSize = (int)(Screen.width * 0.01f);
+        combo_finisher.GetComponentsInChildren<Text>()[2].fontSize = (int)(Screen.width * 0.012f);
+        combo_finisher.GetComponentsInChildren<Text>()[3].fontSize = (int)(Screen.width * 0.012f);
+
+        reflect_finisher.GetComponentsInChildren<Text>()[0].fontSize = (int)(Screen.width * 0.014f);
+        reflect_finisher.GetComponentsInChildren<Text>()[1].fontSize = (int)(Screen.width * 0.01f);
+        reflect_finisher.GetComponentsInChildren<Text>()[2].fontSize = (int)(Screen.width * 0.012f);
+        reflect_finisher.GetComponentsInChildren<Text>()[3].fontSize = (int)(Screen.width * 0.012f);
+
+        affliction_finisher.GetComponentsInChildren<Text>()[0].fontSize = (int)(Screen.width * 0.014f);
+        affliction_finisher.GetComponentsInChildren<Text>()[1].fontSize = (int)(Screen.width * 0.01f);
+        affliction_finisher.GetComponentsInChildren<Text>()[2].fontSize = (int)(Screen.width * 0.012f);
+        affliction_finisher.GetComponentsInChildren<Text>()[3].fontSize = (int)(Screen.width * 0.012f);
+
+        combo_finisher.GetComponentsInChildren<Text>()[0].text = "Combo Finisher";
+        combo_finisher.GetComponentsInChildren<Text>()[1].text = "Does increased damage based on current combo";
+        combo_finisher.GetComponentsInChildren<Text>()[2].text = "Combo Count";
+        combo_finisher.GetComponentsInChildren<Text>()[3].text = player.Players_Summon.Combo.ToString();
+
+        reflect_finisher.GetComponentsInChildren<Text>()[0].text = "Reflect Finisher";
+        reflect_finisher.GetComponentsInChildren<Text>()[1].text = "Reflects Damage stored through defending";
+        reflect_finisher.GetComponentsInChildren<Text>()[2].text = "Reflect Damage";
+        reflect_finisher.GetComponentsInChildren<Text>()[3].text = player.Players_Summon.Reflect.ToString();
+
+        affliction_finisher.GetComponentsInChildren<Text>()[0].text = "Affliction Finisher";
+        affliction_finisher.GetComponentsInChildren<Text>()[1].text = "Heals for an increased amount based on affliction count";
+        affliction_finisher.GetComponentsInChildren<Text>()[2].text = "Affliction Count";
+        affliction_finisher.GetComponentsInChildren<Text>()[3].text = player.Players_Summon.Curse.ToString();
+    }
+
+    private void Win_Popup()
+    {
+        finish_window.GetComponentsInChildren<Text>()[0].text = "YOU WIN";
+        finish_window.GetComponentsInChildren<Text>()[3].text = "100";
+        finish_window.GetComponentsInChildren<Text>()[4].text = "Nothing";
+        finish_window.transform.localPosition = finish_window_position;
+    }
+
+    private void Lose_Popup()
+    {
+        finish_window.GetComponentsInChildren<Text>()[0].text = "YOU LOSE";
+        finish_window.GetComponentsInChildren<Text>()[3].text = "0";
+        finish_window.GetComponentsInChildren<Text>()[4].text = "Nothing";
+        finish_window.transform.localPosition = finish_window_position;
+    }
+
+    private void Tie_Popup()
+    {
+        finish_window.GetComponentsInChildren<Text>()[0].text = "TIE";
+        finish_window.GetComponentsInChildren<Text>()[3].text = "50";
+        finish_window.GetComponentsInChildren<Text>()[4].text = "Nothing";
+        finish_window.transform.localPosition = finish_window_position;
+    }
+
+    public void Return_To_Main_Menu()
+    {
+        GameManager.instance.player.Players_Summon.Health = GameManager.instance.player.Players_Summon.Base_Health;
+        GameManager.instance.current_state = GameManager.GameStates.MAIN;
+        GameManager.instance.scene_loaded = false;
     }
     
 }

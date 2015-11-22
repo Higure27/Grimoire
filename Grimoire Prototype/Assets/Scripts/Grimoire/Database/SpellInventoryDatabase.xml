@@ -1,50 +1,8 @@
 <Spell_Inventory_Database>
-  <Inventory id="lemon">
-    <spell>Cure</spell>
-    <spell>Cure</spell>
-    <spell>GlaringShield</spell>
-    <spell>GlaringShield</spell>
-  </Inventory>
-  <Inventory id="test1">
-    <spell>Cure</spell>
-    <spell>Cure</spell>
-    <spell>GlaringShield</spell>
-    <spell>GlaringShield</spell>
-  </Inventory>
-  <Inventory id="test2">
-    <spell>VampireSlash</spell>
-    <spell>VampireSlash</spell>
-    <spell>VampireShield</spell>
-    <spell>VampireShield</spell>
-  </Inventory>
-  <Inventory id="phoenixtest">
-    <spell>Cure</spell>
-    <spell>Cure</spell>
-    <spell>ParalyzingGrasp</spell>
-    <spell>ParalyzingGrasp</spell>
-  </Inventory>
-  <Inventory id="snail">
-    <spell>VampireSlash</spell>
-    <spell>VampireSlash</spell>
-    <spell>VampireShield</spell>
-    <spell>VampireShield</spell>
-  </Inventory>
-  <Inventory id="goingtopwnu">
-    <spell>VampireSlash</spell>
-    <spell>VampireSlash</spell>
-    <spell>VampireShield</spell>
-    <spell>VampireShield</spell>
-  </Inventory>
-  <Inventory id="bad">
-    <spell>Cure</spell>
-    <spell>Cure</spell>
-    <spell>VampireShield</spell>
-    <spell>VampireShield</spell>
-  </Inventory>
-  <Inventory id="lula">
-    <spell>VampireSlash</spell>
-    <spell>ParalyzingGrasp</spell>
-    <spell>PoisonAttack</spell>
-    <spell>Cure</spell>
+  <Inventory id="tandy">
+    <spell>DarkAffliction</spell>
+    <spell>DarkAffliction</spell>
+    <spell>FireAffliction</spell>
+    <spell>FireAffliction</spell>
   </Inventory>
 </Spell_Inventory_Database>
