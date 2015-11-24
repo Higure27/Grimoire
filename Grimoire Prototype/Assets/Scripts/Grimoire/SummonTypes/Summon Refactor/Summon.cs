@@ -87,7 +87,7 @@ public class Summon
      */
     public int Calculate_Required_Exp()
     {
-        int required_exp = 100 * ((level + 1) ^ 2);
+        int required_exp = 100 * (int) Mathf.Pow((level + 1), 2);
         return required_exp;
     }
 
@@ -98,7 +98,7 @@ public class Summon
     public bool Add_Experience(int exp)
     {
         curr_exp += exp;
-        if(curr_exp > req_exp)
+        if(curr_exp >= req_exp)
         {
             Level_Up();
             return true;
@@ -115,11 +115,11 @@ public class Summon
         level++;
 
         // Increase Attributes
-        int hp_mod = Random.Range(0, 4) * 100;
+        int hp_mod = Random.Range(1, 11);
         health += hp_mod;
         base_health += hp_mod;
-        strength += Random.Range(0, 4);
-        defense += Random.Range(0, 4);
+        strength += Random.Range(1, 7);
+        defense += Random.Range(1, 7);
 
         // Set experience;
         req_exp = Calculate_Required_Exp();

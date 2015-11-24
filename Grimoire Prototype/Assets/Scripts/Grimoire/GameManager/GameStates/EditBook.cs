@@ -19,7 +19,8 @@ public class EditBook : MonoBehaviour
 	void Start ()
     {
         title_font_size = (int)(Screen.width * 0.02f);
-        font_size = (int)(Screen.width * 0.018f);
+        font_size = (int)(Screen.width * 0.014f);
+        
         spell_book_container = GameObject.Find("SpellBookContainer");
         inventory_container = GameObject.Find("InventoryContainer");
         spell_book_title = GameObject.Find("SpellBook");

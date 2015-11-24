@@ -50,6 +50,7 @@
      <Compile Include="Assets\Scripts\Grimoire\BasePlayer\BasePlayer.cs" />
      <Compile Include="Assets\Scripts\Grimoire\BasePlayer\BasePlayerSummon.cs" />
      <Compile Include="Assets\Scripts\Grimoire\BattleManager\BattleManagerRefactor\BattleManager.cs" />
+     <Compile Include="Assets\Scripts\Grimoire\BattleManager\BattleManagerRefactor\DamageText.cs" />
      <Compile Include="Assets\Scripts\Grimoire\BattleManager\BattleStateMachine.cs" />
      <Compile Include="Assets\Scripts\Grimoire\BattleManager\BattleStateStart.cs" />
      <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Abilities\Ability.cs" />

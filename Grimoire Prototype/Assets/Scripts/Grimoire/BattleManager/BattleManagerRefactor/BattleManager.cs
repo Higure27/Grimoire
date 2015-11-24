@@ -45,6 +45,8 @@ public class BattleManager : MonoBehaviour
     private List<int> remove_indexs;
 
     // Battle UI Elements
+    public GameObject player_summon_image;
+    public GameObject enemy_summon_image;
     public GameObject spell_1;
     public GameObject spell_2;
     public GameObject spell_3;
@@ -54,6 +56,12 @@ public class BattleManager : MonoBehaviour
     private Vector2 position_3;
     private Vector2 position_4;
     private Vector2 off_screen;
+
+    public GameObject player_damage_text;
+    public GameObject enemy_damage_text;
+    private Vector2 player_damage_text_start;
+    private Vector2 enemy_damage_text_start;
+
     public GameObject combo_finisher;
     public GameObject reflect_finisher;
     public GameObject affliction_finisher;
@@ -88,6 +96,7 @@ public class BattleManager : MonoBehaviour
     {
         player = GameManager.instance.player;
         Load_Random_Enemy();
+        Load_Player_Summon_Image();
 
         player_made_choice = false;
         start_phase = false;
@@ -124,6 +133,8 @@ public class BattleManager : MonoBehaviour
         combo_finisher_spell = new FinalStrike();
         reflect_finisher_spell = new DamageReflection();
         affliction_finisher_spell = new GreatAffliction();
+        player_damage_text_start = player_damage_text.transform.position;
+        enemy_damage_text_start = enemy_damage_text.transform.position;
 
         current_state = BattleStates.START;
     }
@@ -315,6 +326,26 @@ public class BattleManager : MonoBehaviour
             o.GetComponentsInChildren<Text>()[2].fontSize = (int)(Screen.width * 0.012f);
             o.GetComponentsInChildren<Text>()[3].fontSize = (int)(Screen.width * 0.012f);
             count++;
+        }
+    }
+
+    private void Load_Player_Summon_Image()
+    {
+        if (player.Players_Summon.Summon_Type == Summon.Type.DARK)
+        {
+            player_summon_image.GetComponentsInChildren<Image>()[0].sprite = Resources.Load<Sprite>("Sprites/Summon_Dark_Evo1");
+        }
+        else if (player.Players_Summon.Summon_Type == Summon.Type.EARTH)
+        {
+            player_summon_image.GetComponentsInChildren<Image>()[0].sprite = Resources.Load<Sprite>("Sprites/Summon_Earth_Evo1");
+        }
+        else if (player.Players_Summon.Summon_Type == Summon.Type.FIRE)
+        {
+            player_summon_image.GetComponentsInChildren<Image>()[0].sprite = Resources.Load<Sprite>("Sprites/Summon_Fire_Evo1");
+        }
+        else
+        {
+            player_summon_image.GetComponentsInChildren<Image>()[0].sprite = Resources.Load<Sprite>("Sprites/Summon_Light_Evo1");
         }
     }
 
@@ -534,7 +565,10 @@ public class BattleManager : MonoBehaviour
         player.Players_Summon.Health = (player.Players_Summon.Base_Health < (player_results.Heal + player.Players_Summon.Health)) ? player.Players_Summon.Base_Health : (player_results.Heal + player.Players_Summon.Health);
         enemy.Players_Summon.Health = (enemy.Players_Summon.Base_Health < (enemy_results.Heal + enemy.Players_Summon.Health)) ? enemy.Players_Summon.Base_Health : (enemy_results.Heal + enemy.Players_Summon.Health);
 
-        if(enemy.Players_Summon.Health <= 0 && player.Players_Summon.Health <= 0)
+        Setup_Damage_Text(-player_damaged, -enemy_damaged);
+        Start_Damage_Text();
+
+        if (enemy.Players_Summon.Health <= 0 && player.Players_Summon.Health <= 0)
         {
             Disable_Spells();
             Disable_Finishers();
@@ -693,18 +727,22 @@ public class BattleManager : MonoBehaviour
         if (random == 0)
         {
             enemy.Players_Summon = new Summon("Vampire", 1, 0, 60, 3, 3, Summon.Type.DARK);
+            enemy_summon_image.GetComponentsInChildren<Image>()[0].sprite = Resources.Load<Sprite>("Sprites/Summon_Dark_Evo1");
         }
         else if (random == 1)
         {
             enemy.Players_Summon = new Summon("Paladin", 1, 0, 50, 4, 4, Summon.Type.LIGHT);
+            enemy_summon_image.GetComponentsInChildren<Image>()[0].sprite = Resources.Load<Sprite>("Sprites/Summon_Light_Evo1");
         }
         else if(random == 2)
         {
             enemy.Players_Summon = new Summon("Phoenix", 1, 0, 40, 6, 3, Summon.Type.FIRE);
+            enemy_summon_image.GetComponentsInChildren<Image>()[0].sprite = Resources.Load<Sprite>("Sprites/Summon_Fire_Evo1");
         }
         else
         {
             enemy.Players_Summon = new Summon("Golem", 1, 0, 40, 3, 6, Summon.Type.EARTH);
+            enemy_summon_image.GetComponentsInChildren<Image>()[0].sprite = Resources.Load<Sprite>("Sprites/Summon_Earth_Evo1");
         }
 
     }
@@ -748,6 +786,7 @@ public class BattleManager : MonoBehaviour
         finish_window.GetComponentsInChildren<Text>()[3].text = "100";
         finish_window.GetComponentsInChildren<Text>()[4].text = "Nothing";
         finish_window.transform.localPosition = finish_window_position;
+        player.Players_Summon.Add_Experience(100);
     }
 
     private void Lose_Popup()
@@ -764,6 +803,7 @@ public class BattleManager : MonoBehaviour
         finish_window.GetComponentsInChildren<Text>()[3].text = "50";
         finish_window.GetComponentsInChildren<Text>()[4].text = "Nothing";
         finish_window.transform.localPosition = finish_window_position;
+        player.Players_Summon.Add_Experience(50);
     }
 
     public void Return_To_Main_Menu()
@@ -771,6 +811,59 @@ public class BattleManager : MonoBehaviour
         GameManager.instance.player.Players_Summon.Health = GameManager.instance.player.Players_Summon.Base_Health;
         GameManager.instance.current_state = GameManager.GameStates.MAIN;
         GameManager.instance.scene_loaded = false;
+    }
+
+    private void Setup_Damage_Text(int player, int enemy)
+    {
+        Text pdt;
+        Text edt;
+
+        player_damage_text = new GameObject();
+        player_damage_text.transform.parent = GameObject.Find("Canvas").transform;
+        pdt = player_damage_text.AddComponent<Text>();
+        pdt.text = player.ToString();
+        pdt.font = Resources.Load<Font>("pixelmix");
+        pdt.fontSize = (int)(Screen.width * 0.02f);
+        player_damage_text.transform.localPosition = player_damage_text_start;
+
+        enemy_damage_text = new GameObject();
+        enemy_damage_text.transform.parent = GameObject.Find("Canvas").transform;
+        edt = enemy_damage_text.AddComponent<Text>();
+        edt.text = enemy.ToString();
+        edt.font = Resources.Load<Font>("pixelmix");
+        edt.fontSize = (int)(Screen.width * 0.02f);
+        enemy_damage_text.transform.localPosition = enemy_damage_text_start;
+    }
+
+    private void Start_Damage_Text()
+    {
+        StartCoroutine(Move_Text());
+    }
+
+    IEnumerator Move_Text()
+    {
+        float timer = 0;
+        int count = 0;
+
+        while (timer < 1f)
+        {
+            Vector2 position1 = new Vector2();
+            position1.x = -(int)(Screen.width * 0.18f);
+            position1.y = (int)(Screen.height * 0.15f) + count;
+            player_damage_text.transform.localPosition = position1;
+
+            Vector2 position2 = new Vector2();
+            position2.x = (int)(Screen.width * 0.18f);
+            position2.y = (int)(Screen.height * 0.15f) + count;
+            enemy_damage_text.transform.localPosition = position2;
+
+            count++;
+            timer += Time.deltaTime;
+
+            yield return null;
+        }
+        Destroy(player_damage_text);
+        Destroy(enemy_damage_text);
     }
     
 }

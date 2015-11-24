@@ -8,4 +8,67 @@
     <health>100</health>
     <current_exp>0</current_exp>
   </Summon>
+  <Summon id="test1">
+    <name>Paladin</name>
+    <level>4</level>
+    <class>LIGHT</class>
+    <strength>17</strength>
+    <defense>15</defense>
+    <health>63</health>
+    <current_exp>1600</current_exp>
+  </Summon>
+  <Summon id="test2">
+    <name>Phoenix</name>
+    <level>1</level>
+    <class>FIRE</class>
+    <strength>6</strength>
+    <defense>3</defense>
+    <health>40</health>
+    <current_exp>0</current_exp>
+  </Summon>
+  <Summon id="test3">
+    <name>Golem</name>
+    <level>1</level>
+    <class>EARTH</class>
+    <strength>3</strength>
+    <defense>6</defense>
+    <health>40</health>
+    <current_exp>0</current_exp>
+  </Summon>
+  <Summon id="poop">
+    <name>Paladin</name>
+    <level>1</level>
+    <class>LIGHT</class>
+    <strength>4</strength>
+    <defense>4</defense>
+    <health>50</health>
+    <current_exp>0</current_exp>
+  </Summon>
+  <Summon id="test4">
+    <name>Phoenix</name>
+    <level>1</level>
+    <class>FIRE</class>
+    <strength>6</strength>
+    <defense>3</defense>
+    <health>40</health>
+    <current_exp>0</current_exp>
+  </Summon>
+  <Summon id="smertrios">
+    <name>Paladin</name>
+    <level>1</level>
+    <class>LIGHT</class>
+    <strength>4</strength>
+    <defense>4</defense>
+    <health>50</health>
+    <current_exp>0</current_exp>
+  </Summon>
+  <Summon id="test5">
+    <name>Phoenix</name>
+    <level>1</level>
+    <class>FIRE</class>
+    <strength>6</strength>
+    <defense>3</defense>
+    <health>40</health>
+    <current_exp>0</current_exp>
+  </Summon>
 </Summon_Database>

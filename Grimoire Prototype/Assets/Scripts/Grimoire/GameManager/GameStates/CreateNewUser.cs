@@ -15,6 +15,8 @@ public class CreateNewUser : MonoBehaviour
     public GameObject phoenix_toggle;
     public GameObject golem_toggle;
     public GameObject create_button;
+    public GameObject summon_image;
+    public GameObject summon_description;
 
     private SpellBook starter_book;
     private SpellInventory starter_inventory;
@@ -92,6 +94,30 @@ public class CreateNewUser : MonoBehaviour
         {
             starter_summon = new Summon("Golem", 1, 0, 40, 3, 6, Summon.Type.EARTH);
         }
+    }
+
+    public void Vampire_Selected()
+    {
+        summon_image.GetComponentsInChildren<Image>()[0].sprite = Resources.Load<Sprite>("Sprites/Summon_Dark_Evo1");
+        summon_description.GetComponent<Text>().text = "A deadly vampire which focuses on debilitating effects and boasts a high amount of health.";
+    }
+
+    public void Paladin_Selected()
+    {
+        summon_image.GetComponentsInChildren<Image>()[0].sprite = Resources.Load<Sprite>("Sprites/Summon_Light_Evo1");
+        summon_description.GetComponent<Text>().text = "A stalwart crusader of light who has trained in all aspects of fighting.";
+    }
+
+    public void Phoenix_Selected()
+    {
+        summon_image.GetComponentsInChildren<Image>()[0].sprite = Resources.Load<Sprite>("Sprites/Summon_Fire_Evo1");
+        summon_description.GetComponent<Text>().text = "A blazing bird that focuses on dealing large amounts of damage as quickly as possible.";
+    }
+
+    public void Golem_Selected()
+    {
+        summon_image.GetComponentsInChildren<Image>()[0].sprite = Resources.Load<Sprite>("Sprites/Summon_Earth_Evo1");
+        summon_description.GetComponent<Text>().text = "A Sturdy stone warrior boasting an incredibly solid defense.";
     }
 
     public void Create_User()

@@ -5,4 +5,46 @@
     <spell>FireAffliction</spell>
     <spell>FireAffliction</spell>
   </Inventory>
+  <Inventory id="test1">
+    <spell>DarkStrike</spell>
+    <spell>DarkStrike</spell>
+    <spell>FireStrike</spell>
+    <spell>FireStrike</spell>
+  </Inventory>
+  <Inventory id="test2">
+    <spell>DarkStrike</spell>
+    <spell>DarkStrike</spell>
+    <spell>FireStrike</spell>
+    <spell>FireStrike</spell>
+  </Inventory>
+  <Inventory id="test3">
+    <spell>DarkStrike</spell>
+    <spell>DarkStrike</spell>
+    <spell>FireStrike</spell>
+    <spell>FireStrike</spell>
+  </Inventory>
+  <Inventory id="poop">
+    <spell>DarkStrike</spell>
+    <spell>DarkStrike</spell>
+    <spell>FireStrike</spell>
+    <spell>FireStrike</spell>
+  </Inventory>
+  <Inventory id="test4">
+    <spell>DarkStrike</spell>
+    <spell>DarkStrike</spell>
+    <spell>FireStrike</spell>
+    <spell>FireStrike</spell>
+  </Inventory>
+  <Inventory id="smertrios">
+    <spell>DarkStrike</spell>
+    <spell>DarkStrike</spell>
+    <spell>FireStrike</spell>
+    <spell>FireStrike</spell>
+  </Inventory>
+  <Inventory id="test5">
+    <spell>DarkStrike</spell>
+    <spell>DarkStrike</spell>
+    <spell>FireStrike</spell>
+    <spell>FireStrike</spell>
+  </Inventory>
 </Spell_Inventory_Database>
