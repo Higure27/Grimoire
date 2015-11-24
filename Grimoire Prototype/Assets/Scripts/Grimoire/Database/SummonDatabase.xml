@@ -15,7 +15,7 @@
     <strength>17</strength>
     <defense>15</defense>
     <health>63</health>
-    <current_exp>1600</current_exp>
+    <current_exp>1800</current_exp>
   </Summon>
   <Summon id="test2">
     <name>Phoenix</name>
