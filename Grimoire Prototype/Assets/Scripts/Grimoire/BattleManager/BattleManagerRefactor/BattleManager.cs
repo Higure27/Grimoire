@@ -115,18 +115,19 @@ public class BattleManager : MonoBehaviour
 
         Setup_Finishers();
         Setup_Spell_Font();
-        player_hp_text.GetComponent<Text>().fontSize = (int)(Screen.width * 0.014f);
-        enemy_hp_text.GetComponent<Text>().fontSize = (int)(Screen.width * 0.014f);
-        left_log.GetComponent<Text>().fontSize = (int)(Screen.width * 0.012f);
-        poison_dmg.GetComponent<Text>().fontSize = (int)(Screen.width * 0.012f);
-        burn_dmg.GetComponent<Text>().fontSize = (int)(Screen.width * 0.012f); 
-        paralyze_dmg.GetComponent<Text>().fontSize = (int)(Screen.width * 0.012f);
-        finish_window.GetComponentsInChildren<Text>()[0].fontSize = (int)(Screen.width * 0.024f);
-        finish_window.GetComponentsInChildren<Text>()[1].fontSize = (int)(Screen.width * 0.016f);
-        finish_window.GetComponentsInChildren<Text>()[2].fontSize = (int)(Screen.width * 0.016f);
-        finish_window.GetComponentsInChildren<Text>()[3].fontSize = (int)(Screen.width * 0.016f);
-        finish_window.GetComponentsInChildren<Text>()[4].fontSize = (int)(Screen.width * 0.016f);
-        finish_window.GetComponentsInChildren<Text>()[5].fontSize = (int)(Screen.width * 0.016f);
+
+        player_hp_text.GetComponent<Text>().fontSize = (int)(Screen.width * 0.018f);
+        enemy_hp_text.GetComponent<Text>().fontSize = (int)(Screen.width * 0.018f);
+        left_log.GetComponent<Text>().fontSize = (int)(Screen.width * 0.014f);
+        poison_dmg.GetComponent<Text>().fontSize = (int)(Screen.width * 0.014f);
+        burn_dmg.GetComponent<Text>().fontSize = (int)(Screen.width * 0.014f); 
+        paralyze_dmg.GetComponent<Text>().fontSize = (int)(Screen.width * 0.014f);
+        finish_window.GetComponentsInChildren<Text>()[0].fontSize = (int)(Screen.width * 0.03f);
+        finish_window.GetComponentsInChildren<Text>()[1].fontSize = (int)(Screen.width * 0.02f);
+        finish_window.GetComponentsInChildren<Text>()[2].fontSize = (int)(Screen.width * 0.02f);
+        finish_window.GetComponentsInChildren<Text>()[3].fontSize = (int)(Screen.width * 0.02f);
+        finish_window.GetComponentsInChildren<Text>()[4].fontSize = (int)(Screen.width * 0.02f);
+        finish_window.GetComponentsInChildren<Text>()[5].fontSize = (int)(Screen.width * 0.02f);
 
         finish_window.transform.localPosition = off_screen;
         Disable_Finishers();
@@ -193,7 +194,6 @@ public class BattleManager : MonoBehaviour
                         current_state = BattleStates.LOSE;
                         break;
                     }
-                    Thread.Sleep(1000);
                     spell_1.GetComponentsInChildren<Image>()[0].color = UnityEngine.Color.white;
                     spell_2.GetComponentsInChildren<Image>()[0].color = UnityEngine.Color.white;
                     spell_3.GetComponentsInChildren<Image>()[0].color = UnityEngine.Color.white;
@@ -248,6 +248,7 @@ public class BattleManager : MonoBehaviour
                 if (!results_phase)
                 {
                     results_phase = true;
+                    Thread.Sleep(500);
                     Calculate_Results();
                     Display_Results();
                     current_state = BattleStates.RESET;
@@ -644,8 +645,10 @@ public class BattleManager : MonoBehaviour
         player_hp_text.GetComponent<Text>().text = player.Players_Summon.Health.ToString();
         enemy_hp_text.GetComponent<Text>().text = enemy.Players_Summon.Health.ToString();
 
-        double php = 267 - (267.0) * ((double)player.Players_Summon.Health / (double)player.Players_Summon.Base_Health);
-        double ehp = 267 - (267.0) * ((double)enemy.Players_Summon.Health / (double)enemy.Players_Summon.Base_Health);
+        double start_height = player_hp_bar.GetComponent<Image>().rectTransform.rect.height;
+
+        double php = start_height - (start_height) * ((double)player.Players_Summon.Health / (double)player.Players_Summon.Base_Health);
+        double ehp = start_height - (start_height) * ((double)enemy.Players_Summon.Health / (double)enemy.Players_Summon.Base_Health);
         player_hp_bar.GetComponent<Image>().rectTransform.sizeDelta = new Vector2(0, -(float)php);
         enemy_hp_bar.GetComponent<Image>().rectTransform.sizeDelta = new Vector2(0, -(float)ehp);
     }
@@ -849,12 +852,12 @@ public class BattleManager : MonoBehaviour
         {
             Vector2 position1 = new Vector2();
             position1.x = -(int)(Screen.width * 0.18f);
-            position1.y = (int)(Screen.height * 0.15f) + count;
+            position1.y = (int)(Screen.height * 0.25f) + count;
             player_damage_text.transform.localPosition = position1;
 
             Vector2 position2 = new Vector2();
             position2.x = (int)(Screen.width * 0.18f);
-            position2.y = (int)(Screen.height * 0.15f) + count;
+            position2.y = (int)(Screen.height * 0.25f) + count;
             enemy_damage_text.transform.localPosition = position2;
 
             count++;

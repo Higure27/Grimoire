@@ -9,6 +9,7 @@ public class EditBook : MonoBehaviour
 
     private int title_font_size;
     private int font_size;
+    private int button_font_size;
 
     private GameObject spell_book_title;
     private GameObject inventory_title;
@@ -20,6 +21,7 @@ public class EditBook : MonoBehaviour
     {
         title_font_size = (int)(Screen.width * 0.02f);
         font_size = (int)(Screen.width * 0.014f);
+        button_font_size = (int)(Screen.width * 0.018f);
         
         spell_book_container = GameObject.Find("SpellBookContainer");
         inventory_container = GameObject.Find("InventoryContainer");
@@ -29,8 +31,8 @@ public class EditBook : MonoBehaviour
         back = GameObject.Find("Back");
         inventory_title.GetComponent<Text>().fontSize = title_font_size;
         spell_book_title.GetComponent<Text>().fontSize = title_font_size;
-        switch_spell.GetComponentInChildren<Text>().fontSize = font_size;
-        back.GetComponentInChildren<Text>().fontSize = font_size;
+        switch_spell.GetComponentInChildren<Text>().fontSize = button_font_size;
+        back.GetComponentInChildren<Text>().fontSize = button_font_size;
         foreach(Text t in spell_book_container.GetComponentsInChildren<Text>())
         {
             t.fontSize = font_size;

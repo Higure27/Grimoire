@@ -10,12 +10,12 @@
   </Summon>
   <Summon id="test1">
     <name>Paladin</name>
-    <level>4</level>
+    <level>5</level>
     <class>LIGHT</class>
-    <strength>17</strength>
-    <defense>15</defense>
-    <health>63</health>
-    <current_exp>1800</current_exp>
+    <strength>23</strength>
+    <defense>16</defense>
+    <health>69</health>
+    <current_exp>3000</current_exp>
   </Summon>
   <Summon id="test2">
     <name>Phoenix</name>

@@ -41,6 +41,7 @@ public class CreateNewUser : MonoBehaviour
         create_button.GetComponentsInChildren<Text>()[0].fontSize = font_size;
         warning_text.GetComponent<Text>().fontSize = warning_font_size;
         warning_text.SetActive(false);
+        summon_description.GetComponent<Text>().fontSize = font_size;
     }
 
     private void Setup_Starter_Inventory()
