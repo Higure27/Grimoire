@@ -77,8 +77,8 @@ public class BattleManager : MonoBehaviour
     public GameObject paralyze_dmg;
     private static UnityEngine.Color green;
     private static UnityEngine.Color red;
-    private bool green_success = UnityEngine.Color.TryParseHexString("00D60063", out green);
-    private bool red_success = UnityEngine.Color.TryParseHexString("FF000063", out red);
+    //private bool green_success = UnityEngine.Color.TryParseHexString("00D60063", out green);
+    //private bool red_success = UnityEngine.Color.TryParseHexString("FF000063", out red);
 
     public GameObject finish_window;
     private Vector2 finish_window_position;
@@ -115,6 +115,9 @@ public class BattleManager : MonoBehaviour
 
         Setup_Finishers();
         Setup_Spell_Font();
+
+        green = new UnityEngine.Color(0, 214, 0);
+        red = new UnityEngine.Color(255, 0, 0);
 
         player_hp_text.GetComponent<Text>().fontSize = (int)(Screen.width * 0.018f);
         enemy_hp_text.GetComponent<Text>().fontSize = (int)(Screen.width * 0.018f);
@@ -168,10 +171,19 @@ public class BattleManager : MonoBehaviour
                     enemy_choice = null;
                     player_made_choice = false;
                     remove_indexs = new List<int>();
-                    poison_dmg.GetComponentInChildren<Text>().text = "Poison: " + Poisoned(player);
-                    Poisoned(enemy);
-                    burn_dmg.GetComponentInChildren<Text>().text = "Burn: " + Burned(player);
-                    Burned(enemy);
+                    string ppd = Poisoned(player).ToString();
+                    string epd = Poisoned(enemy).ToString();
+                    string pbd = Burned(player).ToString();
+                    string ebd = Burned(enemy).ToString();
+                    poison_dmg.GetComponentInChildren<Text>().text = "Poison: " + ppd;
+                    burn_dmg.GetComponentInChildren<Text>().text = "Burn: " + pbd;
+
+                    //Setup_Damage_Text("-" + ppd + " poison", "-" + epd + " poison");
+                    //Start_Damage_Text();
+
+                    //Setup_Damage_Text("-" + pbd + " burn", "-" + ebd + " burn");
+                    //Start_Damage_Text();
+
                     Display_Results();
                     if (enemy.Players_Summon.Health <= 0 && player.Players_Summon.Health <= 0)
                     {
@@ -566,7 +578,7 @@ public class BattleManager : MonoBehaviour
         player.Players_Summon.Health = (player.Players_Summon.Base_Health < (player_results.Heal + player.Players_Summon.Health)) ? player.Players_Summon.Base_Health : (player_results.Heal + player.Players_Summon.Health);
         enemy.Players_Summon.Health = (enemy.Players_Summon.Base_Health < (enemy_results.Heal + enemy.Players_Summon.Health)) ? enemy.Players_Summon.Base_Health : (enemy_results.Heal + enemy.Players_Summon.Health);
 
-        Setup_Damage_Text(-player_damaged, -enemy_damaged);
+        Setup_Damage_Text(-player_damaged + "", -enemy_damaged + "");
         Start_Damage_Text();
 
         if (enemy.Players_Summon.Health <= 0 && player.Players_Summon.Health <= 0)
@@ -646,6 +658,7 @@ public class BattleManager : MonoBehaviour
         enemy_hp_text.GetComponent<Text>().text = enemy.Players_Summon.Health.ToString();
 
         double start_height = player_hp_bar.GetComponent<Image>().rectTransform.rect.height;
+        Debug.Log("Start Height: " + start_height);
 
         double php = start_height - (start_height) * ((double)player.Players_Summon.Health / (double)player.Players_Summon.Base_Health);
         double ehp = start_height - (start_height) * ((double)enemy.Players_Summon.Health / (double)enemy.Players_Summon.Base_Health);
@@ -816,7 +829,7 @@ public class BattleManager : MonoBehaviour
         GameManager.instance.scene_loaded = false;
     }
 
-    private void Setup_Damage_Text(int player, int enemy)
+    private void Setup_Damage_Text(string player, string enemy)
     {
         Text pdt;
         Text edt;
@@ -824,7 +837,7 @@ public class BattleManager : MonoBehaviour
         player_damage_text = new GameObject();
         player_damage_text.transform.parent = GameObject.Find("Canvas").transform;
         pdt = player_damage_text.AddComponent<Text>();
-        pdt.text = player.ToString();
+        pdt.text = player;
         pdt.font = Resources.Load<Font>("pixelmix");
         pdt.fontSize = (int)(Screen.width * 0.02f);
         player_damage_text.transform.localPosition = player_damage_text_start;
@@ -832,7 +845,7 @@ public class BattleManager : MonoBehaviour
         enemy_damage_text = new GameObject();
         enemy_damage_text.transform.parent = GameObject.Find("Canvas").transform;
         edt = enemy_damage_text.AddComponent<Text>();
-        edt.text = enemy.ToString();
+        edt.text = enemy;
         edt.font = Resources.Load<Font>("pixelmix");
         edt.fontSize = (int)(Screen.width * 0.02f);
         enemy_damage_text.transform.localPosition = enemy_damage_text_start;

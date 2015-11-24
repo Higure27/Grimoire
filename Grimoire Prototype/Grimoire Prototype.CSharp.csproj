@@ -57,6 +57,12 @@
     <Reference Include="UnityEngine.Networking">
       <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEngine.Networking">
+      <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>Library\UnityAssemblies\UnityEngine.UI.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEditor">
       <HintPath>Library\UnityAssemblies\UnityEditor.dll</HintPath>
     </Reference>
@@ -69,60 +75,58 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Grimoire\BasePlayer\Actors\Enemy.cs" />
-    <Compile Include="Assets\Scripts\Grimoire\BasePlayer\Actors\Player.cs" />
     <Compile Include="Assets\Scripts\Grimoire\BasePlayer\BasePlayer.cs" />
     <Compile Include="Assets\Scripts\Grimoire\BasePlayer\BasePlayerSummon.cs" />
-    <Compile Include="Assets\Scripts\Grimoire\BasePlayer\CreateSummon\CreateNewSummon.cs" />
+    <Compile Include="Assets\Scripts\Grimoire\BattleManager\BattleManagerRefactor\BattleManager.cs" />
+    <Compile Include="Assets\Scripts\Grimoire\BattleManager\BattleManagerRefactor\DamageText.cs" />
     <Compile Include="Assets\Scripts\Grimoire\BattleManager\BattleStateMachine.cs" />
     <Compile Include="Assets\Scripts\Grimoire\BattleManager\BattleStateStart.cs" />
+    <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Abilities\Ability.cs" />
     <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Abilities\Absorb.cs" />
-    <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Abilities\BaseAbility.cs" />
-    <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Abilities\BasicAttack.cs" />
-    <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Abilities\BasicDefense.cs" />
+    <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Abilities\Attack.cs" />
+    <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Abilities\Block.cs" />
     <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Abilities\Burn.cs" />
-    <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Abilities\Cure.cs" />
+    <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Abilities\ComboFinisher.cs" />
+    <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Abilities\CurseFinisher.cs" />
     <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Abilities\Heal.cs" />
     <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Abilities\Paralyze.cs" />
     <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Abilities\Poison.cs" />
-    <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Card.cs" />
-    <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Cards\Attack\BurnAttack.cs" />
-    <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Cards\Attack\DoubleRainbow.cs" />
-    <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Cards\Attack\DragonBite.cs" />
-    <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Cards\Attack\ParalyzingGrasp.cs" />
-    <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Cards\Attack\PoisonAttack.cs" />
-    <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Cards\Attack\Shriek.cs" />
-    <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Cards\Attack\Slash.cs" />
-    <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Cards\Attack\VampireSlash.cs" />
-    <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Cards\Defense\BurningShield.cs" />
-    <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Cards\Defense\CureSelf.cs" />
-    <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Cards\Defense\GlaringShield.cs" />
-    <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Cards\Defense\HealSelf.cs" />
-    <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Cards\Defense\PoisonNeedle.cs" />
-    <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Cards\Defense\Shield.cs" />
-    <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Cards\Defense\SuperSpecialShield.cs" />
-    <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Cards\Defense\VampiricShield.cs" />
+    <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Abilities\ReflectFinisher.cs" />
+    <Compile Include="Assets\Scripts\Grimoire\Book\Spell\BaseSpell.cs" />
+    <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Mage\DarkAffliction.cs" />
+    <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Mage\FireAffliction.cs" />
+    <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Mage\GreatAffliction\GreatAffliction.cs" />
+    <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Mage\LightAffliction.cs" />
+    <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Mage\PoisonAffliction.cs" />
+    <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Rogue\DarkStrike.cs" />
+    <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Rogue\Finishers\FinalStrike.cs" />
+    <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Rogue\FireStrike.cs" />
+    <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Rogue\LightStrike.cs" />
+    <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Rogue\PoisonStrike.cs" />
+    <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Rogue\QuickStrike.cs" />
+    <Compile Include="Assets\Scripts\Grimoire\Book\Spell\SpellResults.cs" />
+    <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Warrior\DarkShield.cs" />
+    <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Warrior\FireShield.cs" />
+    <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Warrior\HardShield.cs" />
+    <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Warrior\LightShield.cs" />
+    <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Warrior\PoisonShield.cs" />
+    <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Warrior\Reflect\DamageReflection.cs" />
+    <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Warrior\StunShield.cs" />
     <Compile Include="Assets\Scripts\Grimoire\Book\SpellBook.cs" />
     <Compile Include="Assets\Scripts\Grimoire\Book\SpellInventory.cs" />
-    <Compile Include="Assets\Scripts\Grimoire\CreatePlayerGUI\CreatePlayerGUI.cs" />
-    <Compile Include="Assets\Scripts\Grimoire\CreatePlayerGUI\DisplayCreatePlayerFunctions.cs" />
     <Compile Include="Assets\Scripts\Grimoire\Database\GrimoireDatabase.cs" />
-    <Compile Include="Assets\Scripts\Grimoire\GameInformation\GameInformation.cs" />
     <Compile Include="Assets\Scripts\Grimoire\GameManager\GameManager.cs" />
     <Compile Include="Assets\Scripts\Grimoire\GameManager\GameStates\CreateNewUser.cs" />
     <Compile Include="Assets\Scripts\Grimoire\GameManager\GameStates\EditBook.cs" />
     <Compile Include="Assets\Scripts\Grimoire\GameManager\GameStates\MainMenu.cs" />
     <Compile Include="Assets\Scripts\Grimoire\GameManager\GameStates\StartScreen.cs" />
     <Compile Include="Assets\Scripts\Grimoire\IncreaseExperience.cs" />
-    <Compile Include="Assets\Scripts\Grimoire\SaveAndLoad\LoadInformation.cs" />
-    <Compile Include="Assets\Scripts\Grimoire\SaveAndLoad\PlayerPrefSerialization.cs" />
-    <Compile Include="Assets\Scripts\Grimoire\SaveAndLoad\SaveInformation.cs" />
-    <Compile Include="Assets\Scripts\Grimoire\Spells\BaseSpell.cs" />
-    <Compile Include="Assets\Scripts\Grimoire\Spells\Spell.cs" />
     <Compile Include="Assets\Scripts\Grimoire\SummonTypes\BaseDarkSummon.cs" />
     <Compile Include="Assets\Scripts\Grimoire\SummonTypes\BaseEarthSummon.cs" />
     <Compile Include="Assets\Scripts\Grimoire\SummonTypes\BaseFireSummon.cs" />
     <Compile Include="Assets\Scripts\Grimoire\SummonTypes\BaseLightSummon.cs" />
     <Compile Include="Assets\Scripts\Grimoire\SummonTypes\BaseSummon.cs" />
+    <Compile Include="Assets\Scripts\Grimoire\SummonTypes\Summon Refactor\Summon.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Scripts\Grimoire\Database\SpellBookDatabase.xml" />
