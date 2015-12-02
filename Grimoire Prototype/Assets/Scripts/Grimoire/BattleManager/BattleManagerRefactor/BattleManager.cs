@@ -77,11 +77,10 @@ public class BattleManager : MonoBehaviour
     public GameObject paralyze_dmg;
     private static UnityEngine.Color green;
     private static UnityEngine.Color red;
-    //private bool green_success = UnityEngine.Color.TryParseHexString("00D60063", out green);
-    //private bool red_success = UnityEngine.Color.TryParseHexString("FF000063", out red);
 
     public GameObject finish_window;
     private Vector2 finish_window_position;
+    double start_height;
 
     // Effect Icons
     public Sprite burn;
@@ -119,6 +118,7 @@ public class BattleManager : MonoBehaviour
         green = new UnityEngine.Color(0, 214, 0);
         red = new UnityEngine.Color(255, 0, 0);
 
+        start_height = player_hp_bar.GetComponent<Image>().rectTransform.rect.height;
         player_hp_text.GetComponent<Text>().fontSize = (int)(Screen.width * 0.018f);
         enemy_hp_text.GetComponent<Text>().fontSize = (int)(Screen.width * 0.018f);
         left_log.GetComponent<Text>().fontSize = (int)(Screen.width * 0.014f);
@@ -166,7 +166,7 @@ public class BattleManager : MonoBehaviour
                 if (!begin_phase)
                 {
                     begin_phase = true;
-                    //player.Players_Summon.Paralyze = 10;
+                    //player.Players_Summon.Burn = 10;
                     player_choice = null;
                     enemy_choice = null;
                     player_made_choice = false;
@@ -185,25 +185,8 @@ public class BattleManager : MonoBehaviour
                     //Start_Damage_Text();
 
                     Display_Results();
-                    if (enemy.Players_Summon.Health <= 0 && player.Players_Summon.Health <= 0)
+                    if(Game_Over())
                     {
-                        Disable_Spells();
-                        Disable_Finishers();
-                        current_state = BattleStates.TIE;
-                        break;
-                    }
-                    else if (enemy.Players_Summon.Health <= 0)
-                    {
-                        Disable_Spells();
-                        Disable_Finishers();
-                        current_state = BattleStates.WIN;
-                        break;
-                    }
-                    else if (player.Players_Summon.Health <= 0)
-                    {
-                        Disable_Spells();
-                        Disable_Finishers();
-                        current_state = BattleStates.LOSE;
                         break;
                     }
                     spell_1.GetComponentsInChildren<Image>()[0].color = UnityEngine.Color.white;
@@ -263,6 +246,10 @@ public class BattleManager : MonoBehaviour
                     Thread.Sleep(500);
                     Calculate_Results();
                     Display_Results();
+                    if(Game_Over())
+                    {
+                        break;
+                    }
                     current_state = BattleStates.RESET;
                 }
                 break;
@@ -580,25 +567,6 @@ public class BattleManager : MonoBehaviour
 
         Setup_Damage_Text(-player_damaged + "", -enemy_damaged + "");
         Start_Damage_Text();
-
-        if (enemy.Players_Summon.Health <= 0 && player.Players_Summon.Health <= 0)
-        {
-            Disable_Spells();
-            Disable_Finishers();
-            current_state = BattleStates.TIE;
-        }
-        else if(enemy.Players_Summon.Health <= 0)
-        {
-            Disable_Spells();
-            Disable_Finishers();
-            current_state = BattleStates.WIN;
-        }
-        else if(player.Players_Summon.Health <= 0)
-        {
-            Disable_Spells();
-            Disable_Finishers();
-            current_state = BattleStates.LOSE;
-        }
     }
 
     private void Increment_Combo()
@@ -626,6 +594,7 @@ public class BattleManager : MonoBehaviour
                 combo_finisher.GetComponentsInChildren<Text>()[3].text = player.Players_Summon.Combo.ToString();
                 break;
             case BaseSpell.Spell_Class.WARRIOR:
+                player.Players_Summon.Combo = 0;
                 int blocked = 0;
                 if(enemy_choice.Results.Damage > 0)
                 {
@@ -656,9 +625,6 @@ public class BattleManager : MonoBehaviour
     {
         player_hp_text.GetComponent<Text>().text = player.Players_Summon.Health.ToString();
         enemy_hp_text.GetComponent<Text>().text = enemy.Players_Summon.Health.ToString();
-
-        double start_height = player_hp_bar.GetComponent<Image>().rectTransform.rect.height;
-        Debug.Log("Start Height: " + start_height);
 
         double php = start_height - (start_height) * ((double)player.Players_Summon.Health / (double)player.Players_Summon.Base_Health);
         double ehp = start_height - (start_height) * ((double)enemy.Players_Summon.Health / (double)enemy.Players_Summon.Base_Health);
@@ -794,6 +760,32 @@ public class BattleManager : MonoBehaviour
         affliction_finisher.GetComponentsInChildren<Text>()[1].text = "Heals for an increased amount based on affliction count";
         affliction_finisher.GetComponentsInChildren<Text>()[2].text = "Affliction Count";
         affliction_finisher.GetComponentsInChildren<Text>()[3].text = player.Players_Summon.Curse.ToString();
+    }
+
+    private bool Game_Over()
+    {
+        if (enemy.Players_Summon.Health <= 0 && player.Players_Summon.Health <= 0)
+        {
+            Disable_Spells();
+            Disable_Finishers();
+            current_state = BattleStates.TIE;
+            return true;
+        }
+        else if (enemy.Players_Summon.Health <= 0)
+        {
+            Disable_Spells();
+            Disable_Finishers();
+            current_state = BattleStates.WIN;
+            return true;
+        }
+        else if (player.Players_Summon.Health <= 0)
+        {
+            Disable_Spells();
+            Disable_Finishers();
+            current_state = BattleStates.LOSE;
+            return true;
+        }
+        return false;
     }
 
     private void Win_Popup()
