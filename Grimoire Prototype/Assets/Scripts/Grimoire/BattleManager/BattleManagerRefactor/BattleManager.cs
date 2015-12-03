@@ -189,14 +189,7 @@ public class BattleManager : MonoBehaviour
                     {
                         break;
                     }
-                    spell_1.GetComponentsInChildren<Image>()[0].color = UnityEngine.Color.white;
-                    spell_2.GetComponentsInChildren<Image>()[0].color = UnityEngine.Color.white;
-                    spell_3.GetComponentsInChildren<Image>()[0].color = UnityEngine.Color.white;
-                    spell_4.GetComponentsInChildren<Image>()[0].color = UnityEngine.Color.white;
-                    spell_1.GetComponentsInChildren<Button>()[0].interactable = true;
-                    spell_2.GetComponentsInChildren<Button>()[0].interactable = true;
-                    spell_3.GetComponentsInChildren<Button>()[0].interactable = true;
-                    spell_4.GetComponentsInChildren<Button>()[0].interactable = true;
+                    Reset_Spell_Buttons();
                     current_state = BattleStates.PLAYERCHOICE;
                 }
                 break;
@@ -204,6 +197,8 @@ public class BattleManager : MonoBehaviour
                 if (!player_phase)
                 {
                     player_phase = true;
+                    Enable_Spells();
+                    Disable_Finishers();
                     if (Paralyzed(player))
                     {
                         if (UnityEngine.Random.Range(0, 101) < 50)
@@ -275,7 +270,7 @@ public class BattleManager : MonoBehaviour
                 }
                 break;
             case BattleStates.TIE:
-                if (tie_phase)
+                if (!tie_phase)
                 {
                     tie_phase = true;
                     Tie_Popup();
@@ -565,7 +560,7 @@ public class BattleManager : MonoBehaviour
         player.Players_Summon.Health = (player.Players_Summon.Base_Health < (player_results.Heal + player.Players_Summon.Health)) ? player.Players_Summon.Base_Health : (player_results.Heal + player.Players_Summon.Health);
         enemy.Players_Summon.Health = (enemy.Players_Summon.Base_Health < (enemy_results.Heal + enemy.Players_Summon.Health)) ? enemy.Players_Summon.Base_Health : (enemy_results.Heal + enemy.Players_Summon.Health);
 
-        Setup_Damage_Text(-player_damaged + "", -enemy_damaged + "");
+        Setup_Damage_Text("Damage: " + -player_damaged, "Damage: " + -enemy_damaged);
         Start_Damage_Text();
     }
 
@@ -595,8 +590,9 @@ public class BattleManager : MonoBehaviour
                 break;
             case BaseSpell.Spell_Class.WARRIOR:
                 player.Players_Summon.Combo = 0;
+                combo_finisher.GetComponentsInChildren<Text>()[3].text = player.Players_Summon.Combo.ToString();
                 int blocked = 0;
-                if(enemy_choice.Results.Damage > 0)
+                if(enemy_choice != null && enemy_choice.Results.Damage > 0)
                 {
                     if(player_choice.Results.Block < enemy_choice.Results.Damage)
                     {
@@ -762,6 +758,21 @@ public class BattleManager : MonoBehaviour
         affliction_finisher.GetComponentsInChildren<Text>()[3].text = player.Players_Summon.Curse.ToString();
     }
 
+    private void Reset_Spell_Buttons()
+    {
+        if (spell_1.activeSelf)
+        {
+            spell_1.GetComponentsInChildren<Image>()[0].color = UnityEngine.Color.white;
+            spell_2.GetComponentsInChildren<Image>()[0].color = UnityEngine.Color.white;
+            spell_3.GetComponentsInChildren<Image>()[0].color = UnityEngine.Color.white;
+            spell_4.GetComponentsInChildren<Image>()[0].color = UnityEngine.Color.white;
+            spell_1.GetComponentsInChildren<Button>()[0].interactable = true;
+            spell_2.GetComponentsInChildren<Button>()[0].interactable = true;
+            spell_3.GetComponentsInChildren<Button>()[0].interactable = true;
+            spell_4.GetComponentsInChildren<Button>()[0].interactable = true;
+        }
+    }
+
     private bool Game_Over()
     {
         if (enemy.Players_Summon.Health <= 0 && player.Players_Summon.Health <= 0)
@@ -816,9 +827,21 @@ public class BattleManager : MonoBehaviour
 
     public void Return_To_Main_Menu()
     {
-        GameManager.instance.player.Players_Summon.Health = GameManager.instance.player.Players_Summon.Base_Health;
+        Clean_Up();
         GameManager.instance.current_state = GameManager.GameStates.MAIN;
         GameManager.instance.scene_loaded = false;
+    }
+
+    private void Clean_Up()
+    {
+        GameManager.instance.player.Players_Summon.Health = GameManager.instance.player.Players_Summon.Base_Health;
+        GameManager.instance.player.Players_Summon.Combo = 0;
+        GameManager.instance.player.Players_Summon.Reflect = 0;
+        GameManager.instance.player.Players_Summon.Curse = 0;
+        GameManager.instance.player.Players_Summon.Burn = 0;
+        GameManager.instance.player.Players_Summon.Poison = 0;
+        GameManager.instance.player.Players_Summon.Poison_Count = 0;
+        GameManager.instance.player.Players_Summon.Paralyze = 0;
     }
 
     private void Setup_Damage_Text(string player, string enemy)
@@ -832,6 +855,8 @@ public class BattleManager : MonoBehaviour
         pdt.text = player;
         pdt.font = Resources.Load<Font>("pixelmix");
         pdt.fontSize = (int)(Screen.width * 0.02f);
+        pdt.horizontalOverflow = HorizontalWrapMode.Overflow;
+        pdt.verticalOverflow = VerticalWrapMode.Overflow;
         player_damage_text.transform.localPosition = player_damage_text_start;
 
         enemy_damage_text = new GameObject();
@@ -840,6 +865,8 @@ public class BattleManager : MonoBehaviour
         edt.text = enemy;
         edt.font = Resources.Load<Font>("pixelmix");
         edt.fontSize = (int)(Screen.width * 0.02f);
+        edt.horizontalOverflow = HorizontalWrapMode.Overflow;
+        edt.verticalOverflow = VerticalWrapMode.Overflow;
         enemy_damage_text.transform.localPosition = enemy_damage_text_start;
     }
 
@@ -856,13 +883,13 @@ public class BattleManager : MonoBehaviour
         while (timer < 1f)
         {
             Vector2 position1 = new Vector2();
-            position1.x = -(int)(Screen.width * 0.18f);
-            position1.y = (int)(Screen.height * 0.25f) + count;
+            position1.x = -(int)(Screen.width * 0.2f);
+            position1.y = (int)(Screen.height * 0.25f) + (count/2);
             player_damage_text.transform.localPosition = position1;
 
             Vector2 position2 = new Vector2();
             position2.x = (int)(Screen.width * 0.18f);
-            position2.y = (int)(Screen.height * 0.25f) + count;
+            position2.y = (int)(Screen.height * 0.25f) + (count/2);
             enemy_damage_text.transform.localPosition = position2;
 
             count++;

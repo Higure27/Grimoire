@@ -90,6 +90,7 @@
      <Compile Include="Assets\Scripts\Grimoire\GameManager\GameManager.cs" />
      <Compile Include="Assets\Scripts\Grimoire\GameManager\GameStates\CreateNewUser.cs" />
      <Compile Include="Assets\Scripts\Grimoire\GameManager\GameStates\EditBook.cs" />
+     <Compile Include="Assets\Scripts\Grimoire\GameManager\GameStates\LevelUp.cs" />
      <Compile Include="Assets\Scripts\Grimoire\GameManager\GameStates\MainMenu.cs" />
      <Compile Include="Assets\Scripts\Grimoire\GameManager\GameStates\StartScreen.cs" />
      <Compile Include="Assets\Scripts\Grimoire\IncreaseExperience.cs" />

@@ -8,6 +8,7 @@ public class MainMenu : MonoBehaviour
     private GameObject start_battle;
     private GameObject edit_spell_book;
     private GameObject exit;
+    private GameObject summon;
     public GameObject summon_container;
     private BasePlayer player;
 
@@ -18,9 +19,11 @@ public class MainMenu : MonoBehaviour
         start_battle = GameObject.Find("StartBattle");
         edit_spell_book = GameObject.Find("EditSpellBook");
         exit = GameObject.Find("Exit");
+        summon = GameObject.Find("Summon");
         start_battle.GetComponentInChildren<Text>().fontSize = font_size;
         edit_spell_book.GetComponentInChildren<Text>().fontSize = font_size;
         exit.GetComponentInChildren<Text>().fontSize = font_size;
+        summon.GetComponentInChildren<Text>().fontSize = font_size;
         Set_Font_Size();
         Load_Player_Summon();
     }
@@ -82,6 +85,12 @@ public class MainMenu : MonoBehaviour
     {
         GameManager.instance.database.Save_Player(GameManager.instance.player.Player_Name, GameManager.instance.player);
         GameManager.instance.current_state = GameManager.GameStates.START;
+        GameManager.instance.scene_loaded = false;
+    }
+
+    public void Edit_Summon()
+    {
+        GameManager.instance.current_state = GameManager.GameStates.SUMMON;
         GameManager.instance.scene_loaded = false;
     }
 }

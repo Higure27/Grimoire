@@ -9,7 +9,8 @@ public class GameManager : MonoBehaviour
         CREATE,
         MAIN,
         BATTLE,
-        BOOK
+        BOOK,
+        SUMMON
     }
 
     public static GameManager instance;
@@ -71,6 +72,13 @@ public class GameManager : MonoBehaviour
                 if(!scene_loaded)
                 {
                     Application.LoadLevel("battle_scene");
+                    scene_loaded = true;
+                }
+                break;
+            case GameStates.SUMMON:
+                if(!scene_loaded)
+                {
+                    Application.LoadLevel("level_up_scene");
                     scene_loaded = true;
                 }
                 break;
