@@ -20,6 +20,10 @@ public class MainMenu : MonoBehaviour
         edit_spell_book = GameObject.Find("EditSpellBook");
         exit = GameObject.Find("Exit");
         summon = GameObject.Find("Summon");
+        if(player.Players_Summon.Stat_Points == 0)
+        {
+            summon.GetComponent<Button>().interactable = false;
+        }
         start_battle.GetComponentInChildren<Text>().fontSize = font_size;
         edit_spell_book.GetComponentInChildren<Text>().fontSize = font_size;
         exit.GetComponentInChildren<Text>().fontSize = font_size;
