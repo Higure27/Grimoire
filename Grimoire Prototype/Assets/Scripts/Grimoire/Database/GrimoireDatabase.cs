@@ -16,16 +16,21 @@ public class GrimoireDatabase
     private XmlDocument summon_db = new XmlDocument();
     private XmlNode summon_root;
 
-    public void Load_Player(string user)
+    public BasePlayer Load_Player(string user)
     {
+        //Debug.Log(Get_Random_User());
         user = user.ToLower().Replace(" ", string.Empty);
-        GameManager.instance.player = new BasePlayer();
-        GameManager.instance.player.Player_Spell_Book = new SpellBook();
-        GameManager.instance.player.Player_Spell_Inventory = new SpellInventory();
-        GameManager.instance.player.Player_Name = user;
+        //GameManager.instance.player = new BasePlayer();
+        //GameManager.instance.player.Player_Spell_Book = new SpellBook();
+        //GameManager.instance.player.Player_Spell_Inventory = new SpellInventory();
+        //GameManager.instance.player.Player_Name = user;
+        BasePlayer player = new BasePlayer();
+        player.Player_Spell_Book = new SpellBook();
+        player.Player_Spell_Inventory = new SpellInventory();
+        player.Player_Name = user;
 
-        Load_Player_Summon(user);
-        Load_Player_Spell_Inventory(user);
+        player.Players_Summon = Load_Player_Summon(user);
+        Load_Player_Spell_Inventory(user, ref player);
 
         spell_book_db.Load("Assets/Scripts/Grimoire/Database/SpellBookDatabase.xml");
         spell_book_root = spell_book_db.DocumentElement;
@@ -33,17 +38,18 @@ public class GrimoireDatabase
         XmlNode book = spell_book_root.SelectSingleNode(path);
         if (book == null)
         {
-            return;
+            return null;
         }
-        Debug.Log("Spell Book Elements: " + book.ChildNodes.Count);
+        //Debug.Log("Spell Book Elements: " + book.ChildNodes.Count);
         foreach (XmlNode spell in book.ChildNodes)
         {
-            Add_Spell(spell.InnerText, "spell_book");
+            Add_Spell(spell.InnerText, "spell_book", ref player);
         }
+        return player;
     }
 
-    private void Load_Player_Spell_Inventory(string user)
-    {
+    private void Load_Player_Spell_Inventory(string user, ref BasePlayer player)
+    {     
         spell_inventory_db.Load("Assets/Scripts/Grimoire/Database/SpellInventoryDatabase.xml");
         spell_inventory_root = spell_inventory_db.DocumentElement;
         string path = "descendant::Inventory[@id='" + user + "']";
@@ -52,14 +58,14 @@ public class GrimoireDatabase
         {
             return;
         }
-        Debug.Log("Inventory Elements: " + inventory.ChildNodes.Count);
+        //Debug.Log("Inventory Elements: " + inventory.ChildNodes.Count);
         foreach (XmlNode spell in inventory.ChildNodes)
         {
-            Add_Spell(spell.InnerText, "inventory");
+            Add_Spell(spell.InnerText, "inventory", ref player);
         }
     }
 
-    private void Load_Player_Summon(string user)
+    private Summon Load_Player_Summon(string user)
     {
         summon_db.Load("Assets/Scripts/Grimoire/Database/SummonDatabase.xml");
         summon_root = summon_db.DocumentElement;
@@ -67,7 +73,7 @@ public class GrimoireDatabase
         XmlNode summon = summon_root.SelectSingleNode(path);
         if(summon == null)
         {
-            return;
+            return null;
         }
         string name = summon["name"].InnerText;
         int level = int.Parse(summon["level"].InnerText);
@@ -92,7 +98,8 @@ public class GrimoireDatabase
         int health = int.Parse(summon["health"].InnerText);
         int exp = int.Parse(summon["current_exp"].InnerText);
 
-        GameManager.instance.player.Players_Summon = new Summon(name, level, exp, health, strength, defense, type);
+        //GameManager.instance.player.Players_Summon = new Summon(name, level, exp, health, strength, defense, type);
+        return new Summon(name, level, exp, health, strength, defense, type);
     }
 
     /*
@@ -111,19 +118,31 @@ public class GrimoireDatabase
         return true;
     }
 
-    private void Add_Spell(string spell, string location)
+    public string Get_Random_User()
+    {
+        summon_db.Load("Assets/Scripts/Grimoire/Database/SummonDatabase.xml");
+        summon_root = summon_db.DocumentElement;
+        XmlNodeList users = summon_root.SelectNodes("//Summon");
+        XmlNode random_user = users[UnityEngine.Random.Range(0, users.Count)];
+        string name = random_user.Attributes.Item(0).Value;
+        return name;
+    }
+
+    private void Add_Spell(string spell, string location, ref BasePlayer player)
     {
         if (location == "spell_book")
         {
             ObjectHandle handle = Activator.CreateInstance(null, spell);
             BaseSpell s = (BaseSpell)handle.Unwrap();
-            GameManager.instance.player.Player_Spell_Book.Add_Spell(s);
+            //GameManager.instance.player.Player_Spell_Book.Add_Spell(s);
+            player.Player_Spell_Book.Add_Spell(s);
         }
         else if(location == "inventory")
         {
             ObjectHandle handle = Activator.CreateInstance(null, spell);
             BaseSpell s = (BaseSpell)handle.Unwrap();
-            GameManager.instance.player.Player_Spell_Inventory.Add_Spell(s);
+            //GameManager.instance.player.Player_Spell_Inventory.Add_Spell(s);
+            player.Player_Spell_Inventory.Add_Spell(s);
         }
     }
 
@@ -152,9 +171,9 @@ public class GrimoireDatabase
         for(int i = 0; i < player.Player_Spell_Book.Spell_List.Count; i++)
         {
             string xpath = "descendant::Book[@id='" + user + "']/spell_" + (i + 1);
-            Debug.Log(xpath);
+            //Debug.Log(xpath);
             XmlNode node = spell_book_root.SelectSingleNode(xpath);
-            Debug.Log(node.InnerText);
+            //Debug.Log(node.InnerText);
             node.InnerText = player.Player_Spell_Book.Spell_List[i].Name.Replace(" ", string.Empty);
         }
         spell_book_db.Save("Assets/Scripts/Grimoire/Database/SpellBookDatabase.xml");

@@ -57,6 +57,7 @@ public class BattleManager : MonoBehaviour
     private Vector2 position_4;
     private Vector2 off_screen;
 
+    public GameObject player_names;
     public GameObject player_damage_text;
     public GameObject enemy_damage_text;
     private Vector2 player_damage_text_start;
@@ -94,8 +95,9 @@ public class BattleManager : MonoBehaviour
 	void Start ()
     {
         player = GameManager.instance.player;
-        Load_Random_Enemy();
-        Load_Player_Summon_Image();
+        enemy = GameManager.instance.enemy;
+        player_summon_image.GetComponentsInChildren<Image>()[0].sprite = Load_Summon_Image(player);
+        enemy_summon_image.GetComponentsInChildren<Image>()[0].sprite = Load_Summon_Image(enemy);
 
         player_made_choice = false;
         start_phase = false;
@@ -131,6 +133,9 @@ public class BattleManager : MonoBehaviour
         finish_window.GetComponentsInChildren<Text>()[3].fontSize = (int)(Screen.width * 0.02f);
         finish_window.GetComponentsInChildren<Text>()[4].fontSize = (int)(Screen.width * 0.02f);
         finish_window.GetComponentsInChildren<Text>()[5].fontSize = (int)(Screen.width * 0.02f);
+        player_names.GetComponentsInChildren<Text>()[0].fontSize = (int)(Screen.width * 0.02f);
+        string pvp = player.Player_Name + " VS. " + enemy.Player_Name;
+        player_names.GetComponentsInChildren<Text>()[0].text = pvp;
 
         finish_window.transform.localPosition = off_screen;
         Disable_Finishers();
@@ -259,6 +264,12 @@ public class BattleManager : MonoBehaviour
                 if (!lose_phase)
                 {
                     lose_phase = true;
+                    if(GameManager.instance.tournament_mode)
+                    {
+                        Tournament.instance.Player_Lost();
+                        finish_window.GetComponentsInChildren<Button>()[0].onClick.RemoveAllListeners();
+                        finish_window.GetComponentsInChildren<Button>()[0].onClick.AddListener(() => { Return_To_Tournament(); });
+                    }
                     Lose_Popup();         
                 }
                 break;
@@ -266,6 +277,12 @@ public class BattleManager : MonoBehaviour
                 if (!win_phase)
                 {
                     win_phase = true;
+                    if (GameManager.instance.tournament_mode)
+                    {
+                        Tournament.instance.Player_Won();
+                        finish_window.GetComponentsInChildren<Button>()[0].onClick.RemoveAllListeners();
+                        finish_window.GetComponentsInChildren<Button>()[0].onClick.AddListener(() => { Return_To_Tournament(); });
+                    }
                     Win_Popup();
                 }
                 break;
@@ -273,6 +290,12 @@ public class BattleManager : MonoBehaviour
                 if (!tie_phase)
                 {
                     tie_phase = true;
+                    if (GameManager.instance.tournament_mode)
+                    {
+                        Tournament.instance.Player_Lost();
+                        finish_window.GetComponentsInChildren<Button>()[0].onClick.RemoveAllListeners();
+                        finish_window.GetComponentsInChildren<Button>()[0].onClick.AddListener(() => { Return_To_Tournament(); });
+                    }
                     Tie_Popup();
                 }
                 break;
@@ -342,6 +365,55 @@ public class BattleManager : MonoBehaviour
         {
             player_summon_image.GetComponentsInChildren<Image>()[0].sprite = Resources.Load<Sprite>("Sprites/Summon_Light_Evo1");
         }
+    }
+
+    private Sprite Load_Summon_Image(BasePlayer p)
+    {
+        if (p.Players_Summon.Summon_Type == Summon.Type.DARK)
+        {
+            if (p.Players_Summon.Stage == 1)
+            {
+                return Resources.Load<Sprite>("Sprites/Summon_Dark_Evo1");
+            }
+            else
+            {
+                return Resources.Load<Sprite>("Sprites/Summon_Dark_Evo2");
+            }
+        }
+        else if (p.Players_Summon.Summon_Type == Summon.Type.EARTH)
+        {
+            if (p.Players_Summon.Stage == 1)
+            {
+                return Resources.Load<Sprite>("Sprites/Summon_Earth_Evo1");
+            }
+            else
+            {
+                return Resources.Load<Sprite>("Sprites/Summon_Earth_Evo2");
+            }
+        }
+        else if (p.Players_Summon.Summon_Type == Summon.Type.FIRE)
+        {
+            if (p.Players_Summon.Stage == 1)
+            {
+                return Resources.Load<Sprite>("Sprites/Summon_Fire_Evo1");
+            }
+            else
+            {
+                return Resources.Load<Sprite>("Sprites/Summon_Fire_Evo2");
+            }
+        }
+        else if (p.Players_Summon.Summon_Type == Summon.Type.LIGHT)
+        {
+            if (p.Players_Summon.Stage == 1)
+            {
+                return Resources.Load<Sprite>("Sprites/Summon_Light_Evo1");
+            }
+            else
+            {
+                return Resources.Load<Sprite>("Sprites/Summon_Light_Evo2");
+            }
+        }
+        return null;
     }
 
     public void Toggle_Page()
@@ -686,44 +758,44 @@ public class BattleManager : MonoBehaviour
         enemy.Player_Spell_Book.Draw_For_Turn();
     }
 
-    private void Load_Random_Enemy()
-    {
-        enemy = new BasePlayer();
-        enemy.Player_Name = "Enemy";
-        enemy.Player_Spell_Book = new SpellBook();
-        enemy.Player_Spell_Book.Add_Spell(new FireStrike());
-        enemy.Player_Spell_Book.Add_Spell(new FireStrike());
-        enemy.Player_Spell_Book.Add_Spell(new DarkStrike());
-        enemy.Player_Spell_Book.Add_Spell(new DarkStrike());
-        enemy.Player_Spell_Book.Add_Spell(new LightStrike());
-        enemy.Player_Spell_Book.Add_Spell(new LightStrike());
-        enemy.Player_Spell_Book.Add_Spell(new FireShield());
-        enemy.Player_Spell_Book.Add_Spell(new FireShield());
-        enemy.Player_Spell_Book.Add_Spell(new FireShield());
-        enemy.Player_Spell_Book.Add_Spell(new FireShield());
-        int random = UnityEngine.Random.Range(0, 5);
-        if (random == 0)
-        {
-            enemy.Players_Summon = new Summon("Vampire", 1, 0, 60, 3, 3, Summon.Type.DARK);
-            enemy_summon_image.GetComponentsInChildren<Image>()[0].sprite = Resources.Load<Sprite>("Sprites/Summon_Dark_Evo1");
-        }
-        else if (random == 1)
-        {
-            enemy.Players_Summon = new Summon("Paladin", 1, 0, 50, 4, 4, Summon.Type.LIGHT);
-            enemy_summon_image.GetComponentsInChildren<Image>()[0].sprite = Resources.Load<Sprite>("Sprites/Summon_Light_Evo1");
-        }
-        else if(random == 2)
-        {
-            enemy.Players_Summon = new Summon("Phoenix", 1, 0, 40, 6, 3, Summon.Type.FIRE);
-            enemy_summon_image.GetComponentsInChildren<Image>()[0].sprite = Resources.Load<Sprite>("Sprites/Summon_Fire_Evo1");
-        }
-        else
-        {
-            enemy.Players_Summon = new Summon("Golem", 1, 0, 40, 3, 6, Summon.Type.EARTH);
-            enemy_summon_image.GetComponentsInChildren<Image>()[0].sprite = Resources.Load<Sprite>("Sprites/Summon_Earth_Evo1");
-        }
+    //private void Load_Random_Enemy()
+    //{
+    //    enemy = new BasePlayer();
+    //    enemy.Player_Name = "Enemy";
+    //    enemy.Player_Spell_Book = new SpellBook();
+    //    enemy.Player_Spell_Book.Add_Spell(new FireStrike());
+    //    enemy.Player_Spell_Book.Add_Spell(new FireStrike());
+    //    enemy.Player_Spell_Book.Add_Spell(new DarkStrike());
+    //    enemy.Player_Spell_Book.Add_Spell(new DarkStrike());
+    //    enemy.Player_Spell_Book.Add_Spell(new LightStrike());
+    //    enemy.Player_Spell_Book.Add_Spell(new LightStrike());
+    //    enemy.Player_Spell_Book.Add_Spell(new FireShield());
+    //    enemy.Player_Spell_Book.Add_Spell(new FireShield());
+    //    enemy.Player_Spell_Book.Add_Spell(new FireShield());
+    //    enemy.Player_Spell_Book.Add_Spell(new FireShield());
+    //    int random = UnityEngine.Random.Range(0, 5);
+    //    if (random == 0)
+    //    {
+    //        enemy.Players_Summon = new Summon("Vampire", 1, 0, 60, 3, 3, Summon.Type.DARK);
+    //        enemy_summon_image.GetComponentsInChildren<Image>()[0].sprite = Resources.Load<Sprite>("Sprites/Summon_Dark_Evo1");
+    //    }
+    //    else if (random == 1)
+    //    {
+    //        enemy.Players_Summon = new Summon("Paladin", 1, 0, 50, 4, 4, Summon.Type.LIGHT);
+    //        enemy_summon_image.GetComponentsInChildren<Image>()[0].sprite = Resources.Load<Sprite>("Sprites/Summon_Light_Evo1");
+    //    }
+    //    else if(random == 2)
+    //    {
+    //        enemy.Players_Summon = new Summon("Phoenix", 1, 0, 40, 6, 3, Summon.Type.FIRE);
+    //        enemy_summon_image.GetComponentsInChildren<Image>()[0].sprite = Resources.Load<Sprite>("Sprites/Summon_Fire_Evo1");
+    //    }
+    //    else
+    //    {
+    //        enemy.Players_Summon = new Summon("Golem", 1, 0, 40, 3, 6, Summon.Type.EARTH);
+    //        enemy_summon_image.GetComponentsInChildren<Image>()[0].sprite = Resources.Load<Sprite>("Sprites/Summon_Earth_Evo1");
+    //    }
 
-    }
+    //}
 
     private void Setup_Finishers()
     {
@@ -832,6 +904,13 @@ public class BattleManager : MonoBehaviour
         GameManager.instance.scene_loaded = false;
     }
 
+    public void Return_To_Tournament()
+    {
+        Clean_Up();
+        GameManager.instance.current_state = GameManager.GameStates.TOURNAMENT;
+        GameManager.instance.scene_loaded = false;
+    }
+
     private void Clean_Up()
     {
         GameManager.instance.player.Players_Summon.Health = GameManager.instance.player.Players_Summon.Base_Health;
@@ -842,6 +921,8 @@ public class BattleManager : MonoBehaviour
         GameManager.instance.player.Players_Summon.Poison = 0;
         GameManager.instance.player.Players_Summon.Poison_Count = 0;
         GameManager.instance.player.Players_Summon.Paralyze = 0;
+
+        GameManager.instance.enemy = null;
     }
 
     private void Setup_Damage_Text(string player, string enemy)

@@ -55,27 +55,68 @@ public class MainMenu : MonoBehaviour
         summon_container.GetComponentsInChildren<Text>()[6].text = player.Players_Summon.Strength.ToString();
         summon_container.GetComponentsInChildren<Text>()[8].text = player.Players_Summon.Defense.ToString();
         summon_container.GetComponentsInChildren<Text>()[10].text = player.Players_Summon.Curr_Exp + " / " + player.Players_Summon.Req_Exp;
-        if(player.Players_Summon.Summon_Type == Summon.Type.DARK)
+
+        summon_container.GetComponentsInChildren<Image>()[1].sprite = Get_Summon_Image(player);
+    }
+
+    private Sprite Get_Summon_Image(BasePlayer p)
+    {
+        if (p.Players_Summon.Summon_Type == Summon.Type.DARK)
         {
-            summon_container.GetComponentsInChildren<Image>()[1].sprite = Resources.Load<Sprite>("Sprites/Summon_Dark_Evo1");
+            if (p.Players_Summon.Stage == 1)
+            {
+                return Resources.Load<Sprite>("Sprites/static_vampire_1");
+            }
+            else
+            {
+                return Resources.Load<Sprite>("Sprites/Summon_Dark_Evo2");
+            }
         }
-        else if(player.Players_Summon.Summon_Type == Summon.Type.EARTH)
+        else if (p.Players_Summon.Summon_Type == Summon.Type.EARTH)
         {
-            summon_container.GetComponentsInChildren<Image>()[1].sprite = Resources.Load<Sprite>("Sprites/Summon_Earth_Evo1");
+            if (p.Players_Summon.Stage == 1)
+            {
+                return Resources.Load<Sprite>("Sprites/static_golem_1");
+            }
+            else
+            {
+                return Resources.Load<Sprite>("Sprites/Summon_Earth_Evo2");
+            }
         }
-        else if(player.Players_Summon.Summon_Type == Summon.Type.FIRE)
+        else if (p.Players_Summon.Summon_Type == Summon.Type.FIRE)
         {
-            summon_container.GetComponentsInChildren<Image>()[1].sprite = Resources.Load<Sprite>("Sprites/Summon_Fire_Evo1");
+            if (p.Players_Summon.Stage == 1)
+            {
+                return Resources.Load<Sprite>("Sprites/static_phoenix_1");
+            }
+            else
+            {
+                return Resources.Load<Sprite>("Sprites/Summon_Fire_Evo2");
+            }
         }
-        else
+        else if (p.Players_Summon.Summon_Type == Summon.Type.LIGHT)
         {
-            summon_container.GetComponentsInChildren<Image>()[1].sprite = Resources.Load<Sprite>("Sprites/Summon_Light_Evo1");
+            if (p.Players_Summon.Stage == 1)
+            {
+                return Resources.Load<Sprite>("Sprites/static_paladin_1");
+            }
+            else
+            {
+                return Resources.Load<Sprite>("Sprites/Summon_Light_Evo2");
+            }
         }
+        return null;
     }
 
     public void Start_Battle()
     {
         GameManager.instance.current_state = GameManager.GameStates.BATTLE;
+        GameManager.instance.scene_loaded = false;
+    }
+
+    public void Tournament_Mode()
+    {
+        GameManager.instance.current_state = GameManager.GameStates.TOURNAMENT;
         GameManager.instance.scene_loaded = false;
     }
 

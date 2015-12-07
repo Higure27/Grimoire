@@ -141,11 +141,11 @@ public class Summon
      */
     public void Evolve()
     {
-        if (level > 15 && level < 32)
+        if (level > 10 && level < 20)
         {
             stage = 2;
         }
-        else if(level > 31)
+        else if(level > 19)
         {
             stage = 3;
         }
