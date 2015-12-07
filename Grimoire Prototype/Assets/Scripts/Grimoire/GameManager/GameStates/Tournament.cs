@@ -55,6 +55,7 @@ public class Tournament : MonoBehaviour
 
     private void Init()
     {
+		Set_Fonts ();
         tournament_players = new List<BasePlayer>();
         tournament_players_names = new List<string>();
         tier_2_tournament_players = new List<BasePlayer>();
@@ -87,6 +88,20 @@ public class Tournament : MonoBehaviour
             tier_2_loser[0] = 1;
         }
     }
+
+	private void Set_Fonts()
+	{
+		return_button.GetComponentsInChildren<Text>()[0].fontSize = (int)(Screen.width * 0.018f);
+		next_battle_button.GetComponentsInChildren<Text>()[0].fontSize = (int)(Screen.width * 0.018f);
+		game_end_text.GetComponent<Text>().fontSize = (int)(Screen.width * 0.018f);
+		tier_1_player_1.GetComponentsInChildren<Text>()[0].fontSize = (int)(Screen.width * 0.012f);
+		tier_1_player_2.GetComponentsInChildren<Text>()[0].fontSize = (int)(Screen.width * 0.012f);
+		tier_1_player_3.GetComponentsInChildren<Text>()[0].fontSize = (int)(Screen.width * 0.012f);
+		tier_1_player_4.GetComponentsInChildren<Text>()[0].fontSize = (int)(Screen.width * 0.012f);
+		tier_2_player_1.GetComponentsInChildren<Text>()[0].fontSize = (int)(Screen.width * 0.012f);
+		tier_2_player_2.GetComponentsInChildren<Text>()[0].fontSize = (int)(Screen.width * 0.012f);
+		tier_3_player.GetComponentsInChildren<Text>()[0].fontSize = (int)(Screen.width * 0.012f);
+	}
 
     public void Player_Lost()
     {
