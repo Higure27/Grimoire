@@ -62,6 +62,8 @@ public class BattleManager : MonoBehaviour
     private Vector2 position_4;
     private Vector2 off_screen;
 
+    public GameObject toggle_page;
+
     public GameObject player_names;
     public GameObject player_damage_text;
     public GameObject enemy_damage_text;
@@ -152,6 +154,8 @@ public class BattleManager : MonoBehaviour
         player_names.GetComponentsInChildren<Text>()[0].fontSize = (int)(Screen.width * 0.02f);
         string pvp = player.Player_Name + " VS. " + enemy.Player_Name;
         player_names.GetComponentsInChildren<Text>()[0].text = pvp;
+
+        toggle_page.GetComponentsInChildren<Text>()[0].fontSize = (int)(Screen.width * 0.016f);
 
         finish_window.transform.localPosition = off_screen;
         Disable_Finishers();
@@ -473,11 +477,13 @@ public class BattleManager : MonoBehaviour
         {
             Disable_Spells();
             Enable_Finishers();
+            toggle_page.GetComponentsInChildren<Text>()[0].text = "Spells";
         }
         else
         {
             Enable_Spells();
             Disable_Finishers();
+            toggle_page.GetComponentsInChildren<Text>()[0].text = "Finishers";
         }
     }
 
@@ -760,7 +766,7 @@ public class BattleManager : MonoBehaviour
                 player.Players_Summon.Combo = 0;
                 player.Players_Summon.Curse++;
                 combo_finisher.GetComponentsInChildren<Text>()[3].text = player.Players_Summon.Combo.ToString();
-                affliction_finisher.GetComponentsInChildren<Text>()[3].text = player.Players_Summon.Combo.ToString();
+                affliction_finisher.GetComponentsInChildren<Text>()[3].text = player.Players_Summon.Curse.ToString();
                 break;
             case BaseSpell.Spell_Class.ROGUE:
                 player.Players_Summon.Combo++;

@@ -71,7 +71,11 @@
      <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Mage\FireAffliction.cs" />
      <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Mage\GreatAffliction\GreatAffliction.cs" />
      <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Mage\LightAffliction.cs" />
+     <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Mage\Lightning.cs" />
      <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Mage\PoisonAffliction.cs" />
+     <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Mage\Scorpion Sting.cs" />
+     <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Mage\Snake Bite.cs" />
+     <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Mage\Toxic Fire.cs" />
      <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Rogue\DarkStrike.cs" />
      <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Rogue\Finishers\FinalStrike.cs" />
      <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Rogue\FireStrike.cs" />
