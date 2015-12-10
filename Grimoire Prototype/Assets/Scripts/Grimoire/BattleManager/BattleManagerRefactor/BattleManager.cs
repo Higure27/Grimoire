@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 using System.Threading;
 using System;
+using System.Timers;
 
 public class BattleManager : MonoBehaviour
 {
@@ -47,6 +48,10 @@ public class BattleManager : MonoBehaviour
     // Battle UI Elements
     public GameObject player_summon_image;
     public GameObject enemy_summon_image;
+
+    public GameObject player_summon_sprite;
+    public GameObject enemy_summon_sprite;
+
     public GameObject spell_1;
     public GameObject spell_2;
     public GameObject spell_3;
@@ -98,6 +103,16 @@ public class BattleManager : MonoBehaviour
         enemy = GameManager.instance.enemy;
         player_summon_image.GetComponentsInChildren<Image>()[0].sprite = Load_Summon_Image(player);
         enemy_summon_image.GetComponentsInChildren<Image>()[0].sprite = Load_Summon_Image(enemy);
+
+        player_summon_image.SetActive(false);
+        enemy_summon_image.SetActive(false);
+
+        player_summon_sprite = Load_Summon_Sprite(player);
+        enemy_summon_sprite = Load_Summon_Sprite(enemy);
+
+        player_summon_sprite = (GameObject)Instantiate(player_summon_sprite, new Vector3(-3.5f, 1.5f, -1), Quaternion.identity);
+        enemy_summon_sprite = (GameObject)Instantiate(enemy_summon_sprite, new Vector3(3.5f, 1.5f, -1), Quaternion.identity);
+        enemy_summon_sprite.GetComponent<Transform>().localScale = new Vector3(-3, 3, 1);
 
         player_made_choice = false;
         start_phase = false;
@@ -270,6 +285,8 @@ public class BattleManager : MonoBehaviour
                         finish_window.GetComponentsInChildren<Button>()[0].onClick.RemoveAllListeners();
                         finish_window.GetComponentsInChildren<Button>()[0].onClick.AddListener(() => { Return_To_Tournament(); });
                     }
+                    player_summon_sprite.layer = 9;
+                    enemy_summon_sprite.layer = 9;
                     Lose_Popup();         
                 }
                 break;
@@ -283,6 +300,8 @@ public class BattleManager : MonoBehaviour
                         finish_window.GetComponentsInChildren<Button>()[0].onClick.RemoveAllListeners();
                         finish_window.GetComponentsInChildren<Button>()[0].onClick.AddListener(() => { Return_To_Tournament(); });
                     }
+                    player_summon_sprite.layer = 9;
+                    enemy_summon_sprite.layer = 9;
                     Win_Popup();
                 }
                 break;
@@ -296,6 +315,8 @@ public class BattleManager : MonoBehaviour
                         finish_window.GetComponentsInChildren<Button>()[0].onClick.RemoveAllListeners();
                         finish_window.GetComponentsInChildren<Button>()[0].onClick.AddListener(() => { Return_To_Tournament(); });
                     }
+                    player_summon_sprite.layer = 9;
+                    enemy_summon_sprite.layer = 9;
                     Tie_Popup();
                 }
                 break;
@@ -347,24 +368,53 @@ public class BattleManager : MonoBehaviour
         }
     }
 
-    private void Load_Player_Summon_Image()
+    private GameObject Load_Summon_Sprite(BasePlayer p)
     {
-        if (player.Players_Summon.Summon_Type == Summon.Type.DARK)
+        if (p.Players_Summon.Summon_Type == Summon.Type.DARK)
         {
-            player_summon_image.GetComponentsInChildren<Image>()[0].sprite = Resources.Load<Sprite>("Sprites/Summon_Dark_Evo1");
+            if (p.Players_Summon.Stage == 1)
+            {
+                return Resources.Load<GameObject>("Sprites/Animator_Prefabs/vampire_animator");
+            }
+            else
+            {
+                return Resources.Load<GameObject>("Sprites/Animator_Prefabs/vampire_evo_animator");
+            }
         }
-        else if (player.Players_Summon.Summon_Type == Summon.Type.EARTH)
+        else if (p.Players_Summon.Summon_Type == Summon.Type.EARTH)
         {
-            player_summon_image.GetComponentsInChildren<Image>()[0].sprite = Resources.Load<Sprite>("Sprites/Summon_Earth_Evo1");
+            if (p.Players_Summon.Stage == 1)
+            {
+                return Resources.Load<GameObject>("Sprites/Animator_Prefabs/golem_animator");
+            }
+            else
+            {
+                return Resources.Load<GameObject>("Sprites/Animator_Prefabs/golem_evo_animator");
+            }
         }
-        else if (player.Players_Summon.Summon_Type == Summon.Type.FIRE)
+        else if (p.Players_Summon.Summon_Type == Summon.Type.FIRE)
         {
-            player_summon_image.GetComponentsInChildren<Image>()[0].sprite = Resources.Load<Sprite>("Sprites/Summon_Fire_Evo1");
+            if (p.Players_Summon.Stage == 1)
+            {
+                return Resources.Load<GameObject>("Sprites/Animator_Prefabs/phoenix_animator");
+            }
+            else
+            {
+                return Resources.Load<GameObject>("Sprites/Animator_Prefabs/phoenix_evo_animator");
+            }
         }
-        else
+        else if (p.Players_Summon.Summon_Type == Summon.Type.LIGHT)
         {
-            player_summon_image.GetComponentsInChildren<Image>()[0].sprite = Resources.Load<Sprite>("Sprites/Summon_Light_Evo1");
+            if (p.Players_Summon.Stage == 1)
+            {
+                return Resources.Load<GameObject>("Sprites/Animator_Prefabs/paladin_animator");
+            }
+            else
+            {
+                return Resources.Load<GameObject>("Sprites/Animator_Prefabs/paladin_evo_animator");
+            }
         }
+        return null;
     }
 
     private Sprite Load_Summon_Image(BasePlayer p)
@@ -631,9 +681,64 @@ public class BattleManager : MonoBehaviour
         enemy.Players_Summon.Paralyze = enemy_paralyzed;
         player.Players_Summon.Health = (player.Players_Summon.Base_Health < (player_results.Heal + player.Players_Summon.Health)) ? player.Players_Summon.Base_Health : (player_results.Heal + player.Players_Summon.Health);
         enemy.Players_Summon.Health = (enemy.Players_Summon.Base_Health < (enemy_results.Heal + enemy.Players_Summon.Health)) ? enemy.Players_Summon.Base_Health : (enemy_results.Heal + enemy.Players_Summon.Health);
-
         Setup_Damage_Text("Damage: " + -player_damaged, "Damage: " + -enemy_damaged);
+
+        if (player_choice != null)
+        {
+            if (player_choice.Type == BaseSpell.Spell_Types.ATTACK)
+            {
+                player_summon_sprite.GetComponent<Animator>().SetTrigger("attack");
+            }
+            else
+            {
+                player_summon_sprite.GetComponent<Animator>().SetTrigger("shield");
+            }
+        }
+        if (enemy_choice != null)
+        {
+            if (enemy_choice.Type == BaseSpell.Spell_Types.ATTACK)
+            {
+
+                enemy_summon_sprite.GetComponent<Animator>().SetTrigger("attack");
+            }
+            else
+            {
+                enemy_summon_sprite.GetComponent<Animator>().SetTrigger("shield");
+            }
+        }
+
+        StartCoroutine(Reset_Animator_Triggers(0.5f));
+        StartCoroutine(Take_Damage_Trigger(player_damaged, enemy_damaged));
+
         Start_Damage_Text();
+    }
+
+    IEnumerator Take_Damage_Trigger(int player_damaged, int enemy_damaged)
+    {
+        yield return new WaitForSeconds(0.5f);
+        if (player_damaged > 0)
+        {
+            player_summon_sprite.GetComponent<Animator>().SetTrigger("damage");
+        }
+        if (enemy_damaged > 0)
+        {
+            enemy_summon_sprite.GetComponent<Animator>().SetTrigger("damage");
+        }
+        yield return new WaitForSeconds(1.5f);
+        enemy_summon_sprite.GetComponent<Animator>().ResetTrigger("damage");
+        player_summon_sprite.GetComponent<Animator>().ResetTrigger("damage");
+    }
+
+    IEnumerator Reset_Animator_Triggers(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+        player_summon_sprite.GetComponent<Animator>().ResetTrigger("attack");
+        player_summon_sprite.GetComponent<Animator>().ResetTrigger("shield");
+        player_summon_sprite.GetComponent<Animator>().ResetTrigger("damage");
+
+        enemy_summon_sprite.GetComponent<Animator>().ResetTrigger("attack");
+        enemy_summon_sprite.GetComponent<Animator>().ResetTrigger("shield");
+        enemy_summon_sprite.GetComponent<Animator>().ResetTrigger("damage");
     }
 
     private void Increment_Combo()
@@ -757,45 +862,6 @@ public class BattleManager : MonoBehaviour
 
         enemy.Player_Spell_Book.Draw_For_Turn();
     }
-
-    //private void Load_Random_Enemy()
-    //{
-    //    enemy = new BasePlayer();
-    //    enemy.Player_Name = "Enemy";
-    //    enemy.Player_Spell_Book = new SpellBook();
-    //    enemy.Player_Spell_Book.Add_Spell(new FireStrike());
-    //    enemy.Player_Spell_Book.Add_Spell(new FireStrike());
-    //    enemy.Player_Spell_Book.Add_Spell(new DarkStrike());
-    //    enemy.Player_Spell_Book.Add_Spell(new DarkStrike());
-    //    enemy.Player_Spell_Book.Add_Spell(new LightStrike());
-    //    enemy.Player_Spell_Book.Add_Spell(new LightStrike());
-    //    enemy.Player_Spell_Book.Add_Spell(new FireShield());
-    //    enemy.Player_Spell_Book.Add_Spell(new FireShield());
-    //    enemy.Player_Spell_Book.Add_Spell(new FireShield());
-    //    enemy.Player_Spell_Book.Add_Spell(new FireShield());
-    //    int random = UnityEngine.Random.Range(0, 5);
-    //    if (random == 0)
-    //    {
-    //        enemy.Players_Summon = new Summon("Vampire", 1, 0, 60, 3, 3, Summon.Type.DARK);
-    //        enemy_summon_image.GetComponentsInChildren<Image>()[0].sprite = Resources.Load<Sprite>("Sprites/Summon_Dark_Evo1");
-    //    }
-    //    else if (random == 1)
-    //    {
-    //        enemy.Players_Summon = new Summon("Paladin", 1, 0, 50, 4, 4, Summon.Type.LIGHT);
-    //        enemy_summon_image.GetComponentsInChildren<Image>()[0].sprite = Resources.Load<Sprite>("Sprites/Summon_Light_Evo1");
-    //    }
-    //    else if(random == 2)
-    //    {
-    //        enemy.Players_Summon = new Summon("Phoenix", 1, 0, 40, 6, 3, Summon.Type.FIRE);
-    //        enemy_summon_image.GetComponentsInChildren<Image>()[0].sprite = Resources.Load<Sprite>("Sprites/Summon_Fire_Evo1");
-    //    }
-    //    else
-    //    {
-    //        enemy.Players_Summon = new Summon("Golem", 1, 0, 40, 3, 6, Summon.Type.EARTH);
-    //        enemy_summon_image.GetComponentsInChildren<Image>()[0].sprite = Resources.Load<Sprite>("Sprites/Summon_Earth_Evo1");
-    //    }
-
-    //}
 
     private void Setup_Finishers()
     {
@@ -961,16 +1027,19 @@ public class BattleManager : MonoBehaviour
         float timer = 0;
         int count = 0;
 
-        while (timer < 1f)
+        while (timer < 1.5f)
         {
+            Debug.Log("moving text");
             Vector2 position1 = new Vector2();
             position1.x = -(int)(Screen.width * 0.2f);
-            position1.y = (int)(Screen.height * 0.25f) + (count/2);
+            position1.y = (int)(Screen.height * 0.1f * player.Players_Summon.Stage) + (count/2);
+            player_damage_text.transform.localScale = new Vector3(1, 1, 1);
             player_damage_text.transform.localPosition = position1;
 
             Vector2 position2 = new Vector2();
             position2.x = (int)(Screen.width * 0.18f);
-            position2.y = (int)(Screen.height * 0.25f) + (count/2);
+            position2.y = (int)(Screen.height * 0.1f * enemy.Players_Summon.Stage) + (count/2);
+            enemy_damage_text.transform.localScale = new Vector3(1, 1, 1);
             enemy_damage_text.transform.localPosition = position2;
 
             count++;
