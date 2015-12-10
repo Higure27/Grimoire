@@ -74,9 +74,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\Grimoire\AnimationScripts\Animation.cs" />
-    <Compile Include="Assets\Scripts\Grimoire\AnimationScripts\ReSkinAnimation.cs" />
-    <Compile Include="Assets\Scripts\Grimoire\AnimationScripts\SpriteAnimator.cs" />
     <Compile Include="Assets\Scripts\Grimoire\BasePlayer\Actors\Enemy.cs" />
     <Compile Include="Assets\Scripts\Grimoire\BasePlayer\BasePlayer.cs" />
     <Compile Include="Assets\Scripts\Grimoire\BasePlayer\BasePlayerSummon.cs" />
@@ -124,7 +121,6 @@
     <Compile Include="Assets\Scripts\Grimoire\GameManager\GameStates\LevelUp.cs" />
     <Compile Include="Assets\Scripts\Grimoire\GameManager\GameStates\MainMenu.cs" />
     <Compile Include="Assets\Scripts\Grimoire\GameManager\GameStates\StartScreen.cs" />
-    <Compile Include="Assets\Scripts\Grimoire\GameManager\GameStates\Tournament.cs" />
     <Compile Include="Assets\Scripts\Grimoire\IncreaseExperience.cs" />
     <Compile Include="Assets\Scripts\Grimoire\SummonTypes\BaseDarkSummon.cs" />
     <Compile Include="Assets\Scripts\Grimoire\SummonTypes\BaseEarthSummon.cs" />
