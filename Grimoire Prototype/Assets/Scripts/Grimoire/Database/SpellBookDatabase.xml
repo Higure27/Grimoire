@@ -285,4 +285,26 @@
     <spell_19>FireAffliction</spell_19>
     <spell_20>FireAffliction</spell_20>
   </Book>
+  <Book id="flip">
+    <spell_1>FireStrike</spell_1>
+    <spell_2>FireStrike</spell_2>
+    <spell_3>LightStrike</spell_3>
+    <spell_4>LightStrike</spell_4>
+    <spell_5>PoisonStrike</spell_5>
+    <spell_6>PoisonStrike</spell_6>
+    <spell_7>QuickStrike</spell_7>
+    <spell_8>QuickStrike</spell_8>
+    <spell_9>DarkShield</spell_9>
+    <spell_10>DarkShield</spell_10>
+    <spell_11>FireShield</spell_11>
+    <spell_12>FireShield</spell_12>
+    <spell_13>HardShield</spell_13>
+    <spell_14>HardShield</spell_14>
+    <spell_15>StunShield</spell_15>
+    <spell_16>StunShield</spell_16>
+    <spell_17>DarkAffliction</spell_17>
+    <spell_18>DarkAffliction</spell_18>
+    <spell_19>FireAffliction</spell_19>
+    <spell_20>FireAffliction</spell_20>
+  </Book>
 </Spell_Book_Database>

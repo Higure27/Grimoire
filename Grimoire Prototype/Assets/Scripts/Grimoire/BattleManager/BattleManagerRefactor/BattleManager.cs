@@ -111,6 +111,7 @@ public class BattleManager : MonoBehaviour
         enemy_summon_sprite = Load_Summon_Sprite(enemy);
 
         player_summon_sprite = (GameObject)Instantiate(player_summon_sprite, new Vector3(-3.5f, 1.5f, -1), Quaternion.identity);
+        player_summon_sprite.GetComponent<Transform>().localScale = new Vector3(3, 3, 1);
         enemy_summon_sprite = (GameObject)Instantiate(enemy_summon_sprite, new Vector3(3.5f, 1.5f, -1), Quaternion.identity);
         enemy_summon_sprite.GetComponent<Transform>().localScale = new Vector3(-3, 3, 1);
 
@@ -1029,16 +1030,15 @@ public class BattleManager : MonoBehaviour
 
         while (timer < 1.5f)
         {
-            Debug.Log("moving text");
             Vector2 position1 = new Vector2();
             position1.x = -(int)(Screen.width * 0.2f);
-            position1.y = (int)(Screen.height * 0.1f * player.Players_Summon.Stage) + (count/2);
+            position1.y = (int)(Screen.height * 0.15f * player.Players_Summon.Stage) + (count/2);
             player_damage_text.transform.localScale = new Vector3(1, 1, 1);
             player_damage_text.transform.localPosition = position1;
 
             Vector2 position2 = new Vector2();
             position2.x = (int)(Screen.width * 0.18f);
-            position2.y = (int)(Screen.height * 0.1f * enemy.Players_Summon.Stage) + (count/2);
+            position2.y = (int)(Screen.height * 0.15f * enemy.Players_Summon.Stage) + (count/2);
             enemy_damage_text.transform.localScale = new Vector3(1, 1, 1);
             enemy_damage_text.transform.localPosition = position2;
 

@@ -116,4 +116,13 @@
     <health>40</health>
     <current_exp>300</current_exp>
   </Summon>
+  <Summon id="flip">
+    <name>Phoenix</name>
+    <level>1</level>
+    <class>FIRE</class>
+    <strength>6</strength>
+    <defense>3</defense>
+    <health>40</health>
+    <current_exp>0</current_exp>
+  </Summon>
 </Summon_Database>
