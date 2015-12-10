@@ -23,6 +23,7 @@ public class Summon
     private int base_health;
     private Type type;
     private int stage;
+    private int stat_points;
 
     //Battle Variables
     private int burn;
@@ -42,9 +43,9 @@ public class Summon
     public int Curr_Exp { get { return curr_exp; } }
     public int Req_Exp { get { return req_exp; } }
     public int Health { get { return health; } set { health = value; } }
-    public int Strength { get { return strength; } }
-    public int Defense { get { return defense; } }
-    public int Base_Health { get { return base_health; } }
+    public int Strength { get { return strength; } set { strength = value; } }
+    public int Defense { get { return defense; } set { defense = value; } }
+    public int Base_Health { get { return base_health; } set { base_health = value; } }
     public int Stage { get { return stage; } }
     public Type Summon_Type { get { return type; } }
     public int Burn { get; set; }
@@ -56,6 +57,7 @@ public class Summon
     public int Combo { get; set; }
     public int Curse { get; set; }
     public int Reflect { get; set; }
+    public int Stat_Points { get; set; }
 
     /*
      * Constructor, Takes parameters to facilitate building summons on the fly
@@ -80,6 +82,7 @@ public class Summon
         Attack_Boost = false;
         Defense_Boost = false;
         combo = 0;
+        Stat_Points = 0;
     }
 
     /*
@@ -115,11 +118,13 @@ public class Summon
         level++;
 
         // Increase Attributes
-        int hp_mod = Random.Range(1, 11);
-        health += hp_mod;
-        base_health += hp_mod;
-        strength += Random.Range(1, 7);
-        defense += Random.Range(1, 7);
+        //int hp_mod = Random.Range(1, 11);
+        //health += hp_mod;
+        //base_health += hp_mod;
+        //strength += Random.Range(1, 7);
+        //defense += Random.Range(1, 7);
+
+        Stat_Points += 3;
 
         // Set experience;
         req_exp = Calculate_Required_Exp();
@@ -136,11 +141,11 @@ public class Summon
      */
     public void Evolve()
     {
-        if (level > 15 && level < 32)
+        if (level > 10 && level < 20)
         {
             stage = 2;
         }
-        else if(level > 31)
+        else if(level > 19)
         {
             stage = 3;
         }

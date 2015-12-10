@@ -47,4 +47,34 @@
     <spell>FireStrike</spell>
     <spell>FireStrike</spell>
   </Inventory>
+  <Inventory id="lemon">
+    <spell>DarkStrike</spell>
+    <spell>DarkStrike</spell>
+    <spell>FireStrike</spell>
+    <spell>FireStrike</spell>
+  </Inventory>
+  <Inventory id="beautybird">
+    <spell>DarkStrike</spell>
+    <spell>DarkStrike</spell>
+    <spell>FireStrike</spell>
+    <spell>FireStrike</spell>
+  </Inventory>
+  <Inventory id="goul">
+    <spell>DarkStrike</spell>
+    <spell>DarkStrike</spell>
+    <spell>FireStrike</spell>
+    <spell>FireStrike</spell>
+  </Inventory>
+  <Inventory id="test">
+    <spell>DarkStrike</spell>
+    <spell>DarkStrike</spell>
+    <spell>FireStrike</spell>
+    <spell>FireStrike</spell>
+  </Inventory>
+  <Inventory id="loser">
+    <spell>DarkStrike</spell>
+    <spell>DarkStrike</spell>
+    <spell>FireStrike</spell>
+    <spell>FireStrike</spell>
+  </Inventory>
 </Spell_Inventory_Database>

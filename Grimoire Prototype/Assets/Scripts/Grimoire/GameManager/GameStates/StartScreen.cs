@@ -41,7 +41,7 @@ public class StartScreen : MonoBehaviour
         {
             return;
         }
-        GameManager.instance.database.Load_Player(user);
+        GameManager.instance.player = GameManager.instance.database.Load_Player(user);
 
         Game_Start();
     }

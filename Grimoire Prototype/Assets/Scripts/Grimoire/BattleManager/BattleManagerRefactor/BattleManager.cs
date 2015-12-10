@@ -57,6 +57,7 @@ public class BattleManager : MonoBehaviour
     private Vector2 position_4;
     private Vector2 off_screen;
 
+    public GameObject player_names;
     public GameObject player_damage_text;
     public GameObject enemy_damage_text;
     private Vector2 player_damage_text_start;
@@ -77,11 +78,10 @@ public class BattleManager : MonoBehaviour
     public GameObject paralyze_dmg;
     private static UnityEngine.Color green;
     private static UnityEngine.Color red;
-    private bool green_success = UnityEngine.Color.TryParseHexString("00D60063", out green);
-    private bool red_success = UnityEngine.Color.TryParseHexString("FF000063", out red);
 
     public GameObject finish_window;
     private Vector2 finish_window_position;
+    double start_height;
 
     // Effect Icons
     public Sprite burn;
@@ -95,8 +95,9 @@ public class BattleManager : MonoBehaviour
 	void Start ()
     {
         player = GameManager.instance.player;
-        Load_Random_Enemy();
-        Load_Player_Summon_Image();
+        enemy = GameManager.instance.enemy;
+        player_summon_image.GetComponentsInChildren<Image>()[0].sprite = Load_Summon_Image(player);
+        enemy_summon_image.GetComponentsInChildren<Image>()[0].sprite = Load_Summon_Image(enemy);
 
         player_made_choice = false;
         start_phase = false;
@@ -116,6 +117,10 @@ public class BattleManager : MonoBehaviour
         Setup_Finishers();
         Setup_Spell_Font();
 
+        green = new UnityEngine.Color(0, 214, 0);
+        red = new UnityEngine.Color(255, 0, 0);
+
+        start_height = player_hp_bar.GetComponent<Image>().rectTransform.rect.height;
         player_hp_text.GetComponent<Text>().fontSize = (int)(Screen.width * 0.018f);
         enemy_hp_text.GetComponent<Text>().fontSize = (int)(Screen.width * 0.018f);
         left_log.GetComponent<Text>().fontSize = (int)(Screen.width * 0.014f);
@@ -128,6 +133,9 @@ public class BattleManager : MonoBehaviour
         finish_window.GetComponentsInChildren<Text>()[3].fontSize = (int)(Screen.width * 0.02f);
         finish_window.GetComponentsInChildren<Text>()[4].fontSize = (int)(Screen.width * 0.02f);
         finish_window.GetComponentsInChildren<Text>()[5].fontSize = (int)(Screen.width * 0.02f);
+        player_names.GetComponentsInChildren<Text>()[0].fontSize = (int)(Screen.width * 0.02f);
+        string pvp = player.Player_Name + " VS. " + enemy.Player_Name;
+        player_names.GetComponentsInChildren<Text>()[0].text = pvp;
 
         finish_window.transform.localPosition = off_screen;
         Disable_Finishers();
@@ -163,45 +171,30 @@ public class BattleManager : MonoBehaviour
                 if (!begin_phase)
                 {
                     begin_phase = true;
-                    //player.Players_Summon.Paralyze = 10;
+                    //player.Players_Summon.Burn = 10;
                     player_choice = null;
                     enemy_choice = null;
                     player_made_choice = false;
                     remove_indexs = new List<int>();
-                    poison_dmg.GetComponentInChildren<Text>().text = "Poison: " + Poisoned(player);
-                    Poisoned(enemy);
-                    burn_dmg.GetComponentInChildren<Text>().text = "Burn: " + Burned(player);
-                    Burned(enemy);
+                    string ppd = Poisoned(player).ToString();
+                    string epd = Poisoned(enemy).ToString();
+                    string pbd = Burned(player).ToString();
+                    string ebd = Burned(enemy).ToString();
+                    poison_dmg.GetComponentInChildren<Text>().text = "Poison: " + ppd;
+                    burn_dmg.GetComponentInChildren<Text>().text = "Burn: " + pbd;
+
+                    //Setup_Damage_Text("-" + ppd + " poison", "-" + epd + " poison");
+                    //Start_Damage_Text();
+
+                    //Setup_Damage_Text("-" + pbd + " burn", "-" + ebd + " burn");
+                    //Start_Damage_Text();
+
                     Display_Results();
-                    if (enemy.Players_Summon.Health <= 0 && player.Players_Summon.Health <= 0)
+                    if(Game_Over())
                     {
-                        Disable_Spells();
-                        Disable_Finishers();
-                        current_state = BattleStates.TIE;
                         break;
                     }
-                    else if (enemy.Players_Summon.Health <= 0)
-                    {
-                        Disable_Spells();
-                        Disable_Finishers();
-                        current_state = BattleStates.WIN;
-                        break;
-                    }
-                    else if (player.Players_Summon.Health <= 0)
-                    {
-                        Disable_Spells();
-                        Disable_Finishers();
-                        current_state = BattleStates.LOSE;
-                        break;
-                    }
-                    spell_1.GetComponentsInChildren<Image>()[0].color = UnityEngine.Color.white;
-                    spell_2.GetComponentsInChildren<Image>()[0].color = UnityEngine.Color.white;
-                    spell_3.GetComponentsInChildren<Image>()[0].color = UnityEngine.Color.white;
-                    spell_4.GetComponentsInChildren<Image>()[0].color = UnityEngine.Color.white;
-                    spell_1.GetComponentsInChildren<Button>()[0].interactable = true;
-                    spell_2.GetComponentsInChildren<Button>()[0].interactable = true;
-                    spell_3.GetComponentsInChildren<Button>()[0].interactable = true;
-                    spell_4.GetComponentsInChildren<Button>()[0].interactable = true;
+                    Reset_Spell_Buttons();
                     current_state = BattleStates.PLAYERCHOICE;
                 }
                 break;
@@ -209,6 +202,8 @@ public class BattleManager : MonoBehaviour
                 if (!player_phase)
                 {
                     player_phase = true;
+                    Enable_Spells();
+                    Disable_Finishers();
                     if (Paralyzed(player))
                     {
                         if (UnityEngine.Random.Range(0, 101) < 50)
@@ -251,6 +246,10 @@ public class BattleManager : MonoBehaviour
                     Thread.Sleep(500);
                     Calculate_Results();
                     Display_Results();
+                    if(Game_Over())
+                    {
+                        break;
+                    }
                     current_state = BattleStates.RESET;
                 }
                 break;
@@ -265,6 +264,12 @@ public class BattleManager : MonoBehaviour
                 if (!lose_phase)
                 {
                     lose_phase = true;
+                    if(GameManager.instance.tournament_mode)
+                    {
+                        Tournament.instance.Player_Lost();
+                        finish_window.GetComponentsInChildren<Button>()[0].onClick.RemoveAllListeners();
+                        finish_window.GetComponentsInChildren<Button>()[0].onClick.AddListener(() => { Return_To_Tournament(); });
+                    }
                     Lose_Popup();         
                 }
                 break;
@@ -272,13 +277,25 @@ public class BattleManager : MonoBehaviour
                 if (!win_phase)
                 {
                     win_phase = true;
+                    if (GameManager.instance.tournament_mode)
+                    {
+                        Tournament.instance.Player_Won();
+                        finish_window.GetComponentsInChildren<Button>()[0].onClick.RemoveAllListeners();
+                        finish_window.GetComponentsInChildren<Button>()[0].onClick.AddListener(() => { Return_To_Tournament(); });
+                    }
                     Win_Popup();
                 }
                 break;
             case BattleStates.TIE:
-                if (tie_phase)
+                if (!tie_phase)
                 {
                     tie_phase = true;
+                    if (GameManager.instance.tournament_mode)
+                    {
+                        Tournament.instance.Player_Lost();
+                        finish_window.GetComponentsInChildren<Button>()[0].onClick.RemoveAllListeners();
+                        finish_window.GetComponentsInChildren<Button>()[0].onClick.AddListener(() => { Return_To_Tournament(); });
+                    }
                     Tie_Popup();
                 }
                 break;
@@ -348,6 +365,55 @@ public class BattleManager : MonoBehaviour
         {
             player_summon_image.GetComponentsInChildren<Image>()[0].sprite = Resources.Load<Sprite>("Sprites/Summon_Light_Evo1");
         }
+    }
+
+    private Sprite Load_Summon_Image(BasePlayer p)
+    {
+        if (p.Players_Summon.Summon_Type == Summon.Type.DARK)
+        {
+            if (p.Players_Summon.Stage == 1)
+            {
+                return Resources.Load<Sprite>("Sprites/Summon_Dark_Evo1");
+            }
+            else
+            {
+                return Resources.Load<Sprite>("Sprites/Summon_Dark_Evo2");
+            }
+        }
+        else if (p.Players_Summon.Summon_Type == Summon.Type.EARTH)
+        {
+            if (p.Players_Summon.Stage == 1)
+            {
+                return Resources.Load<Sprite>("Sprites/Summon_Earth_Evo1");
+            }
+            else
+            {
+                return Resources.Load<Sprite>("Sprites/Summon_Earth_Evo2");
+            }
+        }
+        else if (p.Players_Summon.Summon_Type == Summon.Type.FIRE)
+        {
+            if (p.Players_Summon.Stage == 1)
+            {
+                return Resources.Load<Sprite>("Sprites/Summon_Fire_Evo1");
+            }
+            else
+            {
+                return Resources.Load<Sprite>("Sprites/Summon_Fire_Evo2");
+            }
+        }
+        else if (p.Players_Summon.Summon_Type == Summon.Type.LIGHT)
+        {
+            if (p.Players_Summon.Stage == 1)
+            {
+                return Resources.Load<Sprite>("Sprites/Summon_Light_Evo1");
+            }
+            else
+            {
+                return Resources.Load<Sprite>("Sprites/Summon_Light_Evo2");
+            }
+        }
+        return null;
     }
 
     public void Toggle_Page()
@@ -566,27 +632,8 @@ public class BattleManager : MonoBehaviour
         player.Players_Summon.Health = (player.Players_Summon.Base_Health < (player_results.Heal + player.Players_Summon.Health)) ? player.Players_Summon.Base_Health : (player_results.Heal + player.Players_Summon.Health);
         enemy.Players_Summon.Health = (enemy.Players_Summon.Base_Health < (enemy_results.Heal + enemy.Players_Summon.Health)) ? enemy.Players_Summon.Base_Health : (enemy_results.Heal + enemy.Players_Summon.Health);
 
-        Setup_Damage_Text(-player_damaged, -enemy_damaged);
+        Setup_Damage_Text("Damage: " + -player_damaged, "Damage: " + -enemy_damaged);
         Start_Damage_Text();
-
-        if (enemy.Players_Summon.Health <= 0 && player.Players_Summon.Health <= 0)
-        {
-            Disable_Spells();
-            Disable_Finishers();
-            current_state = BattleStates.TIE;
-        }
-        else if(enemy.Players_Summon.Health <= 0)
-        {
-            Disable_Spells();
-            Disable_Finishers();
-            current_state = BattleStates.WIN;
-        }
-        else if(player.Players_Summon.Health <= 0)
-        {
-            Disable_Spells();
-            Disable_Finishers();
-            current_state = BattleStates.LOSE;
-        }
     }
 
     private void Increment_Combo()
@@ -614,8 +661,10 @@ public class BattleManager : MonoBehaviour
                 combo_finisher.GetComponentsInChildren<Text>()[3].text = player.Players_Summon.Combo.ToString();
                 break;
             case BaseSpell.Spell_Class.WARRIOR:
+                player.Players_Summon.Combo = 0;
+                combo_finisher.GetComponentsInChildren<Text>()[3].text = player.Players_Summon.Combo.ToString();
                 int blocked = 0;
-                if(enemy_choice.Results.Damage > 0)
+                if(enemy_choice != null && enemy_choice.Results.Damage > 0)
                 {
                     if(player_choice.Results.Block < enemy_choice.Results.Damage)
                     {
@@ -644,8 +693,6 @@ public class BattleManager : MonoBehaviour
     {
         player_hp_text.GetComponent<Text>().text = player.Players_Summon.Health.ToString();
         enemy_hp_text.GetComponent<Text>().text = enemy.Players_Summon.Health.ToString();
-
-        double start_height = player_hp_bar.GetComponent<Image>().rectTransform.rect.height;
 
         double php = start_height - (start_height) * ((double)player.Players_Summon.Health / (double)player.Players_Summon.Base_Health);
         double ehp = start_height - (start_height) * ((double)enemy.Players_Summon.Health / (double)enemy.Players_Summon.Base_Health);
@@ -711,44 +758,44 @@ public class BattleManager : MonoBehaviour
         enemy.Player_Spell_Book.Draw_For_Turn();
     }
 
-    private void Load_Random_Enemy()
-    {
-        enemy = new BasePlayer();
-        enemy.Player_Name = "Enemy";
-        enemy.Player_Spell_Book = new SpellBook();
-        enemy.Player_Spell_Book.Add_Spell(new FireStrike());
-        enemy.Player_Spell_Book.Add_Spell(new FireStrike());
-        enemy.Player_Spell_Book.Add_Spell(new DarkStrike());
-        enemy.Player_Spell_Book.Add_Spell(new DarkStrike());
-        enemy.Player_Spell_Book.Add_Spell(new LightStrike());
-        enemy.Player_Spell_Book.Add_Spell(new LightStrike());
-        enemy.Player_Spell_Book.Add_Spell(new FireShield());
-        enemy.Player_Spell_Book.Add_Spell(new FireShield());
-        enemy.Player_Spell_Book.Add_Spell(new FireShield());
-        enemy.Player_Spell_Book.Add_Spell(new FireShield());
-        int random = UnityEngine.Random.Range(0, 5);
-        if (random == 0)
-        {
-            enemy.Players_Summon = new Summon("Vampire", 1, 0, 60, 3, 3, Summon.Type.DARK);
-            enemy_summon_image.GetComponentsInChildren<Image>()[0].sprite = Resources.Load<Sprite>("Sprites/Summon_Dark_Evo1");
-        }
-        else if (random == 1)
-        {
-            enemy.Players_Summon = new Summon("Paladin", 1, 0, 50, 4, 4, Summon.Type.LIGHT);
-            enemy_summon_image.GetComponentsInChildren<Image>()[0].sprite = Resources.Load<Sprite>("Sprites/Summon_Light_Evo1");
-        }
-        else if(random == 2)
-        {
-            enemy.Players_Summon = new Summon("Phoenix", 1, 0, 40, 6, 3, Summon.Type.FIRE);
-            enemy_summon_image.GetComponentsInChildren<Image>()[0].sprite = Resources.Load<Sprite>("Sprites/Summon_Fire_Evo1");
-        }
-        else
-        {
-            enemy.Players_Summon = new Summon("Golem", 1, 0, 40, 3, 6, Summon.Type.EARTH);
-            enemy_summon_image.GetComponentsInChildren<Image>()[0].sprite = Resources.Load<Sprite>("Sprites/Summon_Earth_Evo1");
-        }
+    //private void Load_Random_Enemy()
+    //{
+    //    enemy = new BasePlayer();
+    //    enemy.Player_Name = "Enemy";
+    //    enemy.Player_Spell_Book = new SpellBook();
+    //    enemy.Player_Spell_Book.Add_Spell(new FireStrike());
+    //    enemy.Player_Spell_Book.Add_Spell(new FireStrike());
+    //    enemy.Player_Spell_Book.Add_Spell(new DarkStrike());
+    //    enemy.Player_Spell_Book.Add_Spell(new DarkStrike());
+    //    enemy.Player_Spell_Book.Add_Spell(new LightStrike());
+    //    enemy.Player_Spell_Book.Add_Spell(new LightStrike());
+    //    enemy.Player_Spell_Book.Add_Spell(new FireShield());
+    //    enemy.Player_Spell_Book.Add_Spell(new FireShield());
+    //    enemy.Player_Spell_Book.Add_Spell(new FireShield());
+    //    enemy.Player_Spell_Book.Add_Spell(new FireShield());
+    //    int random = UnityEngine.Random.Range(0, 5);
+    //    if (random == 0)
+    //    {
+    //        enemy.Players_Summon = new Summon("Vampire", 1, 0, 60, 3, 3, Summon.Type.DARK);
+    //        enemy_summon_image.GetComponentsInChildren<Image>()[0].sprite = Resources.Load<Sprite>("Sprites/Summon_Dark_Evo1");
+    //    }
+    //    else if (random == 1)
+    //    {
+    //        enemy.Players_Summon = new Summon("Paladin", 1, 0, 50, 4, 4, Summon.Type.LIGHT);
+    //        enemy_summon_image.GetComponentsInChildren<Image>()[0].sprite = Resources.Load<Sprite>("Sprites/Summon_Light_Evo1");
+    //    }
+    //    else if(random == 2)
+    //    {
+    //        enemy.Players_Summon = new Summon("Phoenix", 1, 0, 40, 6, 3, Summon.Type.FIRE);
+    //        enemy_summon_image.GetComponentsInChildren<Image>()[0].sprite = Resources.Load<Sprite>("Sprites/Summon_Fire_Evo1");
+    //    }
+    //    else
+    //    {
+    //        enemy.Players_Summon = new Summon("Golem", 1, 0, 40, 3, 6, Summon.Type.EARTH);
+    //        enemy_summon_image.GetComponentsInChildren<Image>()[0].sprite = Resources.Load<Sprite>("Sprites/Summon_Earth_Evo1");
+    //    }
 
-    }
+    //}
 
     private void Setup_Finishers()
     {
@@ -783,6 +830,47 @@ public class BattleManager : MonoBehaviour
         affliction_finisher.GetComponentsInChildren<Text>()[3].text = player.Players_Summon.Curse.ToString();
     }
 
+    private void Reset_Spell_Buttons()
+    {
+        if (spell_1.activeSelf)
+        {
+            spell_1.GetComponentsInChildren<Image>()[0].color = UnityEngine.Color.white;
+            spell_2.GetComponentsInChildren<Image>()[0].color = UnityEngine.Color.white;
+            spell_3.GetComponentsInChildren<Image>()[0].color = UnityEngine.Color.white;
+            spell_4.GetComponentsInChildren<Image>()[0].color = UnityEngine.Color.white;
+            spell_1.GetComponentsInChildren<Button>()[0].interactable = true;
+            spell_2.GetComponentsInChildren<Button>()[0].interactable = true;
+            spell_3.GetComponentsInChildren<Button>()[0].interactable = true;
+            spell_4.GetComponentsInChildren<Button>()[0].interactable = true;
+        }
+    }
+
+    private bool Game_Over()
+    {
+        if (enemy.Players_Summon.Health <= 0 && player.Players_Summon.Health <= 0)
+        {
+            Disable_Spells();
+            Disable_Finishers();
+            current_state = BattleStates.TIE;
+            return true;
+        }
+        else if (enemy.Players_Summon.Health <= 0)
+        {
+            Disable_Spells();
+            Disable_Finishers();
+            current_state = BattleStates.WIN;
+            return true;
+        }
+        else if (player.Players_Summon.Health <= 0)
+        {
+            Disable_Spells();
+            Disable_Finishers();
+            current_state = BattleStates.LOSE;
+            return true;
+        }
+        return false;
+    }
+
     private void Win_Popup()
     {
         finish_window.GetComponentsInChildren<Text>()[0].text = "YOU WIN";
@@ -811,12 +899,33 @@ public class BattleManager : MonoBehaviour
 
     public void Return_To_Main_Menu()
     {
-        GameManager.instance.player.Players_Summon.Health = GameManager.instance.player.Players_Summon.Base_Health;
+        Clean_Up();
         GameManager.instance.current_state = GameManager.GameStates.MAIN;
         GameManager.instance.scene_loaded = false;
     }
 
-    private void Setup_Damage_Text(int player, int enemy)
+    public void Return_To_Tournament()
+    {
+        Clean_Up();
+        GameManager.instance.current_state = GameManager.GameStates.TOURNAMENT;
+        GameManager.instance.scene_loaded = false;
+    }
+
+    private void Clean_Up()
+    {
+        GameManager.instance.player.Players_Summon.Health = GameManager.instance.player.Players_Summon.Base_Health;
+        GameManager.instance.player.Players_Summon.Combo = 0;
+        GameManager.instance.player.Players_Summon.Reflect = 0;
+        GameManager.instance.player.Players_Summon.Curse = 0;
+        GameManager.instance.player.Players_Summon.Burn = 0;
+        GameManager.instance.player.Players_Summon.Poison = 0;
+        GameManager.instance.player.Players_Summon.Poison_Count = 0;
+        GameManager.instance.player.Players_Summon.Paralyze = 0;
+
+        GameManager.instance.enemy = null;
+    }
+
+    private void Setup_Damage_Text(string player, string enemy)
     {
         Text pdt;
         Text edt;
@@ -824,17 +933,21 @@ public class BattleManager : MonoBehaviour
         player_damage_text = new GameObject();
         player_damage_text.transform.parent = GameObject.Find("Canvas").transform;
         pdt = player_damage_text.AddComponent<Text>();
-        pdt.text = player.ToString();
+        pdt.text = player;
         pdt.font = Resources.Load<Font>("pixelmix");
         pdt.fontSize = (int)(Screen.width * 0.02f);
+        pdt.horizontalOverflow = HorizontalWrapMode.Overflow;
+        pdt.verticalOverflow = VerticalWrapMode.Overflow;
         player_damage_text.transform.localPosition = player_damage_text_start;
 
         enemy_damage_text = new GameObject();
         enemy_damage_text.transform.parent = GameObject.Find("Canvas").transform;
         edt = enemy_damage_text.AddComponent<Text>();
-        edt.text = enemy.ToString();
+        edt.text = enemy;
         edt.font = Resources.Load<Font>("pixelmix");
         edt.fontSize = (int)(Screen.width * 0.02f);
+        edt.horizontalOverflow = HorizontalWrapMode.Overflow;
+        edt.verticalOverflow = VerticalWrapMode.Overflow;
         enemy_damage_text.transform.localPosition = enemy_damage_text_start;
     }
 
@@ -851,13 +964,13 @@ public class BattleManager : MonoBehaviour
         while (timer < 1f)
         {
             Vector2 position1 = new Vector2();
-            position1.x = -(int)(Screen.width * 0.18f);
-            position1.y = (int)(Screen.height * 0.25f) + count;
+            position1.x = -(int)(Screen.width * 0.2f);
+            position1.y = (int)(Screen.height * 0.25f) + (count/2);
             player_damage_text.transform.localPosition = position1;
 
             Vector2 position2 = new Vector2();
             position2.x = (int)(Screen.width * 0.18f);
-            position2.y = (int)(Screen.height * 0.25f) + count;
+            position2.y = (int)(Screen.height * 0.25f) + (count/2);
             enemy_damage_text.transform.localPosition = position2;
 
             count++;

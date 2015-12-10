@@ -15,7 +15,7 @@
     <strength>23</strength>
     <defense>16</defense>
     <health>69</health>
-    <current_exp>3000</current_exp>
+    <current_exp>3300</current_exp>
   </Summon>
   <Summon id="test2">
     <name>Phoenix</name>
@@ -33,7 +33,7 @@
     <strength>3</strength>
     <defense>6</defense>
     <health>40</health>
-    <current_exp>0</current_exp>
+    <current_exp>100</current_exp>
   </Summon>
   <Summon id="poop">
     <name>Paladin</name>
@@ -70,5 +70,50 @@
     <defense>3</defense>
     <health>40</health>
     <current_exp>0</current_exp>
+  </Summon>
+  <Summon id="lemon">
+    <name>Golem</name>
+    <level>1</level>
+    <class>EARTH</class>
+    <strength>3</strength>
+    <defense>6</defense>
+    <health>40</health>
+    <current_exp>0</current_exp>
+  </Summon>
+  <Summon id="beautybird">
+    <name>Phoenix</name>
+    <level>1</level>
+    <class>FIRE</class>
+    <strength>6</strength>
+    <defense>3</defense>
+    <health>40</health>
+    <current_exp>0</current_exp>
+  </Summon>
+  <Summon id="goul">
+    <name>Vampire</name>
+    <level>1</level>
+    <class>DARK</class>
+    <strength>3</strength>
+    <defense>3</defense>
+    <health>60</health>
+    <current_exp>0</current_exp>
+  </Summon>
+  <Summon id="test">
+    <name>Vampire</name>
+    <level>15</level>
+    <class>DARK</class>
+    <strength>3</strength>
+    <defense>3</defense>
+    <health>60</health>
+    <current_exp>300</current_exp>
+  </Summon>
+  <Summon id="loser">
+    <name>Golem</name>
+    <level>1</level>
+    <class>EARTH</class>
+    <strength>3</strength>
+    <defense>6</defense>
+    <health>40</health>
+    <current_exp>300</current_exp>
   </Summon>
 </Summon_Database>

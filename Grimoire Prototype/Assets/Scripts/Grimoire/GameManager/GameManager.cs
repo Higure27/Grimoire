@@ -9,7 +9,9 @@ public class GameManager : MonoBehaviour
         CREATE,
         MAIN,
         BATTLE,
-        BOOK
+        BOOK,
+        SUMMON,
+        TOURNAMENT
     }
 
     public static GameManager instance;
@@ -17,8 +19,13 @@ public class GameManager : MonoBehaviour
     public BasePlayer player;
     public GrimoireDatabase database;
 
+    public BasePlayer enemy;
+
     // Makes sure each scene only loads once
     public bool scene_loaded;
+
+    // Tournament Mode
+    public bool tournament_mode;
 
 
 	// Use this for initialization
@@ -32,6 +39,7 @@ public class GameManager : MonoBehaviour
         database = new GrimoireDatabase();
         DontDestroyOnLoad(gameObject);
         scene_loaded = false;
+        tournament_mode = false;
 	}
 	
 	// Update is called once per frame
@@ -70,10 +78,41 @@ public class GameManager : MonoBehaviour
             case GameStates.BATTLE:
                 if(!scene_loaded)
                 {
+                    Load_Enemy();
                     Application.LoadLevel("battle_scene");
+                    scene_loaded = true;
+                }
+                break;
+            case GameStates.SUMMON:
+                if(!scene_loaded)
+                {
+                    Application.LoadLevel("level_up_scene");
+                    scene_loaded = true;
+                }
+                break;
+            case GameStates.TOURNAMENT:
+                if(!scene_loaded)
+                {
+                    Application.LoadLevel("tournament_scene");
                     scene_loaded = true;
                 }
                 break;
         }
 	}
+
+    private void Load_Enemy()
+    {
+        if (enemy != null)
+        {
+            return;
+        }
+        while (enemy == null)
+        {
+            string enemy_name = database.Get_Random_User();
+            if (enemy_name != player.Player_Name)
+            {
+                enemy = database.Load_Player(enemy_name);
+            }
+        }
+    }
 }
