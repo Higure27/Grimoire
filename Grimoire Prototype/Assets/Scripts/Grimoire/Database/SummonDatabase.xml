@@ -12,9 +12,9 @@
     <name>Paladin</name>
     <level>6</level>
     <class>LIGHT</class>
-    <strength>26</strength>
-    <defense>16</defense>
-    <health>69</health>
+    <strength>36</strength>
+    <defense>26</defense>
+    <health>94</health>
     <current_exp>3700</current_exp>
   </Summon>
   <Summon id="test2">
@@ -142,5 +142,14 @@
     <defense>6</defense>
     <health>60</health>
     <current_exp>300</current_exp>
+  </Summon>
+  <Summon id="imagolem">
+    <name>Golem</name>
+    <level>1</level>
+    <class>EARTH</class>
+    <strength>3</strength>
+    <defense>6</defense>
+    <health>40</health>
+    <current_exp>0</current_exp>
   </Summon>
 </Summon_Database>

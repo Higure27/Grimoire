@@ -11,7 +11,8 @@ public class GameManager : MonoBehaviour
         BATTLE,
         BOOK,
         SUMMON,
-        TOURNAMENT
+        TOURNAMENT,
+        TUTORIAL
     }
 
     public static GameManager instance;
@@ -94,6 +95,13 @@ public class GameManager : MonoBehaviour
                 if(!scene_loaded)
                 {
                     Application.LoadLevel("tournament_scene");
+                    scene_loaded = true;
+                }
+                break;
+            case GameStates.TUTORIAL:
+                if(!scene_loaded)
+                {
+                    Application.LoadLevel("tutorial_scene");
                     scene_loaded = true;
                 }
                 break;

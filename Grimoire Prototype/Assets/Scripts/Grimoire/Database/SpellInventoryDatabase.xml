@@ -95,4 +95,16 @@
     <spell>FireStrike</spell>
     <spell>FireStrike</spell>
   </Inventory>
+  <Inventory id="gdog">
+    <spell>DarkStrike</spell>
+    <spell>DarkStrike</spell>
+    <spell>FireStrike</spell>
+    <spell>FireStrike</spell>
+  </Inventory>
+  <Inventory id="imagolem">
+    <spell>DarkStrike</spell>
+    <spell>DarkStrike</spell>
+    <spell>FireStrike</spell>
+    <spell>FireStrike</spell>
+  </Inventory>
 </Spell_Inventory_Database>

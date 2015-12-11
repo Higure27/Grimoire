@@ -9,6 +9,7 @@ public class MainMenu : MonoBehaviour
     private GameObject edit_spell_book;
     private GameObject exit;
     private GameObject summon;
+    private GameObject tutorial;
     public GameObject summon_container;
 	private GameObject tournament;
     private BasePlayer player;
@@ -22,6 +23,7 @@ public class MainMenu : MonoBehaviour
         exit = GameObject.Find("Exit");
         summon = GameObject.Find("Summon");
 		tournament = GameObject.Find ("Tournament_Mode");
+        tutorial = GameObject.Find("Tutorial");
         if(player.Players_Summon.Stat_Points == 0)
         {
             summon.GetComponent<Button>().interactable = false;
@@ -31,6 +33,7 @@ public class MainMenu : MonoBehaviour
         exit.GetComponentInChildren<Text>().fontSize = font_size;
         summon.GetComponentInChildren<Text>().fontSize = font_size;
 		tournament.GetComponentInChildren<Text> ().fontSize = font_size;
+        tutorial.GetComponentInChildren<Text>().fontSize = font_size;
         Set_Font_Size();
         Load_Player_Summon();
     }
@@ -139,6 +142,12 @@ public class MainMenu : MonoBehaviour
     public void Edit_Summon()
     {
         GameManager.instance.current_state = GameManager.GameStates.SUMMON;
+        GameManager.instance.scene_loaded = false;
+    }
+
+    public void Tutorial()
+    {
+        GameManager.instance.current_state = GameManager.GameStates.TUTORIAL;
         GameManager.instance.scene_loaded = false;
     }
 }

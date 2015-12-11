@@ -119,6 +119,7 @@
      <Compile Include="Assets\Scripts\Grimoire\GameManager\GameStates\StartScreen.cs" />
      <Compile Include="Assets\Scripts\Grimoire\GameManager\GameStates\Tournament.cs" />
      <Compile Include="Assets\Scripts\Grimoire\GameManager\GameStates\Tutorial.cs" />
+     <Compile Include="Assets\Scripts\Grimoire\GameManager\Video.cs" />
      <Compile Include="Assets\Scripts\Grimoire\IncreaseExperience.cs" />
      <Compile Include="Assets\Scripts\Grimoire\SummonTypes\BaseDarkSummon.cs" />
      <Compile Include="Assets\Scripts\Grimoire\SummonTypes\BaseEarthSummon.cs" />
