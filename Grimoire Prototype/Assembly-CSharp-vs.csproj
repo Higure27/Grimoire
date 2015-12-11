@@ -46,6 +46,8 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Infinity Code\PlayMovieTexture\Example\Scripts\StartMovieTexture_CSharp.cs" />
+     <Compile Include="Assets\Infinity Code\PlayMovieTexture\Scripts\PlayMovieTexture.cs" />
      <Compile Include="Assets\Scripts\Grimoire\AnimationScripts\AnimationManager.cs" />
      <Compile Include="Assets\Scripts\Grimoire\AnimationScripts\ReSkinAnimation.cs" />
      <Compile Include="Assets\Scripts\Grimoire\BasePlayer\Actors\Enemy.cs" />
@@ -68,6 +70,8 @@
      <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Abilities\ReflectFinisher.cs" />
      <Compile Include="Assets\Scripts\Grimoire\Book\Spell\BaseSpell.cs" />
      <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Mage\DarkAffliction.cs" />
+     <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Mage\Double Rainbow.cs" />
+     <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Mage\Dracula.cs" />
      <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Mage\FireAffliction.cs" />
      <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Mage\GreatAffliction\GreatAffliction.cs" />
      <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Mage\LightAffliction.cs" />
@@ -77,19 +81,33 @@
      <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Mage\Snake Bite.cs" />
      <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Mage\Toxic Fire.cs" />
      <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Rogue\DarkStrike.cs" />
+     <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Rogue\Dragon Bite.cs" />
      <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Rogue\Finishers\FinalStrike.cs" />
+     <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Rogue\Fire Sword.cs" />
      <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Rogue\FireStrike.cs" />
+     <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Rogue\Grim.cs" />
+     <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Rogue\HalfandHalf.cs" />
      <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Rogue\LightStrike.cs" />
+     <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Rogue\Paralyzing Grasp.cs" />
+     <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Rogue\Poison Attack.cs" />
      <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Rogue\PoisonStrike.cs" />
      <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Rogue\QuickStrike.cs" />
+     <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Rogue\Vampire Slash.cs" />
      <Compile Include="Assets\Scripts\Grimoire\Book\Spell\SpellResults.cs" />
+     <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Warrior\Bright.cs" />
+     <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Warrior\Burning Shield.cs" />
+     <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Warrior\Cross.cs" />
      <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Warrior\DarkShield.cs" />
      <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Warrior\FireShield.cs" />
+     <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Warrior\Glaring Shield.cs" />
      <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Warrior\HardShield.cs" />
+     <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Warrior\Healing Shield.cs" />
      <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Warrior\LightShield.cs" />
+     <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Warrior\Poison Needle.cs" />
      <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Warrior\PoisonShield.cs" />
      <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Warrior\Reflect\DamageReflection.cs" />
      <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Warrior\StunShield.cs" />
+     <Compile Include="Assets\Scripts\Grimoire\Book\Spell\Warrior\Vampire Shield.cs" />
      <Compile Include="Assets\Scripts\Grimoire\Book\SpellBook.cs" />
      <Compile Include="Assets\Scripts\Grimoire\Book\SpellInventory.cs" />
      <Compile Include="Assets\Scripts\Grimoire\Database\GrimoireDatabase.cs" />
@@ -100,6 +118,7 @@
      <Compile Include="Assets\Scripts\Grimoire\GameManager\GameStates\MainMenu.cs" />
      <Compile Include="Assets\Scripts\Grimoire\GameManager\GameStates\StartScreen.cs" />
      <Compile Include="Assets\Scripts\Grimoire\GameManager\GameStates\Tournament.cs" />
+     <Compile Include="Assets\Scripts\Grimoire\GameManager\GameStates\Tutorial.cs" />
      <Compile Include="Assets\Scripts\Grimoire\IncreaseExperience.cs" />
      <Compile Include="Assets\Scripts\Grimoire\SummonTypes\BaseDarkSummon.cs" />
      <Compile Include="Assets\Scripts\Grimoire\SummonTypes\BaseEarthSummon.cs" />

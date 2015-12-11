@@ -83,4 +83,16 @@
     <spell>FireStrike</spell>
     <spell>FireStrike</spell>
   </Inventory>
+  <Inventory id="death">
+    <spell>DarkStrike</spell>
+    <spell>DarkStrike</spell>
+    <spell>FireStrike</spell>
+    <spell>FireStrike</spell>
+  </Inventory>
+  <Inventory id="test6">
+    <spell>DarkStrike</spell>
+    <spell>DarkStrike</spell>
+    <spell>FireStrike</spell>
+    <spell>FireStrike</spell>
+  </Inventory>
 </Spell_Inventory_Database>

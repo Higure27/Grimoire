@@ -70,6 +70,11 @@ public class BattleManager : MonoBehaviour
     private Vector2 player_damage_text_start;
     private Vector2 enemy_damage_text_start;
 
+    public GameObject player_burn_text;
+    public GameObject enemy_burn_text;
+    public GameObject player_poison_text;
+    public GameObject enemy_poison_text;
+
     public GameObject combo_finisher;
     public GameObject reflect_finisher;
     public GameObject affliction_finisher;
@@ -191,23 +196,25 @@ public class BattleManager : MonoBehaviour
                 if (!begin_phase)
                 {
                     begin_phase = true;
+
+                    //player.Players_Summon.Poison = 10;
                     //player.Players_Summon.Burn = 10;
+
                     player_choice = null;
                     enemy_choice = null;
                     player_made_choice = false;
                     remove_indexs = new List<int>();
-                    string ppd = Poisoned(player).ToString();
-                    string epd = Poisoned(enemy).ToString();
-                    string pbd = Burned(player).ToString();
-                    string ebd = Burned(enemy).ToString();
+                    string ppd = (-Poisoned(player)).ToString();
+                    string epd = (-Poisoned(enemy)).ToString();
+                    string pbd = (-Burned(player)).ToString();
+                    string ebd = (-Burned(enemy)).ToString();
                     poison_dmg.GetComponentInChildren<Text>().text = "Poison: " + ppd;
                     burn_dmg.GetComponentInChildren<Text>().text = "Burn: " + pbd;
 
-                    //Setup_Damage_Text("-" + ppd + " poison", "-" + epd + " poison");
-                    //Start_Damage_Text();
-
-                    //Setup_Damage_Text("-" + pbd + " burn", "-" + ebd + " burn");
-                    //Start_Damage_Text();
+                    Setup_Burn_Text(pbd, ebd);
+                    Start_Burn_Text();
+                    Setup_Poison_Text(ppd, epd);
+                    Start_Poison_Text();
 
                     Display_Results();
                     if(Game_Over())
@@ -231,7 +238,6 @@ public class BattleManager : MonoBehaviour
                             //Player is paralyzed message
                             Debug.Log("Player is paralyzed and can't move");
                             paralyze_dmg.GetComponentInChildren<Text>().text = "Paralyze: true";
-                            //Thread.Sleep(2000);
                             current_state = BattleStates.ENEMYCHOICE;
                             break;
                         }
@@ -270,7 +276,7 @@ public class BattleManager : MonoBehaviour
                     {
                         break;
                     }
-                    current_state = BattleStates.RESET;
+                    //current_state = BattleStates.RESET;
                 }
                 break;
             case BattleStates.RESET:
@@ -808,8 +814,60 @@ public class BattleManager : MonoBehaviour
 
         double php = start_height - (start_height) * ((double)player.Players_Summon.Health / (double)player.Players_Summon.Base_Health);
         double ehp = start_height - (start_height) * ((double)enemy.Players_Summon.Health / (double)enemy.Players_Summon.Base_Health);
-        player_hp_bar.GetComponent<Image>().rectTransform.sizeDelta = new Vector2(0, -(float)php);
-        enemy_hp_bar.GetComponent<Image>().rectTransform.sizeDelta = new Vector2(0, -(float)ehp);
+        //player_hp_bar.GetComponent<Image>().rectTransform.sizeDelta = new Vector2(0, -(float)php);
+        //enemy_hp_bar.GetComponent<Image>().rectTransform.sizeDelta = new Vector2(0, -(float)ehp);
+        StartCoroutine(Change_Player_Health(php));
+        StartCoroutine(change_Enemy_Health(ehp));
+    }
+
+    IEnumerator Change_Player_Health(double php)
+    {
+        double current_hp = start_height - player_hp_bar.GetComponent<Image>().rectTransform.rect.height;
+        int count = (int)current_hp;
+
+        if (count <= php)
+        {
+            while (count < php)
+            {
+                player_hp_bar.GetComponent<Image>().rectTransform.sizeDelta = new Vector2(0, -(float)count);
+                count+=2;
+                yield return null;
+            }
+        }
+        else
+        {
+            while(count > php)
+            {
+                player_hp_bar.GetComponent<Image>().rectTransform.sizeDelta = new Vector2(0, -(float)count);
+                count-=2;
+                yield return null;
+            }
+        }
+    }
+
+    IEnumerator change_Enemy_Health(double ehp)
+    {
+        double current_hp = start_height - enemy_hp_bar.GetComponent<Image>().rectTransform.rect.height;
+        int count = (int)current_hp;
+
+        if (count <= ehp)
+        {
+            while (count < ehp)
+            {
+                enemy_hp_bar.GetComponent<Image>().rectTransform.sizeDelta = new Vector2(0, -(float)count);           
+                count+=2;
+                yield return null;
+            }
+        }
+        else
+        {
+            while (count > ehp)
+            {
+                enemy_hp_bar.GetComponent<Image>().rectTransform.sizeDelta = new Vector2(0, -(float)count);
+                count-=2;
+                yield return null;
+            }
+        }
     }
 
     private void Disable_Spells()
@@ -998,6 +1056,125 @@ public class BattleManager : MonoBehaviour
         GameManager.instance.enemy = null;
     }
 
+    private void Setup_Burn_Text(string player, string enemy)
+    {
+        Text pbt;
+        Text ebt;
+
+        player_burn_text = new GameObject();
+        player_burn_text.transform.parent = GameObject.Find("Canvas").transform;
+        pbt = player_burn_text.AddComponent<Text>();
+        pbt.text = (player.Equals("0")) ? "" : ("Burn: " + player);  // sets it to empty if not burned
+        pbt.font = Resources.Load<Font>("pixelmix");
+        pbt.fontSize = (int)(Screen.width * 0.02f);
+        pbt.horizontalOverflow = HorizontalWrapMode.Overflow;
+        pbt.verticalOverflow = VerticalWrapMode.Overflow;
+        player_burn_text.transform.localPosition = player_damage_text_start;
+
+        enemy_burn_text = new GameObject();
+        enemy_burn_text.transform.parent = GameObject.Find("Canvas").transform;
+        ebt = enemy_burn_text.AddComponent<Text>();
+        ebt.text = (enemy.Equals("0")) ? "" : ("Burn: " + enemy); // Sets it to empty if not burned
+        ebt.font = Resources.Load<Font>("pixelmix");
+        ebt.fontSize = (int)(Screen.width * 0.02f);
+        ebt.horizontalOverflow = HorizontalWrapMode.Overflow;
+        ebt.verticalOverflow = VerticalWrapMode.Overflow;
+        enemy_burn_text.transform.localPosition = enemy_damage_text_start;
+    }
+
+    private void Start_Burn_Text()
+    {
+        StartCoroutine(Move_Burn_Text());
+    }
+
+    IEnumerator Move_Burn_Text()
+    {
+        float timer = 0;
+        int count = 0;
+
+        while (timer < 1.5f)
+        {
+            Vector2 position1 = new Vector2();
+            position1.x = -(int)(Screen.width * 0.2f);
+            position1.y = (int)(Screen.height * 0.15f * player.Players_Summon.Stage) + (count / 2);
+            player_burn_text.transform.localScale = new Vector3(1, 1, 1);
+            player_burn_text.transform.localPosition = position1;
+
+            Vector2 position2 = new Vector2();
+            position2.x = (int)(Screen.width * 0.18f);
+            position2.y = (int)(Screen.height * 0.15f * enemy.Players_Summon.Stage) + (count / 2);
+            enemy_burn_text.transform.localScale = new Vector3(1, 1, 1);
+            enemy_burn_text.transform.localPosition = position2;
+
+            count++;
+            timer += Time.deltaTime;
+
+            yield return null;
+        }
+        Destroy(player_burn_text);
+        Destroy(enemy_burn_text);
+    }
+
+    private void Setup_Poison_Text(string player, string enemy)
+    {
+        Text pbt;
+        Text ebt;
+
+        player_poison_text = new GameObject();
+        player_poison_text.transform.parent = GameObject.Find("Canvas").transform;
+        pbt = player_poison_text.AddComponent<Text>();
+        pbt.text = (player.Equals("0")) ? "" : ("Poison: " + player);  // sets it to empty if not burned
+        pbt.font = Resources.Load<Font>("pixelmix");
+        pbt.fontSize = (int)(Screen.width * 0.02f);
+        pbt.horizontalOverflow = HorizontalWrapMode.Overflow;
+        pbt.verticalOverflow = VerticalWrapMode.Overflow;
+        player_poison_text.transform.localPosition = player_damage_text_start;
+
+        enemy_poison_text = new GameObject();
+        enemy_poison_text.transform.parent = GameObject.Find("Canvas").transform;
+        ebt = enemy_poison_text.AddComponent<Text>();
+        ebt.text = (enemy.Equals("0")) ? "" : ("Poison: " + enemy); // Sets it to empty if not burned
+        ebt.font = Resources.Load<Font>("pixelmix");
+        ebt.fontSize = (int)(Screen.width * 0.02f);
+        ebt.horizontalOverflow = HorizontalWrapMode.Overflow;
+        ebt.verticalOverflow = VerticalWrapMode.Overflow;
+        enemy_poison_text.transform.localPosition = enemy_damage_text_start;
+    }
+
+    private void Start_Poison_Text()
+    {
+        StartCoroutine(Move_Poison_Text());
+    }
+
+    IEnumerator Move_Poison_Text()
+    {
+        yield return new WaitForSeconds(0.85f);
+        float timer = 0;
+        int count = 0;
+
+        while (timer < 1.5f)
+        {
+            Vector2 position1 = new Vector2();
+            position1.x = -(int)(Screen.width * 0.2f);
+            position1.y = (int)(Screen.height * 0.15f * player.Players_Summon.Stage) + (count / 2);
+            player_poison_text.transform.localScale = new Vector3(1, 1, 1);
+            player_poison_text.transform.localPosition = position1;
+
+            Vector2 position2 = new Vector2();
+            position2.x = (int)(Screen.width * 0.18f);
+            position2.y = (int)(Screen.height * 0.15f * enemy.Players_Summon.Stage) + (count / 2);
+            enemy_poison_text.transform.localScale = new Vector3(1, 1, 1);
+            enemy_poison_text.transform.localPosition = position2;
+
+            count++;
+            timer += Time.deltaTime;
+
+            yield return null;
+        }
+        Destroy(player_poison_text);
+        Destroy(enemy_poison_text);
+    }
+
     private void Setup_Damage_Text(string player, string enemy)
     {
         Text pdt;
@@ -1055,6 +1232,7 @@ public class BattleManager : MonoBehaviour
         }
         Destroy(player_damage_text);
         Destroy(enemy_damage_text);
+        current_state = BattleStates.RESET;
     }
     
 }

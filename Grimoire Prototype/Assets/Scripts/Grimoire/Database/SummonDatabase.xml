@@ -15,7 +15,7 @@
     <strength>26</strength>
     <defense>16</defense>
     <health>69</health>
-    <current_exp>3600</current_exp>
+    <current_exp>3700</current_exp>
   </Summon>
   <Summon id="test2">
     <name>Phoenix</name>
@@ -124,5 +124,23 @@
     <defense>3</defense>
     <health>40</health>
     <current_exp>0</current_exp>
+  </Summon>
+  <Summon id="death">
+    <name>Golem</name>
+    <level>1</level>
+    <class>EARTH</class>
+    <strength>3</strength>
+    <defense>6</defense>
+    <health>40</health>
+    <current_exp>0</current_exp>
+  </Summon>
+  <Summon id="test6">
+    <name>Vampire</name>
+    <level>1</level>
+    <class>DARK</class>
+    <strength>6</strength>
+    <defense>6</defense>
+    <health>60</health>
+    <current_exp>300</current_exp>
   </Summon>
 </Summon_Database>

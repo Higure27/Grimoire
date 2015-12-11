@@ -68,7 +68,7 @@ public class MainMenu : MonoBehaviour
         {
             if (p.Players_Summon.Stage == 1)
             {
-                return Resources.Load<Sprite>("Sprites/static_vampire_1");
+                return Resources.Load<Sprite>("Sprites/menu_vampire");
             }
             else
             {
@@ -79,7 +79,7 @@ public class MainMenu : MonoBehaviour
         {
             if (p.Players_Summon.Stage == 1)
             {
-                return Resources.Load<Sprite>("Sprites/static_golem_1");
+                return Resources.Load<Sprite>("Sprites/menu_golem");
             }
             else
             {
@@ -90,7 +90,7 @@ public class MainMenu : MonoBehaviour
         {
             if (p.Players_Summon.Stage == 1)
             {
-                return Resources.Load<Sprite>("Sprites/static_phoenix_1");
+                return Resources.Load<Sprite>("Sprites/menu_phoenix");
             }
             else
             {
@@ -101,7 +101,7 @@ public class MainMenu : MonoBehaviour
         {
             if (p.Players_Summon.Stage == 1)
             {
-                return Resources.Load<Sprite>("Sprites/static_paladin_1");
+                return Resources.Load<Sprite>("Sprites/menu_paladin");
             }
             else
             {

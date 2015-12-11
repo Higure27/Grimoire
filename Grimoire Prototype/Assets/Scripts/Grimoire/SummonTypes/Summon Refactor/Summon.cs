@@ -24,6 +24,7 @@ public class Summon
     private Type type;
     private int stage;
     private int stat_points;
+    private bool powerup;
 
     //Battle Variables
     private int burn;
@@ -74,6 +75,12 @@ public class Summon
         this.type = type;
         description = Summon_Description();
         this.req_exp = Calculate_Required_Exp();
+        if (level < 10)
+        {
+            powerup = false;
+        }
+        else
+            powerup = true;
         Evolve();
         Burn = 0;
         Poison = 0;
@@ -116,21 +123,13 @@ public class Summon
     {
         // Increment Level
         level++;
-
-        // Increase Attributes
-        //int hp_mod = Random.Range(1, 11);
-        //health += hp_mod;
-        //base_health += hp_mod;
-        //strength += Random.Range(1, 7);
-        //defense += Random.Range(1, 7);
-
         Stat_Points += 3;
 
         // Set experience;
         req_exp = Calculate_Required_Exp();
 
         // Check if evolves
-        if(level == 10 || level == 20)
+        if(level == 2)
         {
             Evolve();
         }
@@ -141,19 +140,22 @@ public class Summon
      */
     public void Evolve()
     {
-        if (level > 10 && level < 20)
+        if (level >= 2)
         {
             stage = 2;
-        }
-        else if(level > 19)
-        {
-            stage = 3;
+            if(!powerup)
+            {
+                powerup = true;
+                Strength += 10;
+                Defense += 10;
+                Base_Health += 25;
+                Health = Base_Health;
+            }
         }
         else
         {
             stage = 1;
         }
-        // Possibly change summon animation
     }
 
     /*

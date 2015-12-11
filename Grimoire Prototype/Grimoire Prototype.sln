@@ -3,6 +3,10 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 
 Project("{BC326B47-8A9A-D496-49D1-B7FA570A9944}") = "Grimoire Prototype", "Assembly-CSharp.csproj", "{2E995903-F8E0-971B-5652-F8060F445473}"
 EndProject
+Project("{BC326B47-8A9A-D496-49D1-B7FA570A9944}") = "Grimoire Prototype", "Assembly-CSharp-Editor.csproj", "{8DDFEB0A-CCE0-9EAD-7B06-B19192C7095E}"
+EndProject
+Project("{BC326B47-8A9A-D496-49D1-B7FA570A9944}") = "Grimoire Prototype", "Assembly-UnityScript.unityproj", "{74206BE4-181D-12B6-5F9D-91E4656F8406}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,11 +17,19 @@ Global
 		{2E995903-F8E0-971B-5652-F8060F445473}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2E995903-F8E0-971B-5652-F8060F445473}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2E995903-F8E0-971B-5652-F8060F445473}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8DDFEB0A-CCE0-9EAD-7B06-B19192C7095E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8DDFEB0A-CCE0-9EAD-7B06-B19192C7095E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8DDFEB0A-CCE0-9EAD-7B06-B19192C7095E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8DDFEB0A-CCE0-9EAD-7B06-B19192C7095E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{74206BE4-181D-12B6-5F9D-91E4656F8406}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{74206BE4-181D-12B6-5F9D-91E4656F8406}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{74206BE4-181D-12B6-5F9D-91E4656F8406}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{74206BE4-181D-12B6-5F9D-91E4656F8406}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-											GlobalSection(MonoDevelopProperties) = preSolution
+																GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = Assembly-CSharp.csproj
 		Policies = $0
 		$0.TextStylePolicy = $1
